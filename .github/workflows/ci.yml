@@ -10,7 +10,7 @@ jobs:
     - name: run Django unit-tests
       run: |
         pip3 install --user django
-        pip3 install decouple
+        pip3 install --user python-decouple
         python3 manage.py test
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
