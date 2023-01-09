@@ -11,6 +11,7 @@ jobs:
       run: |
         pip3 install --user django
         pip3 install --user python-decouple
+        pip install --user psycopg2-binary
         python3 manage.py test
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
