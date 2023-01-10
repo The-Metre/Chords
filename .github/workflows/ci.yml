@@ -20,5 +20,6 @@ jobs:
           SQL_NAME: ${{ secrets.SQL_NAME }}
           SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
           SQL_PORT: "${{ secrets.SQL_PORT }}"
-          SQL_USER: ${{ secrets.SQL_USER }} 
+          SQL_USER: ${{ secrets.SQL_USER }}
+           
           DEBUG: ${{ secrets.SQL_DEBUG }}
