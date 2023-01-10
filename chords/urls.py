@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url
 from pocket_chords import views
 
 urlpatterns = [
-    url(r'^$', views.home_page, name='home'),
+    path('', views.home_page, name='home'),
     path('admin/', admin.site.urls),
 ]
