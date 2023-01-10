@@ -1,6 +1,6 @@
 name: Django CI
 
-on: push
+on: workflow_dispatch
 
 jobs:
   test_project:
@@ -20,6 +20,7 @@ jobs:
 
     steps: 
     - uses: actions/checkout@v2
+    
     - name: run Django unit-tests
       run: |
         pip3 install --user django
