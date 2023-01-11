@@ -8,8 +8,16 @@ def home_page(request):
         # Check if 'name' space is not empty 
         if request.POST['song_name']:
             Song.objects.create(name=request.POST['song_name'], text='')
-            return redirect('/')
+            return redirect('/song_list/something_right_here/')
 
+    songs = Song.objects.all()
+    return render(request, 'homepage.html', {
+        'songs' : songs
+    })
+
+def song_list(request):
+    """ Show the user song list """  
+    pass
     songs = Song.objects.all()
     return render(request, 'homepage.html', {
         'songs' : songs
