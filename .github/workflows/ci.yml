@@ -26,7 +26,7 @@ jobs:
         pip3 install --user django
         pip3 install --user python-decouple
         pip install --user psycopg2-binary
-        python3 manage.py test
+        python3 manage.py test pocket_chords
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
