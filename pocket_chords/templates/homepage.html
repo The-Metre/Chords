@@ -9,9 +9,9 @@
             <input name='song_name' id="id_new_song_name" placeholder="Enter a song name">
         </form>
         <table id="id_song_table">
-            <tr>
-                <td>1: {{ new_song_name }}</td>
-            </tr>
+            {% for item in songs %}
+            <tr><td>{{ forloop.counter }}: {{ item.name }}</td></tr>
+            {% endfor %}
         </table>
     </body>
 </html>

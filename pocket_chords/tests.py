@@ -29,8 +29,29 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertTemplateUsed(response, 'homepage.html')
-    
+
+    def test_only_save_items_when_necessary(self):
+        self.client.get('/')
+        self.assertEqual(Song.objects.count(), 0)
+
     def test_can_save_a_POST_request(self):
+        self.client.post('/', data={'song_name': 'A new list item'})
+
+        self.assertEqual(Song.objects.count(), 1)
+        new_item = Song.objects.first()
+        self.assertEqual(new_item.name, 'A new list item')
+
+    def test_can_redirect_after_the_request(self):
         response = self.client.post('/', data={'song_name': 'A new list item'})
-        self.assertIn('A new list item', response.content.decode())
-        self.assertTemplateUsed(response, 'homepage.html')
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_display_all_list_items(self):
+        Song.objects.create(name='First name')
+        Song.objects.create(name="Second name")
+
+        response = self.client.get('/')
+
+        self.assertIn('First name', response.content.decode())
+        self.assertIn('Second name', response.content.decode())

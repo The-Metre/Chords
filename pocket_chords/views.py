@@ -1,11 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from pocket_chords.models import Song
 
 # Create your views here.
 
 def home_page(request):
     if request.method == 'POST':
-        return render(request, 'homepage.html', {
-            'new_song_name': request.POST.get('song_name', '')
-        })
-    return render(request, 'homepage.html')
+        Song.objects.create(name=request.POST['song_name'], text='')
+        return redirect('/')
+
+    songs = Song.objects.all()
+    return render(request, 'homepage.html', {
+        'songs' : songs
+    })

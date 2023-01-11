@@ -65,12 +65,12 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         self.assertIn(
-            '2: Group name one', [row.text for row in rows],
+            '2: Group name second', [row.text for row in rows],
             f"New element doesn't show in the table, table contain: \n{table.text}"
         )
 
         # End of the test
-        self.fail('End of the test')
+        #self.fail('End of the test')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
