@@ -124,7 +124,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 
         # End of the test
-        #self.fail('End of the test')
+        self.fail('End of the test')
 
 if __name__ == '__main__':
     LiveServerTestCase.main(warnings='ignore')
