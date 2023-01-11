@@ -33,6 +33,8 @@ class NewVisitorTest(LiveServerTestCase):
                     raise err
                 time.sleep(0.5)
 
+
+
     def test_can_start_a_list_for_one_user(self):
         """ test:
                 create a list of songs for single user
@@ -47,7 +49,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         self.assertIn('Music', header_text)
 
-        # Check the correct input tag
+
+        # Check the correct input tag and placeholder
         inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
         
         self.assertEqual(
@@ -70,6 +73,56 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_for_row_in_list_table('1: Group name one')
         self.wait_for_row_in_list_table('2: Group name second')
         
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        """ test:
+                multiple users can create their own lists of songs
+                at different urls
+        """
+        # Start new list
+        self.browser.get(self.live_server_url)
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        inputbox.send_keys('First user song')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: First user song')
+
+        # Check for the user unique url
+        user_number_one_url = self.browser.current_url
+        self.assertRegex(user_number_one_url, '/song_list/.+')
+
+        # Close current user session
+        self.browser.quit()
+
+        # Start new session with a new user
+        self.browser = webdriver.Chrome()
+
+        # Open a starting page, and make sure that there is nothing in it
+        # from previous user
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('First user song', page_text)
+        self.assertNotIn('Firds user second song', page_text)
+
+        # New user starts to add new elements in the list
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        inputbox.send_keys('Second user song')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Second user song')
+        
+        # Check that the user get his own unique url
+        user_number_two_url = self.browser.current_url
+        self.assertRegex(user_number_two_url, '/song_list/.+')
+        self.assertNotEqual(user_number_one_url, user_number_two_url)
+
+        # Check that the second  user still cannot see the list
+        # of the first user
+        page_text = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('First user song', page_text)
+        self.assertIn('Second user song', page_text)
+
+
+
         # End of the test
         #self.fail('End of the test')
 
