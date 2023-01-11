@@ -40,6 +40,10 @@ class HomePageTest(TestCase):
         self.assertEqual(Song.objects.count(), 1)
         new_item = Song.objects.first()
         self.assertEqual(new_item.name, 'A new list item')
+    
+    def test_cannot_save_empty_file(self):
+        self.client.post('/', data={'song_name': ''})
+        self.assertEqual(Song.objects.count(), 0)
 
     def test_can_redirect_after_the_request(self):
         response = self.client.post('/', data={'song_name': 'A new list item'})
