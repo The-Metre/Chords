@@ -15,10 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from pocket_chords import views
 
 urlpatterns = [
-    path('', views.home_page, name='home'),
-    path('song_list/something_right_here/', views.song_list, name='song_list'),
+    path('', include('pocket_chords.urls')),
     path('admin/', admin.site.urls),
 ]

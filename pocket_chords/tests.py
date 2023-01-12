@@ -49,17 +49,22 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'song_name': 'A new list item'})
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/song_list/something_right_here/')
+        self.assertEqual(response['location'], '/songs_list/something_right_here/')
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
+
+    def test_uses_songs_list_template(self):
+        """ test: uses list template """
+        response = self.client.get('/songs_list/something_right_here/')
+        self.assertTemplateUsed(response, 'songs_list.html')
 
     def test_displays_all_items(self):
         """ test: all elements a shown """
         Song.objects.create(name='item 1')
         Song.objects.create(name='item 2')
 
-        response = self.client.get('/song_list/something_right_here/')
+        response = self.client.get('/songs_list/something_right_here/')
 
         self.assertContains(response, 'item 1')
         self.assertContains(response, 'item 2')
