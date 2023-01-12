@@ -72,19 +72,18 @@ class GuitarNotes:
         """
         return [[note if note in target_notes else '*' for note in string] for string in self.guitar_fretboard]
 
-    @classmethod
-    def string_tuning(cls, fretnote: str) -> list[str]:
+    
+    def string_tuning(self, fretnote: str) -> list[str]:
         """ Set a string of notes, first element will
             be a note from the choosen fret
         """
-        note = cls.set_root_note(fretnote)
-        note_index = cls.__notes.index(note)
-        return cls.__notes[note_index:] + cls.__notes[:note_index]
+        note = self.set_root_note(fretnote)
+        note_index = self.__notes.index(note)
+        return self.__notes[note_index:] + self.__notes[:note_index]
 
-    @classmethod
-    def set_guitar_fretboard(cls, strings_list: list[str]) -> list[list[str]]:
+    def set_guitar_fretboard(self, strings_list: list[str]) -> list[list[str]]:
         """ Form the guitar fretboard with provided strings """
-        cls.guitar_fretboard = [cls.string_tuning(item) for item in strings_list]
+        self.guitar_fretboard = [self.string_tuning(item) for item in strings_list]
 
     
     
