@@ -43,8 +43,7 @@ class GuitarNotes:
     
 
 def main():
-    a = GuitarNotes()
-    print(a.show_the_scale('b', 'major'))
+    pass
 
 if __name__ == '__main__':
     main()
