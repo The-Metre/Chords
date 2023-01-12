@@ -6,7 +6,7 @@ class GuitarNotes:
     # Standart guitar tuning
     __default_tuning = ['E', 'B', 'G', 'D', 'A', 'E']
 
-    # Contain indexes of notes for each chord type
+    # Contain indexes of semitones for each chord type
     __chord_formula = {
                 'major' : [0, 4, 7],
                 'minor' : [0, 3, 7],
@@ -15,7 +15,7 @@ class GuitarNotes:
                 'sus4': [0, 5, 7]
     }
 
-    # Contain indexes of notes for each scale type
+    # Contain indexes of semitones for each scale type
     __scale_formula = {
             'major' :  [0, 2, 4, 5, 7, 9, 11],
             'minor' : [0, 2, 3, 5, 7, 8, 10],
@@ -64,18 +64,30 @@ class GuitarNotes:
         if root_note.upper() not in self.__notes:
             raise ValueError(f'Incorrect root note: "{root_note}"!')
         return root_note.upper()
+    
+    def show_target_notes_on_freatboard(self, target_notes:list[str] = []) -> list[list[str]]:
+        """ Return a list of list of strings
+            that contain in target_notes: a list 
+            from prefered scale or a chord e.t.c.
+        """
+        return [[note if note in target_notes else '*' for note in string] for string in self.guitar_fretboard]
 
-    def string_tuning(self, fretnote: str) -> list[str]:
+    @classmethod
+    def string_tuning(cls, fretnote: str) -> list[str]:
         """ Set a string of notes, first element will
             be a note from the choosen fret
         """
-        note = self.set_root_note(fretnote)
-        note_index = self.__notes.index(note)
-        return self.__notes[note_index:] + self.__notes[:note_index]
+        note = cls.set_root_note(fretnote)
+        note_index = cls.__notes.index(note)
+        return cls.__notes[note_index:] + cls.__notes[:note_index]
 
-    def set_guitar_fretboard(self, strings_list: list[str]) -> list[list[str]]:
+    @classmethod
+    def set_guitar_fretboard(cls, strings_list: list[str]) -> list[list[str]]:
         """ Form the guitar fretboard with provided strings """
-        self.guitar_fretboard = [self.string_tuning(item) for item in strings_list]
+        cls.guitar_fretboard = [cls.string_tuning(item) for item in strings_list]
+
+    
+    
 
 
     
