@@ -3,16 +3,11 @@
         <title>To-Do Lists</title>        
     </head>
     <body>
-        <h1>Your Music List</h1>
+        <h1>Add Song to your Music List</h1>
         <form method="POST" action="/">
             {% csrf_token %}
             <input name='song_name' id="id_new_song_name" placeholder="Enter a song name">
         </form>
-        <table id="id_song_table">
-            {% for item in songs %}
-            <tr><td>{{ forloop.counter }}: {{ item.name }}</td></tr>
-            {% endfor %}
-        </table>
     </body>
 </html>
       

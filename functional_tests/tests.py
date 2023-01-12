@@ -89,7 +89,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Check for the user unique url
         user_number_one_url = self.browser.current_url
-        self.assertRegex(user_number_one_url, '/song_list/.+')
+        self.assertRegex(user_number_one_url, '/songs_list/.+')
 
         # Close current user session
         self.browser.quit()
@@ -112,7 +112,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         # Check that the user get his own unique url
         user_number_two_url = self.browser.current_url
-        self.assertRegex(user_number_two_url, '/song_list/.+')
+        self.assertRegex(user_number_two_url, '/songs_list/.+')
         self.assertNotEqual(user_number_one_url, user_number_two_url)
 
         # Check that the second  user still cannot see the list
