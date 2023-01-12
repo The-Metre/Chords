@@ -28,6 +28,14 @@ class GuitarNotes:
             the function will raise an error
         """
         root_note = self.set_root_note(root_note)
+        scale = self.string_tuning(root_note)
+
+        if scale_type.lower() not in self.__scale_formula:
+            raise KeyError(f'Invalid scale type: {scale_type}')
+        
+        scale_notes = self.__scale_formula[scale_type.lower()]
+        return [note for note in scale if scale.index(note) in scale_notes]
+
 
 
     def show_chord(self, root_note:str, chord_type:str) -> list[str]:
