@@ -11,15 +11,30 @@ class GuitarNotes:
                 'sus4': [0, 5, 7]
     }
 
+    __scale_formula = {
+            'major' :  [0, 2, 4, 5, 7, 9, 11],
+            'minor' : [0, 2, 3, 5, 7, 8, 10],
+            'major penta': [0, 2, 4, 7, 9],
+            'minor penta': [0, 3, 5, 7, 10]
+    }
+
     def __init__(self, strings_list: list[str] = __default_tuning) -> None:
         self.set_guitar_fretboard(strings_list)
 
-    def set_root_note(self, root_note:str) -> list[str]:
-        if root_note.upper() not in self.__notes:
-            raise ValueError('Incorrect root note!')
-        return root_note.upper()
 
-    def show_the_scale(self, root_note:str, chord_type:str) -> list[str]:
+    def show_scale(self, root_note:str, scale_type:str) -> list[str]:
+        """ Return a list with notes thtat contain specific scale
+            if either root_note or_scale_type is invalid
+            the function will raise an error
+        """
+        root_note = self.set_root_note(root_note)
+
+
+    def show_chord(self, root_note:str, chord_type:str) -> list[str]:
+        """ Return a list with notes that contain specific chord type
+            if either root_note or chord_type is invalid,
+            the function will raise an error
+        """
         root_note = self.set_root_note(root_note)
         scale = self.string_tuning(root_note)
 
@@ -29,11 +44,21 @@ class GuitarNotes:
         chord = self.__chord_formula[chord_type.lower()]
         return [note for note in scale if scale.index(note) in chord]
 
+    def set_root_note(self, root_note:str) -> list[str]:
+        """ Return a valid root note from notes list,
+            if note doesn't exist raise an error 
+        """
+        if root_note.upper() not in self.__notes:
+            raise ValueError(f'Incorrect root note: "{root_note}"!')
+        return root_note.upper()
 
-    @classmethod
-    def string_tuning(cls, fretnote: str) -> list[str]:
-        index = cls.__notes.index(fretnote.upper())
-        return cls.__notes[index:] + cls.__notes[:index]
+    def string_tuning(self, fretnote: str) -> list[str]:
+        """ Set a string of notes, first element will
+            be a note from the choosen fret
+        """
+        note = self.set_root_note(fretnote)
+        note_index = self.__notes.index(note)
+        return self.__notes[note_index:] + self.__notes[:note_index]
 
     def set_guitar_fretboard(self, strings_list: list[str]) -> list[list[str]]:
         """ Form the guitar fretboard with provided strings """
@@ -43,7 +68,8 @@ class GuitarNotes:
     
 
 def main():
-    pass
+    a = GuitarNotes()
+    print(a.show_chord('fd', 'major'))
 
 if __name__ == '__main__':
     main()
