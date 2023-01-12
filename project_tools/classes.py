@@ -1,8 +1,12 @@
 class GuitarNotes:
+
+    # All music tones names
     __notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 
+    # Standart guitar tuning
     __default_tuning = ['E', 'B', 'G', 'D', 'A', 'E']
 
+    # Contain indexes of notes for each chord type
     __chord_formula = {
                 'major' : [0, 4, 7],
                 'minor' : [0, 3, 7],
@@ -11,6 +15,7 @@ class GuitarNotes:
                 'sus4': [0, 5, 7]
     }
 
+    # Contain indexes of notes for each scale type
     __scale_formula = {
             'major' :  [0, 2, 4, 5, 7, 9, 11],
             'minor' : [0, 2, 3, 5, 7, 8, 10],
@@ -76,8 +81,7 @@ class GuitarNotes:
     
 
 def main():
-    a = GuitarNotes()
-    print(a.show_chord('fd', 'major'))
+    pass
 
 if __name__ == '__main__':
     main()
