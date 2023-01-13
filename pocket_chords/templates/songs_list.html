@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>Your Music List</h1>
-        <form method="POST" action="/">
+        <form method="POST" action="/songs_list/new">
             {% csrf_token %}
             <input name='song_name' id="id_new_song_name" placeholder="Enter a song name">
         </form>

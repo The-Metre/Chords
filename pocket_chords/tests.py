@@ -30,13 +30,7 @@ class HomePageTest(TestCase):
 
         self.assertTemplateUsed(response, 'homepage.html')
 
-    def test_only_save_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Song.objects.count(), 0)
-
-    def test_cannot_save_empty_file(self):
-        self.client.post('/', data={'song_name': ''})
-        self.assertEqual(Song.objects.count(), 0)
+    
 
 
 
@@ -72,4 +66,7 @@ class NewListVTest(TestCase):
         response = self.client.post('/songs_list/new', data={'song_name': 'A new list item'})
         self.assertRedirects(response, '/songs_list/something_right_here/')
 
-    
+    def test_cannot_save_empty_file(self):
+        self.client.post('/songs_list/new', data={'song_name': ''})
+        
+        self.assertEqual(Song.objects.count(), 0)

@@ -4,12 +4,14 @@ from pocket_chords.models import Song
 # Create your views here.
 
 def home_page(request):
+
     return render(request, 'homepage.html')
 
 
 def new_song(request):
     """ New song """
-    Song.objects.create(name=request.POST['song_name'], text='')
+    if request.POST['song_name']:
+        Song.objects.create(name=request.POST['song_name'], text='')
     return redirect('/songs_list/something_right_here/')
 
 
