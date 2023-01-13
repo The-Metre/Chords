@@ -1,25 +1,37 @@
 from django.test import TestCase
-from pocket_chords.models import Song
+from pocket_chords.models import Song, Sketch
 # Create your tests here.
 
-class SongModelTest(TestCase):
+class SongAndSketchModelTest(TestCase):
     ''' test Song model '''
 
     def test_saving_and_retrieving_items(self):
-        first_item = Song()
-        first_item.text = 'The first(ever) list item'
-        first_item.save()
+        song = Song()
+        song.save()
 
-        second_item = Song()
+        first_item = Sketch()
+        first_item.text = 'The first(ever) list item'
+        first_item.song = song
+        first_item.save()
+        
+
+        second_item = Sketch()
         second_item.text = 'Item the second'
+        second_item.song = song
         second_item.save()
 
-        saved_items = Song.objects.all()
+
+        saved_song = Song.objects.first()
+        self.assertEqual(saved_song, song)
+
+        saved_items = Sketch.objects.all()
         self.assertEqual(saved_items.count(), 2)
 
         first_saved_item = saved_items[0]
         second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.song, song)
         self.assertEqual(first_saved_item.text, 'The first(ever) list item')
+        self.assertEqual(second_saved_item.song, song)
         self.assertEqual(second_saved_item.text, 'Item the second')
 
 class HomePageTest(TestCase):
@@ -31,8 +43,6 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'homepage.html')
 
     
-
-
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
@@ -68,5 +78,5 @@ class NewListVTest(TestCase):
 
     def test_cannot_save_empty_file(self):
         self.client.post('/songs_list/new', data={'song_name': ''})
-        
+
         self.assertEqual(Song.objects.count(), 0)
