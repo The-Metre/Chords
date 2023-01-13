@@ -11,6 +11,13 @@ def home_page(request):
             return redirect('/songs_list/something_right_here/')
     return render(request, 'homepage.html')
 
+
+def new_song(request):
+    """ New song """
+    Song.objects.create(name=request.POST['song_name'], text='')
+    return redirect('/songs_list/something_right_here/')
+
+
 def song_list(request):
     """ Show the user song list """  
     songs = Song.objects.all()

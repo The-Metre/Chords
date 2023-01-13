@@ -34,22 +34,11 @@ class HomePageTest(TestCase):
         self.client.get('/')
         self.assertEqual(Song.objects.count(), 0)
 
-    def test_can_save_a_POST_request(self):
-        self.client.post('/', data={'song_name': 'A new list item'})
-
-        self.assertEqual(Song.objects.count(), 1)
-        new_item = Song.objects.first()
-        self.assertEqual(new_item.name, 'A new list item')
-    
     def test_cannot_save_empty_file(self):
         self.client.post('/', data={'song_name': ''})
         self.assertEqual(Song.objects.count(), 0)
 
-    def test_can_redirect_after_the_request(self):
-        response = self.client.post('/', data={'song_name': 'A new list item'})
 
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/songs_list/something_right_here/')
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
@@ -68,3 +57,19 @@ class ListViewTest(TestCase):
 
         self.assertContains(response, 'item 1')
         self.assertContains(response, 'item 2')
+
+class NewListVTest(TestCase):
+    """ Test a new list """
+
+    def test_can_save_a_POST_request(self):
+        self.client.post('/songs_list/new', data={'song_name': 'A new list item'})
+
+        self.assertEqual(Song.objects.count(), 1)
+        new_item = Song.objects.first()
+        self.assertEqual(new_item.name, 'A new list item')
+    
+    def test_can_redirect_after_the_POST(self):
+        response = self.client.post('/songs_list/new', data={'song_name': 'A new list item'})
+        self.assertRedirects(response, '/songs_list/something_right_here/')
+
+    
