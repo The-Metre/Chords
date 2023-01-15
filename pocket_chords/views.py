@@ -11,13 +11,18 @@ def home_page(request):
 def new_song(request):
     """ New song """
     if request.POST['song_name']:
-        Song.objects.create(name=request.POST['song_name'], text='')
-    return redirect('/songs_list/something_right_here/')
+        new_song = Song.objects.create(name=request.POST['song_name'], text='')
+    return redirect(f'/song_page/{new_song.id}/')
 
 
-def song_list(request):
-    """ Show the user song list """  
-    songs = Song.objects.all()
-    return render(request, 'songs_list.html', {
-        'songs' : songs
-    })
+def song_page(request, song_id):
+    """ Show the user song page """
+
+    song = Song.objects.get(pk=song_id)
+    return render(request, 'song_page.html', {'chunk': song})
+
+def add_item_to_song(request,song_id):
+    song = Song.objects.get(pk=song_id)
+    print(request.POST)
+    item = Sketch.objects.create(text=request.POST['chunk'], song=song)
+    return redirect(f'/song_page/{song_id}/')
