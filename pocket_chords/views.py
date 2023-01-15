@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from pocket_chords.models import Song
+from pocket_chords.models import Song, Sketch
 
 # Create your views here.
 

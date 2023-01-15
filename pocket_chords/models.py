@@ -12,4 +12,5 @@ class Sketch(models.Model):
         Example in physical world: stickers
         in a book
     """
-    pass
+    text = models.TextField(default='', max_length=255)
+    song = models.ForeignKey(Song, default=None, on_delete=models.CASCADE)
