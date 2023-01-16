@@ -75,8 +75,7 @@ class ListViewTest(TestCase):
     def test_passes_correct_song_to_template(self):
         other_song = Song.objects.create(name='other song')
         correct_song = Song.objects.create(name='correct song')
-        response = self.client.get(f'song_page/{correct_song.id}/')
-
+        response = self.client.get(f'/song_page/{correct_song.id}/')
         self.assertEqual(response.context['song'], correct_song)
 
 class NewListVTest(TestCase):
@@ -101,7 +100,7 @@ class NewListVTest(TestCase):
 
         self.client.post(
                     f'/song_page/{correct_song.id}/add_item',
-                    data={'item_text': 'A new chunk to existing song'})
+                    data={'chunk': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
 
@@ -120,7 +119,7 @@ class NewListVTest(TestCase):
         )
         self.assertRedirects(response, f'song_page/{correct_song.id}/')
 
-    """ def test_cannot_save_empty_file(self):
+    def test_cannot_save_empty_file(self):
         self.client.post('/song_page/new', data={'song_name': ''})
 
-        self.assertEqual(Song.objects.count(), 0) """
+        self.assertEqual(Song.objects.count(), 0)

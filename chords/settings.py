@@ -28,7 +28,6 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = []
 
-APPEND_SLASH = False
 
 # Application definition
 
