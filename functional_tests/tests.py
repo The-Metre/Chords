@@ -67,10 +67,18 @@ class NewVisitorTest(LiveServerTestCase):
         # Check that we redirect to correct song page
         inputbox = self.browser.find_element(By.TAG_NAME, 'h1').text
 
-        self.assertIn(f'Your Music List ({song_name})')
+        self.assertIn(f'Your Music List for ({song_name})', inputbox)
+
+
 
         # Add a new item chunk to the song list
         inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a song chunk'
+        )
+
         inputbox.send_keys('First chunk')
         inputbox.send_keys(Keys.ENTER)
 
@@ -95,10 +103,24 @@ class NewVisitorTest(LiveServerTestCase):
         # Start new list
         self.browser.get(self.live_server_url)
 
+        # Add a song
         inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
-        inputbox.send_keys('First user song')
+        song_name = 'First user song'
+        inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: First user song')
+
+        # Check that we redirected to a correct one song
+
+        inputbox = self.browser.find_element(By.TAG_NAME, 'h1').text
+        
+        self.assertEqual(inputbox, f'Your Music List for ({song_name})')
+
+        # Add a first item to the song
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox.send_keys('First user song chunk')
+        inputbox.send_keys(Keys.ENTER)
+        
+        self.wait_for_row_in_list_table('1: First user song chunk')
 
         # Check for the user unique url
         user_number_one_url = self.browser.current_url
@@ -117,8 +139,14 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('First user song', page_text)
         self.assertNotIn('Firds user second song', page_text)
 
-        # New user starts to add new elements in the list
+        # Add a song  for the second user 
         inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        song_name = 'Second user song'
+        inputbox.send_keys(f'{song_name}')
+        inputbox.send_keys(Keys.ENTER)
+
+        # New user starts to add new elements in the list
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
         inputbox.send_keys('Second user song')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Second user song')
