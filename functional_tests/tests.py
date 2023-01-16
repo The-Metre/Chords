@@ -19,13 +19,14 @@ class NewVisitorTest(LiveServerTestCase):
     def tearDown(self) -> None:
         self.browser.quit()
 
-    def wait_for_row_in_list_table(self,    row_text):
+    def wait_for_row_in_list_table(self, row_text):
         """ wait for row in the table """
         start_time = time.time()
         while True:
             try:
                 table = self.browser.find_element(By.ID, 'id_song_table')
                 rows = table.find_elements(By.TAG_NAME, 'tr')
+                
                 self.assertIn(row_text, [row.text for row in rows])
                 return
             except(AssertionError, WebDriverException) as err:
@@ -47,7 +48,7 @@ class NewVisitorTest(LiveServerTestCase):
         # Check header
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
 
-        self.assertIn('Music', header_text)
+        self.assertIn('Add Song to your Music List', header_text)
 
 
         # Check the correct input tag and placeholder
@@ -59,19 +60,31 @@ class NewVisitorTest(LiveServerTestCase):
         )
         
         # Try to fill the info in form space and press 'enter' key
-        inputbox.send_keys('Group name one')
+        song_name = 'Song name One'
+        inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Group name one')
+        
+        # Check that we redirect to correct song page
+        inputbox = self.browser.find_element(By.TAG_NAME, 'h1').text
+
+        self.assertIn(f'Your Music List ({song_name})')
+
+        # Add a new item chunk to the song list
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox.send_keys('First chunk')
+        inputbox.send_keys(Keys.ENTER)
+
+        self.wait_for_row_in_list_table('1: First chunk')
 
         
         # Try to fill the second info in form space and press 'enter' key
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
-        inputbox.send_keys('Group name second')
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox.send_keys('Second chunk')
         inputbox.send_keys(Keys.ENTER)
         
         
-        self.wait_for_row_in_list_table('1: Group name one')
-        self.wait_for_row_in_list_table('2: Group name second')
+        self.wait_for_row_in_list_table('1: First chunk')
+        self.wait_for_row_in_list_table('2: Second chunk')
         
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
