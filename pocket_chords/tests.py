@@ -42,8 +42,6 @@ class HomePageTest(TestCase):
 
         self.assertTemplateUsed(response, 'homepage.html')
 
-    
-
 class ListViewTest(TestCase):
     """ test to check elements in the list """
 
@@ -62,8 +60,8 @@ class ListViewTest(TestCase):
 
         other_song = Song.objects.create(name="Other song")
         
-        Sketch.objects.create(text='other song item 1', song=correct_song)
-        Sketch.objects.create(text='other song item 2', song=correct_song)
+        Sketch.objects.create(text='other song item 1', song=other_song)
+        Sketch.objects.create(text='other song item 2', song=other_song)
 
         response = self.client.get(f'/song_page/{correct_song.id}/')
 
@@ -94,7 +92,6 @@ class NewListVTest(TestCase):
         self.assertRedirects(response, f'/song_page/{new_song.id}/')
 
     def test_can_save_a_POST_request_to_existing_song(self):
-
         other_song = Song.objects.create(name='Other song')
         correct_song = Song.objects.create(name='Correct Song')
 
@@ -103,9 +100,9 @@ class NewListVTest(TestCase):
                     data={'chunk': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
-
         new_item = Sketch.objects.first()
-        self.assertEqual(new_item, 'A new chunk to existing song')
+
+        self.assertEqual(new_item.text, 'A new chunk to existing song')
         self.assertEqual(new_item.song, correct_song)
 
 
@@ -114,10 +111,10 @@ class NewListVTest(TestCase):
         correct_song = Song.objects.create(name='correct_test_song')
 
         response = self.client.post(
-                        f'song_page/{correct_song.id}/add_item',
-                        data={'item_text': 'A new item to existing song'}
+                        f'/song_page/{correct_song.id}/add_item',
+                        data={'chunk': 'A new item to existing song'}
         )
-        self.assertRedirects(response, f'song_page/{correct_song.id}/')
+        self.assertRedirects(response, f'/song_page/{correct_song.id}/')
 
     def test_cannot_save_empty_file(self):
         self.client.post('/song_page/new', data={'song_name': ''})
