@@ -74,6 +74,14 @@ class NewVisitorTest(LiveServerTestCase):
         # Add a new item chunk to the song list
         inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
         
+        # Check that inputbox centered
+
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a song chunk'
@@ -177,6 +185,6 @@ class NewVisitorTest(LiveServerTestCase):
             512,
             delta=10
         )
-        
+
 if __name__ == '__main__':
     LiveServerTestCase.main(warnings='ignore')
