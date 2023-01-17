@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Your Music List for ({{ song.name }}){% end block %}
+{% block header_text %}Your Music List for ({{ song.name }}){% endblock %}
 
 {% block form_action %}/song_page/{{ song.id }}/add_item{% endblock %}
+
+{% block form_input_body %}
+    <input name='chunk' id="id_new_song_chunk" 
+    placeholder="Enter a song name" />
+{% endblock %}
 
 {% block table %}
     <table id="id_song_table">
