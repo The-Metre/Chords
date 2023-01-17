@@ -167,5 +167,16 @@ class NewVisitorTest(LiveServerTestCase):
         # End of the test
         self.fail('End of the test')
 
+    def test_layout_and_styling(self):
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+        
 if __name__ == '__main__':
     LiveServerTestCase.main(warnings='ignore')
