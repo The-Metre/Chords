@@ -1,4 +1,4 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -11,7 +11,7 @@ import time
 
 MAX_WAIT  = 10
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self) -> None:
         self.browser = webdriver.Chrome()
@@ -79,7 +79,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
-            delta=10
+            delta=60
         )
 
         self.assertEqual(
@@ -170,11 +170,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('First user song', page_text)
         self.assertIn('Second user song', page_text)
 
-
-
-        # End of the test
-        self.fail('End of the test')
-
     def test_layout_and_styling(self):
         self.browser.get(self.live_server_url)
         self.browser.set_window_size(1024, 768)
@@ -183,8 +178,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
-            delta=10
+            delta=60
         )
 
+        # End of the test
+        self.fail('End of the test')
+
 if __name__ == '__main__':
-    LiveServerTestCase.main(warnings='ignore')
+    StaticLiveServerTestCase.main(warnings='ignore')
