@@ -14,7 +14,7 @@
         <div class="container">
 
             <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6 col-md-offset-3 bg-light">
                     <div class="text-center">
                         <h1>
                             {% block header_text %}
@@ -22,8 +22,7 @@
                         </h1>
                         <form method="POST" action="{% block form_action %}{% endblock %}">
                             {% csrf_token %}
-                            {% block form_input_body %}
-                            {% endblock %}
+                            <input class="form-control input-lg" {% block form_input_body %}{% endblock %}>
                         </form>
                     </div>
                 </div>
