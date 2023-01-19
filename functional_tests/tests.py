@@ -9,7 +9,7 @@ import time
 
 
 
-MAX_WAIT  = 10
+MAX_WAIT  = 5
 
 class NewVisitorTest(StaticLiveServerTestCase):
 
@@ -43,7 +43,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         # Check the correct title
-        self.assertIn('To-Do', self.browser.title)
+        self.assertIn('Pocket Chords', self.browser.title)
 
         # Check header
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
