@@ -44,7 +44,7 @@ class SongAndSketchModelTest(TestCase):
         with self.assertRaises(ValidationError):
             song.full_clean()
             song.save
-            
+
     def test_cannot_save_empty_sketch_on_song(self):
         """ Test cannot add empty elements in Song class """
 
@@ -53,3 +53,9 @@ class SongAndSketchModelTest(TestCase):
         with self.assertRaises(ValidationError):
             chunk.save()
             chunk.full_clean()
+
+    def test_get_absolute_url(self):
+        """ Test: handeled absolute url"""
+
+        song = Song.objects.create(name="test song")
+        self.assertEqual(song.get_absolute_url(), f'/song_page/{song.id}/')

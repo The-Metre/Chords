@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 
 # Create your models here.
 
@@ -6,6 +8,10 @@ class Song(models.Model):
     """ Contain info about a song """
     name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True)
+
+    def get_absolute_url(self):
+        """ Get an absolute url """
+        return reverse('song_page', args=[self.id])
 
 class Sketch(models.Model):
     """ Class contain string('notes')

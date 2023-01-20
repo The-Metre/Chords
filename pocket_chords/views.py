@@ -19,7 +19,7 @@ def new_song(request):
     except ValidationError:
         error = "You can't save an empty song item"
         return render(request, 'homepage.html', {"error": error})
-    return redirect(f'/song_page/{new_song.id}/')
+    return redirect(new_song)
 
 
 def song_page(request, song_id):
@@ -31,7 +31,7 @@ def song_page(request, song_id):
             item = Sketch(text=request.POST['chunk'], song=song)
             item.full_clean()
             item.save()
-            return redirect(f'/song_page/{song.id}/')
+            return redirect(song)
         except ValidationError:
             error = "You can't save an empty song item"
 
