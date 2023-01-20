@@ -72,7 +72,7 @@ class ListViewTest(TestCase):
         response = self.client.post('/song_page/new', data={'song_name': ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
-        expected_error = escape("You can't have an empty song name field")
+        expected_error = escape("You can't save an empty song item")
 
         self.assertContains(response, expected_error)
 
@@ -80,3 +80,14 @@ class ListViewTest(TestCase):
         self.client.post('/song_page/new', data={'song_name': ""})
         self.assertEqual(Song.objects.count(), 0)
         self.assertEqual(Sketch.objects.count(), 0)
+
+    def test_validation_errors_end_up_on_song_page(self):
+        song = Song.objects.create(name="test song")
+        response = self.client.post(
+            f'/song_page/{song.id}/',
+            data={'chunk': ""}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'song_page.html')
+        expected_error = escape("You can't save an empty song item")
+        self.assertContains(response, expected_error)

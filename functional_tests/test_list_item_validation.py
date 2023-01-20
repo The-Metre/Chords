@@ -13,8 +13,8 @@ class ItemValidationTest(FunctionalTest):
         self.browser.find_element(By.ID, 'id_new_song_name').send_keys(Keys.ENTER)
 
         self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.has-error').text,
-            "You can't have an empty song name field"
+            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
+            "You can't save an empty song item"
         )) 
 
         song_name = "Test new song name"
@@ -34,8 +34,8 @@ class ItemValidationTest(FunctionalTest):
 
         self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
         self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.has-error').text,
-            "You can't have an empty song item field"
+            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
+            "You can't save an empty song item"
         ))
 
         first_chunk_text = "Test chunk"
@@ -47,8 +47,8 @@ class ItemValidationTest(FunctionalTest):
 
         self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
         self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.has-error').text,
-            "You can't have an empty song item field"
+            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
+            "You can't save an empty song item"
         ))
 
         self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(second_chunk_text)

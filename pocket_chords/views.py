@@ -17,7 +17,7 @@ def new_song(request):
         new_song.full_clean()
         new_song.save()
     except ValidationError:
-        error = "You can't have an empty song name field in Song model"
+        error = "You can't save an empty song item"
         return render(request, 'homepage.html', {"error": error})
     return redirect(f'/song_page/{new_song.id}/')
 
@@ -25,16 +25,14 @@ def new_song(request):
 def song_page(request, song_id):
     """ Show the user song page """
     song = Song.objects.get(id=song_id)
+    error = None
     if request.method == "POST":
-        item = Sketch.objects.create(text=request.POST['chunk'], song=song)
         try:
+            item = Sketch(text=request.POST['chunk'], song=song)
             item.full_clean()
             item.save()
+            return redirect(f'/song_page/{song.id}/')
         except ValidationError:
-            item.delete()
             error = "You can't save an empty song item"
-            return render(request, 'song_page.html', {'song': song, 'error': error})
-        return redirect(f'/song_page/{song.id}/')
-        
-    return render(request, 'song_page.html', {'song': song})
 
+    return render(request, 'song_page.html', {'song': song, 'error': error})
