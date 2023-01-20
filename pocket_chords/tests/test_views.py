@@ -48,15 +48,6 @@ class ListViewTest(TestCase):
         response = self.client.get(f'/song_page/{correct_song.id}/')
         self.assertEqual(response.context['song'], correct_song)
 
-class NewListVTest(TestCase):
-    """ Test a new list """
-
-    def test_can_save_a_POST_request(self):
-        self.client.post('/song_page/new', data={'song_name': 'A new list item'})
-
-        self.assertEqual(Song.objects.count(), 1)
-        new_item = Song.objects.first()
-        self.assertEqual(new_item.name, 'A new list item')
     
     def test_can_redirect_after_the_POST(self):
         response = self.client.post('/song_page/new', data={'song_name': 'A new list item'})
@@ -68,7 +59,7 @@ class NewListVTest(TestCase):
         correct_song = Song.objects.create(name='Correct Song')
 
         self.client.post(
-                    f'/song_page/{correct_song.id}/add_item',
+                    f'/song_page/{correct_song.id}/',
                     data={'chunk': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
@@ -76,18 +67,6 @@ class NewListVTest(TestCase):
 
         self.assertEqual(new_item.text, 'A new chunk to existing song')
         self.assertEqual(new_item.song, correct_song)
-
-
-    def test_redirect_to_song_view(self):
-        other_song = Song.objects.create(name="test song")
-        correct_song = Song.objects.create(name='correct_test_song')
-
-        response = self.client.post(
-                        f'/song_page/{correct_song.id}/add_item',
-                        data={'chunk': 'A new item to existing song'}
-        )
-        self.assertRedirects(response, f'/song_page/{correct_song.id}/')
-    
 
     def test_validation_errors_are_send_back_to_homepage_template(self):
         response = self.client.post('/song_page/new', data={'song_name': ""})

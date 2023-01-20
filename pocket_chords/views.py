@@ -25,16 +25,16 @@ def new_song(request):
 def song_page(request, song_id):
     """ Show the user song page """
     song = Song.objects.get(id=song_id)
+    if request.method == "POST":
+        item = Sketch.objects.create(text=request.POST['chunk'], song=song)
+        try:
+            item.full_clean()
+            item.save()
+        except ValidationError:
+            item.delete()
+            error = "You can't save an empty song item"
+            return render(request, 'song_page.html', {'song': song, 'error': error})
+        return redirect(f'/song_page/{song.id}/')
+        
     return render(request, 'song_page.html', {'song': song})
 
-def add_item_to_song(request,song_id):
-    song = Song.objects.get(pk=song_id)
-    item = Sketch.objects.create(text=request.POST['chunk'], song=song)
-    try:
-        item.full_clean()
-        item.save()
-    except ValidationError:
-        item.delete()
-        error = "You can't save an empty song item"
-        return render(request, 'song_page.html', {"error": error, "song": song})
-    return redirect(f'/song_page/{song.id}/')

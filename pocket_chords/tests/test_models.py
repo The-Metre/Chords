@@ -40,9 +40,11 @@ class SongAndSketchModelTest(TestCase):
 
 
     def test_cannot_save_empty_name_song(self):
+        song = Song(name="")
         with self.assertRaises(ValidationError):
-            Song.objects.create(name="")
-    
+            song.full_clean()
+            song.save
+            
     def test_cannot_save_empty_sketch_on_song(self):
         """ Test cannot add empty elements in Song class """
 
