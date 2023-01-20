@@ -1,5 +1,9 @@
 from django.test import TestCase
+from django.utils.html import escape
+
 from pocket_chords.models import Song, Sketch
+
+
 # Create your tests here.
 
 class HomePageTest(TestCase):
@@ -83,8 +87,17 @@ class NewListVTest(TestCase):
                         data={'chunk': 'A new item to existing song'}
         )
         self.assertRedirects(response, f'/song_page/{correct_song.id}/')
+    
 
-    def test_cannot_save_empty_file(self):
-        self.client.post('/song_page/new', data={'song_name': ''})
+    def test_validation_errors_are_send_back_to_homepage_template(self):
+        response = self.client.post('/song_page/new', data={'song_name': ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'homepage.html')
+        expected_error = escape("You can't have an empty song name field")
 
+        self.assertContains(response, expected_error)
+
+    def test_invalid_song_item_arent_saved(self):
+        self.client.post('/song_page/new', data={'song_name': ""})
         self.assertEqual(Song.objects.count(), 0)
+        self.assertEqual(Sketch.objects.count(), 0)
