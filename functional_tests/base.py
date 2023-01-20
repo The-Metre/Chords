@@ -5,14 +5,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 
+from unittest import skip
+
 import time
 import os
 
 
 MAX_WAIT  = 5
 
-class NewVisitorTest(StaticLiveServerTestCase):
-
+class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Chrome()
         staging_server = os.environ.get('STAGING_SERVER')
@@ -38,6 +39,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
                 time.sleep(0.5)
 
 
+class NewVisitorTest(FunctionalTest):
 
     def test_can_start_a_list_for_one_user(self):
         """ test:
@@ -173,6 +175,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn('First user song', page_text)
         self.assertIn('Second user song', page_text)
 
+class LayoutAndStylingTest(FunctionalTest):
+
     def test_layout_and_styling(self):
         self.browser.get(self.live_server_url)
         self.browser.set_window_size(1024, 768)
@@ -184,8 +188,14 @@ class NewVisitorTest(StaticLiveServerTestCase):
             delta=60
         )
 
+class ItemValidationTest(FunctionalTest):
+
+    @skip
+    def test_cannot_empty_list(self):
+        """ Test cannot add empty element in the list """
+
         # End of the test
-        self.fail('End of the test')
+        #self.fail('End of the test')
 
 if __name__ == '__main__':
     StaticLiveServerTestCase.main(warnings='ignore')
