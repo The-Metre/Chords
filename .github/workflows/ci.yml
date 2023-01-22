@@ -26,6 +26,7 @@ jobs:
         pip3 install --user django
         pip3 install --user python-decouple
         pip install --user psycopg2-binary
+        pip3 install --user python-environ
         python3 manage.py test pocket_chords
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
