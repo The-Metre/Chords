@@ -1,7 +1,7 @@
 from django import forms
 from pocket_chords.models import Song
 
-EMPTY_VALUE_ITEM = "You can't have an empty list item"
+EMPTY__ITEM_ERROR = "You can't have an empty list item"
 
 class SongForm(forms.models.ModelForm):
 
@@ -16,5 +16,5 @@ class SongForm(forms.models.ModelForm):
             })
         }
         error_messages = {
-            'name': {"required": EMPTY_VALUE_ITEM}
+            'name': {"required": EMPTY__ITEM_ERROR}
         }

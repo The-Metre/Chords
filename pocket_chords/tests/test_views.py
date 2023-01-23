@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from pocket_chords.models import Song, Sketch
-from pocket_chords.forms import SongForm
+from pocket_chords.forms import SongForm, EMPTY__ITEM_ERROR
 
 
 # Create your tests here.
@@ -22,6 +22,12 @@ class HomePageTest(TestCase):
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
+
+    def test_displays_item_form(self):
+        song = Song.objects.create(name="Test song")
+        response = self.client.get(f'/song_page/{song.id}/')
+        self.assertIsInstance(response.context['form'], SongForm)
+        self.assertContains(response, 'name="name"')
 
     def test_uses_songs_list_template(self):
         """ test: uses list template """
@@ -74,13 +80,18 @@ class ListViewTest(TestCase):
         self.assertEqual(new_item.text, 'A new chunk to existing song')
         self.assertEqual(new_item.song, correct_song)
 
-    def test_validation_errors_are_send_back_to_homepage_template(self):
+    def test_invalid_input_renders_home_page(self):
         response = self.client.post('/song_page/new', data={'name': ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
-        expected_error = escape("You can't save an empty song item")
+    
+    def test_validation_errors_are_shown_on_home_page(self):
+        response = self.client.post('/song_page/new', data={'name': ""})
+        self.assertContains(response, escape(EMPTY__ITEM_ERROR))
 
-        self.assertContains(response, expected_error)
+    def test_for_invalid_input_passes_form_to_template(self):
+        response = self.client.post('/song_page/new', data={'name': ""})
+        self.assertIsInstance(response.context['form'], SongForm)
 
     def test_invalid_song_item_arent_saved(self):
         self.client.post('/song_page/new', data={'name': ""})

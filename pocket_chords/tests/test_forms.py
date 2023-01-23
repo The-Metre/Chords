@@ -1,5 +1,5 @@
 from django.test import TestCase
-from pocket_chords.forms import SongForm, EMPTY_VALUE_ITEM
+from pocket_chords.forms import SongForm, EMPTY__ITEM_ERROR
 
 class SongFormTest(TestCase):
 
@@ -13,5 +13,5 @@ class SongFormTest(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors['name'],
-            [EMPTY_VALUE_ITEM]
+            [EMPTY__ITEM_ERROR]
         )

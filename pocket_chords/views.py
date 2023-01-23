@@ -12,20 +12,19 @@ def home_page(request):
 
 def new_song(request):
     """ Create new song page """
-    new_song = Song(name=request.POST['name'])
-    try:
-        new_song.full_clean()
-        new_song.save()
-    except ValidationError:
-        error = "You can't save an empty song item"
-        return render(request, 'homepage.html', {"error": error})
-    return redirect(new_song)
+    form = SongForm(data=request.POST)
+    if form.is_valid():
+        song = Song.objects.create(name=request.POST['name'])
+        return redirect(song)
+    else:
+        return render(request, 'homepage.html', {"form": form})
 
 
 def song_page(request, song_id):
     """ Show the user song page """
     song = Song.objects.get(id=song_id)
     error = None
+    form = SongForm()
     if request.method == "POST":
         try:
             item = Sketch(text=request.POST['name'], song=song)
@@ -35,4 +34,4 @@ def song_page(request, song_id):
         except ValidationError:
             error = "You can't save an empty song item"
 
-    return render(request, 'song_page.html', {'song': song, 'error': error})
+    return render(request, 'song_page.html', {'song': song, 'form': form, 'error': error})
