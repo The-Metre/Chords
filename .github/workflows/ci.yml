@@ -30,6 +30,6 @@ jobs:
         python3 manage.py test pocket_chords
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL_GH_ACTION }}
           SQLITE_URL: ${{ secrets.SQLITE_URL }}
           DEBUG: ${{ secrets.SQL_DEBUG }}
