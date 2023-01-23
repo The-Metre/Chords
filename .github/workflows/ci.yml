@@ -20,20 +20,16 @@ jobs:
 
     steps: 
     - uses: actions/checkout@v2
-    
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
+
     - name: run Django unit-tests
       run: |
-        pip3 install --user django
-        pip3 install --user python-decouple
-        pip install --user psycopg2-binary
-        pip3 install --user python-environ
         python3 manage.py test pocket_chords
       env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
-          SQL_HOST: ${{ secrets.SQL_HOST }}
-          SQL_NAME: ${{ secrets.SQL_NAME }}
-          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-          SQL_PORT: "${{ secrets.SQL_PORT }}"
-          SQL_USER: ${{ secrets.SQL_USER }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SQLITE_URL: ${{ secrets.SQLITE_URL }}
           DEBUG: ${{ secrets.SQL_DEBUG }}
