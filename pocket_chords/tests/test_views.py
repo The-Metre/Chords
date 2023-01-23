@@ -56,7 +56,7 @@ class ListViewTest(TestCase):
 
     
     def test_can_redirect_after_the_POST(self):
-        response = self.client.post('/song_page/new', data={'song_name': 'A new list item'})
+        response = self.client.post('/song_page/new', data={'name': 'A new list item'})
         new_song = Song.objects.first()
         self.assertRedirects(response, f'/song_page/{new_song.id}/')
 
@@ -66,7 +66,7 @@ class ListViewTest(TestCase):
 
         self.client.post(
                     f'/song_page/{correct_song.id}/',
-                    data={'chunk': 'A new chunk to existing song'})
+                    data={'name': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
         new_item = Sketch.objects.first()
@@ -75,7 +75,7 @@ class ListViewTest(TestCase):
         self.assertEqual(new_item.song, correct_song)
 
     def test_validation_errors_are_send_back_to_homepage_template(self):
-        response = self.client.post('/song_page/new', data={'song_name': ""})
+        response = self.client.post('/song_page/new', data={'name': ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         expected_error = escape("You can't save an empty song item")
@@ -83,7 +83,7 @@ class ListViewTest(TestCase):
         self.assertContains(response, expected_error)
 
     def test_invalid_song_item_arent_saved(self):
-        self.client.post('/song_page/new', data={'song_name': ""})
+        self.client.post('/song_page/new', data={'name': ""})
         self.assertEqual(Song.objects.count(), 0)
         self.assertEqual(Sketch.objects.count(), 0)
 
@@ -91,7 +91,7 @@ class ListViewTest(TestCase):
         song = Song.objects.create(name="test song")
         response = self.client.post(
             f'/song_page/{song.id}/',
-            data={'chunk': ""}
+            data={'name': ""}
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'song_page.html')

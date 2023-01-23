@@ -4,9 +4,6 @@
 
 {% block form_action %}{% url 'song_page' song.id %}{% endblock %}
 
-{% block form_input_body %}
-    name='chunk' id="id_new_song_chunk" placeholder="Enter a song chunk"
-{% endblock %}
 
 {% block table %}
         <table id="id_song_table" class="table">

@@ -45,6 +45,9 @@ class FunctionalTest(StaticLiveServerTestCase):
                     raise err
                 time.sleep(0.5)
 
+    def get_item_input_box(self):
+        return self.browser.find_element(By.ID, 'id_name')
+
 
 if __name__ == '__main__':
     StaticLiveServerTestCase.main(warnings='ignore')

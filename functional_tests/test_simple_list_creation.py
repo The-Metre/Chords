@@ -23,11 +23,11 @@ class NewVisitorTest(FunctionalTest):
 
 
         # Check the correct input tag and placeholder
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        inputbox = self.get_item_input_box()
         
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a song name'
+            'Enter an item'
         )
         
         # Try to fill the info in form space and press 'enter' key
@@ -43,7 +43,7 @@ class NewVisitorTest(FunctionalTest):
 
 
         # Add a new item chunk to the song list
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox = self.get_item_input_box()
         
         # Check that inputbox centered
 
@@ -65,7 +65,7 @@ class NewVisitorTest(FunctionalTest):
 
         
         # Try to fill the second info in form space and press 'enter' key
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Second chunk')
         inputbox.send_keys(Keys.ENTER)
         
@@ -83,7 +83,7 @@ class NewVisitorTest(FunctionalTest):
         self.browser.get(self.live_server_url)
 
         # Add a song
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        inputbox = self.get_item_input_box()
         song_name = 'First user song'
         inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
@@ -95,7 +95,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertEqual(inputbox, f'Your Music List for ({song_name})')
 
         # Add a first item to the song
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('First user song chunk')
         inputbox.send_keys(Keys.ENTER)
         
@@ -119,13 +119,13 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Firds user second song', page_text)
 
         # Add a song  for the second user 
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_name')
+        inputbox = self.get_item_input_box()
         song_name = 'Second user song'
         inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
 
         # New user starts to add new elements in the list
-        inputbox = self.browser.find_element(By.ID, 'id_new_song_chunk')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Second user song')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Second user song')

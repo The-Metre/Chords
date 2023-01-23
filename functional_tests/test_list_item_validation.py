@@ -10,7 +10,7 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_create_empty_list(self):
         """ Test cannot create an empty list """
         self.browser.get(self.live_server_url)
-        self.browser.find_element(By.ID, 'id_new_song_name').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
 
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
@@ -18,8 +18,8 @@ class ItemValidationTest(FunctionalTest):
         )) 
 
         song_name = "Test new song name"
-        self.browser.find_element(By.ID, 'id_new_song_name').send_keys(song_name)
-        self.browser.find_element(By.ID, 'id_new_song_name').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(song_name)
+        self.get_item_input_box().send_keys(Keys.ENTER)
 
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element(By.TAG_NAME, 'h1').text,
@@ -29,10 +29,10 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_item_to_a_list(self):
         """ Test cannot add empty element in the list """
         self.browser.get(self.live_server_url)
-        self.browser.find_element(By.ID, 'id_new_song_name').send_keys("Test song")
-        self.browser.find_element(By.ID, 'id_new_song_name').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys("Test song")
+        self.get_item_input_box().send_keys(Keys.ENTER)
 
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
             "You can't save an empty song item"
@@ -41,18 +41,18 @@ class ItemValidationTest(FunctionalTest):
         first_chunk_text = "Test chunk"
         second_chunk_text = "Test another chunk"
 
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(first_chunk_text)
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(first_chunk_text)
+        self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table(f"1: {first_chunk_text}")
 
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
             "You can't save an empty song item"
         ))
 
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(second_chunk_text)
-        self.browser.find_element(By.ID, 'id_new_song_chunk').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(second_chunk_text)
+        self.get_item_input_box().send_keys(Keys.ENTER)
 
         self.wait_for_row_in_list_table(f"1: {first_chunk_text}")
         self.wait_for_row_in_list_table(f"2: {second_chunk_text}")

@@ -7,12 +7,12 @@ from pocket_chords.forms import SongForm
 # Create your views here.
 
 def home_page(request):
-    return render(request, 'homepage.html', {'form': SongForm})
+    return render(request, 'homepage.html', {'form': SongForm()})
 
 
 def new_song(request):
     """ Create new song page """
-    new_song = Song(name=request.POST['song_name'])
+    new_song = Song(name=request.POST['name'])
     try:
         new_song.full_clean()
         new_song.save()
@@ -28,7 +28,7 @@ def song_page(request, song_id):
     error = None
     if request.method == "POST":
         try:
-            item = Sketch(text=request.POST['chunk'], song=song)
+            item = Sketch(text=request.POST['name'], song=song)
             item.full_clean()
             item.save()
             return redirect(song)

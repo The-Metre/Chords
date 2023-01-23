@@ -24,7 +24,6 @@
                         <form method="POST" action="{% block form_action %}{% endblock %}">
                             {% csrf_token %}
                             {{ form.name }}
-                            <input class="form-control input-lg" {% block form_input_body %}{% endblock %}>
                             {% if error %}
                                 <div class="alert alert-danger">
                                     <span class="help-block">{{ error }}</span>

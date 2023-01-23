@@ -2,8 +2,4 @@
 
 {% block header_text %}Add Song to your Music List{% endblock %}
 
-{% block form_input_body %}
-     name='song_name' id="id_new_song_name" placeholder="Enter a song name"
-{% endblock %}
-
 {% block form_action %}{% url 'new_song' %}{% endblock %}
