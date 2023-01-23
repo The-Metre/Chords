@@ -22,16 +22,11 @@ def new_song(request):
 
 def song_page(request, song_id):
     """ Show the user song page """
-    song = Song.objects.get(id=song_id)
-    error = None
+    song = Song.objects.get(pk=song_id)
     form = SongForm()
     if request.method == "POST":
-        try:
-            item = Sketch(text=request.POST['name'], song=song)
-            item.full_clean()
-            item.save()
+        form = SongForm(data=request.POST)
+        if form.is_valid():
+            Sketch.objects.create(text=request.POST['name'], song=song)
             return redirect(song)
-        except ValidationError:
-            error = "You can't save an empty song item"
-
-    return render(request, 'song_page.html', {'song': song, 'form': form, 'error': error})
+    return render(request, 'song_page.html', {'song': song, 'form': form})

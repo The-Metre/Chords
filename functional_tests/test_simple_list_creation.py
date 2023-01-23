@@ -55,7 +55,7 @@ class NewVisitorTest(FunctionalTest):
 
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a song chunk'
+            'Enter an item'
         )
 
         inputbox.send_keys('First chunk')

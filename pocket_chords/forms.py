@@ -13,7 +13,7 @@ class SongForm(forms.models.ModelForm):
             'name': forms.fields.TextInput(attrs={
                 'placeholder': 'Enter an item',
                 'class': 'form-control input-lg',
-            })
+            }), 
         }
         error_messages = {
             'name': {"required": EMPTY__ITEM_ERROR}

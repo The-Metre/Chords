@@ -22,6 +22,13 @@ class HomePageTest(TestCase):
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
+    def post_invalid_chunk_input(self):
+        """ send an invalid input """
+        song = Song.objects.create(name="test song")
+        return self.client.post(f"/song_page/{song.id}/",data={'name': ""})
+    
+    def post_ivalid_song_input(self):
+        return self.client.post('/song_page/new', data={'name': ""})
 
     def test_displays_item_form(self):
         song = Song.objects.create(name="Test song")
@@ -35,7 +42,7 @@ class ListViewTest(TestCase):
         response = self.client.get(f'/song_page/{song.id}/')
         self.assertTemplateUsed(response, 'song_page.html')
 
-    def test_displays_all_items(self):
+    def test_displays_all_items_from_model(self):
         """ test: all elements a shown """
         correct_song = Song.objects.create(name="Test song")
 
@@ -69,42 +76,46 @@ class ListViewTest(TestCase):
     def test_can_save_a_POST_request_to_existing_song(self):
         other_song = Song.objects.create(name='Other song')
         correct_song = Song.objects.create(name='Correct Song')
-
         self.client.post(
                     f'/song_page/{correct_song.id}/',
                     data={'name': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
         new_item = Sketch.objects.first()
-
         self.assertEqual(new_item.text, 'A new chunk to existing song')
         self.assertEqual(new_item.song, correct_song)
 
+
     def test_invalid_input_renders_home_page(self):
-        response = self.client.post('/song_page/new', data={'name': ""})
+        response = self.post_ivalid_song_input()
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
     
+
     def test_validation_errors_are_shown_on_home_page(self):
-        response = self.client.post('/song_page/new', data={'name': ""})
+        response = self.post_ivalid_song_input()
         self.assertContains(response, escape(EMPTY__ITEM_ERROR))
 
+
     def test_for_invalid_input_passes_form_to_template(self):
-        response = self.client.post('/song_page/new', data={'name': ""})
+        response = self.post_ivalid_song_input()
         self.assertIsInstance(response.context['form'], SongForm)
 
-    def test_invalid_song_item_arent_saved(self):
-        self.client.post('/song_page/new', data={'name': ""})
-        self.assertEqual(Song.objects.count(), 0)
+
+    def test_invalid_song_item_arent_saved_in_db(self):
+        self.post_invalid_chunk_input()
         self.assertEqual(Sketch.objects.count(), 0)
 
-    def test_validation_errors_end_up_on_song_page(self):
-        song = Song.objects.create(name="test song")
-        response = self.client.post(
-            f'/song_page/{song.id}/',
-            data={'name': ""}
-        )
+
+    def test_for_invalid_input_renders_template(self):
+        response = self.post_invalid_chunk_input()
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'song_page.html')
-        expected_error = escape("You can't save an empty song item")
-        self.assertContains(response, expected_error)
+
+    def test_for_invalid_chunk_input_passes_from_to_template(self):
+        response = self.post_invalid_chunk_input()
+        self.assertIsInstance(response.context['form'], SongForm)
+
+    def test_that_validation_error_on_invalid_chunk_shows_error_on_page(self):
+        response = self.post_invalid_chunk_input()
+        self.assertContains(response, escape(EMPTY__ITEM_ERROR))

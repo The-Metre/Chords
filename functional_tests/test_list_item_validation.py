@@ -12,19 +12,10 @@ class ItemValidationTest(FunctionalTest):
         self.browser.get(self.live_server_url)
         self.get_item_input_box().send_keys(Keys.ENTER)
 
-        self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
-            "You can't save an empty song item"
-        )) 
-
-        song_name = "Test new song name"
-        self.get_item_input_box().send_keys(song_name)
-        self.get_item_input_box().send_keys(Keys.ENTER)
-
-        self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.TAG_NAME, 'h1').text,
-            f"Your Music List for ({song_name})"
+        self.wait_for(lambda: self.browser.find_element(
+                By.CSS_SELECTOR, '#id_name:invalid'
         ))
+
 
     def test_cannot_add_empty_item_to_a_list(self):
         """ Test cannot add empty element in the list """
@@ -33,9 +24,8 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys(Keys.ENTER)
 
         self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
-            "You can't save an empty song item"
+        self.wait_for(lambda: self.browser.find_element(
+                By.CSS_SELECTOR, '#id_name:invalid'
         ))
 
         first_chunk_text = "Test chunk"
@@ -46,9 +36,8 @@ class ItemValidationTest(FunctionalTest):
         self.wait_for_row_in_list_table(f"1: {first_chunk_text}")
 
         self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
-            "You can't save an empty song item"
+        self.wait_for(lambda: self.browser.find_element(
+                By.CSS_SELECTOR, '#id_name:invalid'
         ))
 
         self.get_item_input_box().send_keys(second_chunk_text)
