@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 
 from pocket_chords.models import Song, Sketch
+from pocket_chords.forms import SongForm
 
 # Create your views here.
 
 def home_page(request):
-
-    return render(request, 'homepage.html')
+    return render(request, 'homepage.html', {'form': SongForm})
 
 
 def new_song(request):

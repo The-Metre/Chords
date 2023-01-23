@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from pocket_chords.models import Song, Sketch
+from pocket_chords.forms import SongForm
 
 
 # Create your tests here.
@@ -13,6 +14,11 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertTemplateUsed(response, 'homepage.html')
+    
+    def test_home_page_uses_song_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], SongForm)
+        
 
 class ListViewTest(TestCase):
     """ test to check elements in the list """
