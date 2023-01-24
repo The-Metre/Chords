@@ -46,9 +46,28 @@ class ItemValidationTest(FunctionalTest):
         self.wait_for_row_in_list_table(f"1: {first_chunk_text}")
         self.wait_for_row_in_list_table(f"2: {second_chunk_text}")
 
-    def end(self):
-        self.fail("End of the tests")
+    def test_cannot_add_duplicate_values(self):
+        """ test: user cannot add duplicate values
+            in a form
+        """
 
-        
-if __name__ == '__main__':
-    pass
+        # Add item in a form
+        self.browser.get(self.live_server_url)
+        self.get_item_input_box().send_keys('Test Song')
+        self.get_item_input_box().send_keys(Keys.ENTER)
+
+        self.get_item_input_box().send_keys('Test 1')
+        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Test 1')
+
+        # Add the same item again
+        self.get_item_input_box().send_keys('Test 1')
+        self.get_item_input_box().send_keys(Keys.ENTER)
+
+        # Check that error message appear
+        self.wait_for(lambda: self.assertEqual(
+            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
+            "You've already got this in your list"
+        ))
+
+п
