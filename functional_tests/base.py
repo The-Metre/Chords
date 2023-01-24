@@ -3,6 +3,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 import time
 import os
 
@@ -11,10 +12,12 @@ MAX_WAIT  = 5
 
 class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
-        self.browser = webdriver.Chrome()
-        staging_server = os.environ.get('STAGING_SERVER')
-        if staging_server:
-            self.live_server_url = 'http://' + staging_server
+        self.options = Options()
+        self.options.add_argument('--headless')
+        self.options.add_argument('--no-samdbox')
+        self.options.add_argument('--disable-dev-shm-usage')
+
+        self.browser = webdriver.Chrome(options=self.options)
 
     def tearDown(self) -> None:
         self.browser.quit()

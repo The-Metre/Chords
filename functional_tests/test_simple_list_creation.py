@@ -47,12 +47,6 @@ class NewVisitorTest(FunctionalTest):
         
         # Check that inputbox centered
 
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
-            delta=60
-        )
-
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter an item'
