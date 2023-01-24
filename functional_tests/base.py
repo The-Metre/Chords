@@ -18,6 +18,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.options.add_argument('--disable-dev-shm-usage')
 
         self.browser = webdriver.Chrome(options=self.options)
+        time.sleep(MAX_WAIT)
 
     def tearDown(self) -> None:
         self.browser.quit()
