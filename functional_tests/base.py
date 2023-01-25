@@ -14,11 +14,10 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
         self.options = Options()
         self.options.add_argument('--headless')
-        self.options.add_argument('--no-samdbox')
+        self.options.add_argument('--no-sandbox')
         self.options.add_argument('--disable-dev-shm-usage')
 
         self.browser = webdriver.Chrome(options=self.options)
-        time.sleep(MAX_WAIT)
 
     def tearDown(self) -> None:
         self.browser.quit()

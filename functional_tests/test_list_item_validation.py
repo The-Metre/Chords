@@ -70,4 +70,3 @@ class ItemValidationTest(FunctionalTest):
             "You've already got this in your list"
         ))
 
-п

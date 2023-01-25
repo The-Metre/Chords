@@ -20,3 +20,7 @@ class Sketch(models.Model):
     """
     text = models.TextField(max_length=255, blank=False)
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('text', 'song')
+    
