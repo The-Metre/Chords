@@ -22,5 +22,8 @@ class Sketch(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
 
     class Meta:
+        ordering = ('id',)
         unique_together = ('text', 'song')
     
+    def __str__(self):
+        return self.text

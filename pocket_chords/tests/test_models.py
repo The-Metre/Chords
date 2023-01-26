@@ -6,37 +6,15 @@ from pocket_chords.models import Song, Sketch
 
 # Create your tests here.
 
-class SongAndSketchModelTest(TestCase):
-    ''' test Song and Sketch models '''
 
-    def test_saving_and_retrieving_items(self):
-        song = Song()
-        song.save()
+class SongModelTest(TestCase):
+    ''' test Song model '''
 
-        first_item = Sketch()
-        first_item.text = 'The first(ever) list item'
-        first_item.song = song
-        first_item.save()
-        
+    def test_get_absolute_url(self):
+        """ Test: handeled absolute url"""
 
-        second_item = Sketch()
-        second_item.text = 'Item the second'
-        second_item.song = song
-        second_item.save()
-
-
-        saved_song = Song.objects.first()
-        self.assertEqual(saved_song, song)
-
-        saved_items = Sketch.objects.all()
-        self.assertEqual(saved_items.count(), 2)
-
-        first_saved_item = saved_items[0]
-        second_saved_item = saved_items[1]
-        self.assertEqual(first_saved_item.song, song)
-        self.assertEqual(first_saved_item.text, 'The first(ever) list item')
-        self.assertEqual(second_saved_item.song, song)
-        self.assertEqual(second_saved_item.text, 'Item the second')
+        song = Song.objects.create(name="test song")
+        self.assertEqual(song.get_absolute_url(), f'/song_page/{song.id}/')
 
 
     def test_cannot_save_empty_name_song(self):
@@ -54,11 +32,19 @@ class SongAndSketchModelTest(TestCase):
             chunk.save()
             chunk.full_clean()
 
-    def test_get_absolute_url(self):
-        """ Test: handeled absolute url"""
+class SongAndSketchModelTest(TestCase):
+    ''' test Sketch model '''
 
-        song = Song.objects.create(name="test song")
-        self.assertEqual(song.get_absolute_url(), f'/song_page/{song.id}/')
+    def test_default_text(self):
+        item = Sketch()
+        self.assertEqual("", item.text)
+
+    def test_item_related_with_model(self):
+        song = Song.objects.create(name="test")
+        item = Sketch()
+        item.song = song
+        item.save()
+        self.assertIn(item, song.sketch_set.all())
 
     def test_duplicate_items_are_invalid_in_song_model(self):
         """ test: cannot save duplicate items in Song model """
@@ -84,3 +70,17 @@ class SongAndSketchModelTest(TestCase):
         Sketch.objects.create(text='Test', song=song1)
         sketch = Sketch(text='Test', song=song2)
         sketch.full_clean()
+
+    
+    def test_list_ordering(self):
+        song = Song.objects.create(name="test")
+        chunk1 = Sketch.objects.create(song=song, text='1')
+        chunk2 = Sketch.objects.create(song=song, text='2')
+        chunk3 = Sketch.objects.create(song=song, text='3')
+        
+        self.assertEqual(list(Sketch.objects.all()), [chunk1, chunk2, chunk3])
+
+
+    def test_string_representation(self):
+        chunk = Sketch(text="Some text")
+        self.assertEqual(str(chunk), "Some text")
