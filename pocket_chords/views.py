@@ -4,7 +4,9 @@ from django.db.utils import IntegrityError
 from django.contrib import messages
 
 from pocket_chords.models import Song, Sketch
-from pocket_chords.forms import SongForm, SketchForm
+from pocket_chords.forms import (
+    SongForm, SketchForm,
+    )
 
 import sys
 # Create your views here.
@@ -27,17 +29,14 @@ def new_song(request):
 def song_page(request, song_id):
     """ Show the user song page """
     song = Song.objects.get(pk=song_id)
-    form = SketchForm()
+    form = SketchForm(initial={
+        'text': "",
+        'song': song_id
+    })
     if request.method == "POST":
-        form = SketchForm(data=request.POST)
+        form = SketchForm(request.POST)
         if form.is_valid():
-            # Trying to save an element, if it alredy exists
-            try:
-                Sketch.objects.create(text=request.POST['text'], song=song)
-                return redirect(song)
-            # if element already exist in a db
-            except IntegrityError:
-                # Show a message under a form
-                messages.error(request, 'The chunk already exist. Please change your input and try again.')
-
+            #Trying to save an element, if it alredy exists
+            Sketch.objects.create(text=request.POST['text'], song=song)
+            return redirect(song)
     return render(request, 'song_page.html', {'song': song, 'form': form})

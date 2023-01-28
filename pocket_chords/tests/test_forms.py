@@ -1,5 +1,8 @@
 from django.test import TestCase
-from pocket_chords.forms import SongForm, EMPTY__ITEM_ERROR
+from pocket_chords.forms import (
+    SongForm, SketchForm,
+    EMPTY__ITEM_ERROR
+    )
 from pocket_chords.models import Song, Sketch
 
 

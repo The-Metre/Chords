@@ -2,11 +2,10 @@
 
 {% block header_text %}Add Song to your Music List{% endblock %}
 
-{% block form_content %}{{ form.name }}{% endblock %}
+{% block form_content %}{{ form.as_p}}{% endblock %}
 
 {% block form_action %}{% url 'new_song' %}{% endblock %}
 
-{% block form_errors %}{{ form.name.errors }}{% endblock %}
 
 {% block table %}
         <table id="id_song_table" class="table">

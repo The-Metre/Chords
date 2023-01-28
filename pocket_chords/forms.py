@@ -2,13 +2,13 @@ from django import forms
 from pocket_chords.models import Song, Sketch
 
 EMPTY__ITEM_ERROR = "You can't have an empty list item"
-DUPLICATE_ITEM_ERROR = "This item already exist"
+DUPLICATE_ITEM_ERROR = 'The chunk already exist. Please change your input and try again.'
 
 class SongForm(forms.models.ModelForm):
 
     class Meta:
         model=Song
-        fields = ('name', 'text',)
+        fields = ('name',)
         
         widgets = {
             'name': forms.fields.TextInput(attrs={
@@ -16,6 +16,11 @@ class SongForm(forms.models.ModelForm):
                 'class': 'form-control input-lg',
             }), 
         }
+
+        labels = {
+            'name': ""
+        }
+
         error_messages = {
             'name': {"required": EMPTY__ITEM_ERROR}
         }
@@ -24,13 +29,18 @@ class SketchForm(forms.models.ModelForm):
 
     class Meta:
         model=Sketch
-        fields = {'text',}
+        fields = {'text', 'song'}
 
         widgets = {
             'text': forms.fields.TextInput(attrs={
                 'placeholder': 'Enter a song item',
                 'class': 'form-control input-lg',
-            }), 
+            }),
+            'song': forms.HiddenInput()
+        }
+        labels = {
+            'text': "",
+            'song': ""
         }
 
         error_messages = {
