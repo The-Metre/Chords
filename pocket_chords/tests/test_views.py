@@ -2,8 +2,10 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from pocket_chords.models import Song, Sketch
-from pocket_chords.forms import SongForm, EMPTY__ITEM_ERROR
-
+from pocket_chords.forms import (
+    SongForm, SketchForm,
+    EMPTY__ITEM_ERROR
+)
 
 # Create your tests here.
 
@@ -33,8 +35,8 @@ class ListViewTest(TestCase):
     def test_displays_item_form(self):
         song = Song.objects.create(name="Test song")
         response = self.client.get(f'/song_page/{song.id}/')
-        self.assertIsInstance(response.context['form'], SongForm)
-        self.assertContains(response, 'name="name"')
+        self.assertIsInstance(response.context['form'], SketchForm)
+        self.assertContains(response, 'name="text"')
 
     def test_uses_songs_list_template(self):
         """ test: uses list template """
@@ -78,7 +80,7 @@ class ListViewTest(TestCase):
         correct_song = Song.objects.create(name='Correct Song')
         self.client.post(
                     f'/song_page/{correct_song.id}/',
-                    data={'name': 'A new chunk to existing song'})
+                    data={'text': 'A new chunk to existing song'})
             
         self.assertEqual(Sketch.objects.count(), 1)
         new_item = Sketch.objects.first()
@@ -114,7 +116,7 @@ class ListViewTest(TestCase):
 
     def test_for_invalid_chunk_input_passes_from_to_template(self):
         response = self.post_invalid_chunk_input()
-        self.assertIsInstance(response.context['form'], SongForm)
+        self.assertIsInstance(response.context['form'], SketchForm)
 
     def test_that_validation_error_on_invalid_chunk_shows_error_on_page(self):
         response = self.post_invalid_chunk_input()

@@ -21,12 +21,20 @@
                         </h1>
                         <form method="POST" action="{% block form_action %}{% endblock %}">
                             {% csrf_token %}
-                            {{ form.name }}
+                            {% block form_content %}
+                            {% endblock %}  
+
                             {% if form.errors %}
                                 <div class="alert alert-danger">
-                                    <span class="help-block">{{ form.name.errors }}</span>
+                                    <span class="help-block">
+                                        {% block form_errors %}
+                                        {% endblock %}
+                                    </span>
                                 </div>
                             {% endif %}
+                            {% for message in messages %}
+                                <div> {{ message }}</div>
+                            {% endfor %}
                         </form>
                     </div>
                 </div>

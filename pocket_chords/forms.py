@@ -24,11 +24,11 @@ class SketchForm(forms.models.ModelForm):
 
     class Meta:
         model=Sketch
-        fields = {'text', 'song'}
+        fields = {'text',}
 
         widgets = {
             'text': forms.fields.TextInput(attrs={
-                'placeholder': 'Enter an item',
+                'placeholder': 'Enter a song item',
                 'class': 'form-control input-lg',
             }), 
         }
@@ -38,11 +38,3 @@ class SketchForm(forms.models.ModelForm):
                     "unique": DUPLICATE_ITEM_ERROR
                     }
         }
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        song = cleaned_data.get('song')
-        text = cleaned_data.get('text')
-        if Sketch.objects.filter(song=song, text=text).exists():
-            raise forms.ValidationError(DUPLICATE_ITEM_ERROR)
-        return cleaned_data

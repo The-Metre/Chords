@@ -4,6 +4,9 @@
 
 {% block form_action %}{% url 'song_page' song.id %}{% endblock %}
 
+{% block form_content %}{{ form.text }}{% endblock %}
+
+{% block form_errors %}{{ form.text.errors }}{% endblock %}
 
 {% block table %}
         <table id="id_song_table" class="table">
