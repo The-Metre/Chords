@@ -80,7 +80,7 @@ class ListViewTest(TestCase):
         correct_song = Song.objects.create(name='Correct Song')
         self.client.post(
                     f'/song_page/{correct_song.id}/',
-                    data={'text': 'A new chunk to existing song'})
+                    data={'text': 'A new chunk to existing song', "song": correct_song.id})
             
         self.assertEqual(Sketch.objects.count(), 1)
         new_item = Sketch.objects.first()
