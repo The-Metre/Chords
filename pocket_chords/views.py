@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 
 from pocket_chords.models import Song, Sketch
 from pocket_chords.forms import SongForm
 
+import sys
 # Create your views here.
 
 def home_page(request):
@@ -27,6 +29,9 @@ def song_page(request, song_id):
     if request.method == "POST":
         form = SongForm(data=request.POST)
         if form.is_valid():
-            Sketch.objects.create(text=request.POST['name'], song=song)
-            return redirect(song)
+            try:
+                Sketch.objects.create(text=request.POST['name'], song=song)
+                return redirect(song)
+            except IntegrityError:
+                pass
     return render(request, 'song_page.html', {'song': song, 'form': form})
