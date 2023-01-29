@@ -2,7 +2,8 @@ from django import forms
 from pocket_chords.models import Song, Sketch
 
 EMPTY__ITEM_ERROR = "You can't have an empty list item"
-DUPLICATE_ITEM_ERROR = 'The chunk already exist. Please change your input and try again.'
+DUPLICATE_ITEM_ERROR = "Item already exists in the model"
+
 
 class SongForm(forms.models.ModelForm):
 
@@ -41,18 +42,16 @@ class SketchForm(forms.models.ModelForm):
         labels = {
             'text': "",
             'song': ""
-        }
+            }
 
         error_messages = {
-            'text': {"required": EMPTY__ITEM_ERROR,
-                    "unique": DUPLICATE_ITEM_ERROR
-                    }
-        }
+            'text': {"required": EMPTY__ITEM_ERROR}
+            }
     
     def clean_text(self):
-        cleaned_data = self.cleaned_data
-        text = cleaned_data['text']
-        song = cleaned_data['song']
+        cleaned_data = super().clean()
+        text = cleaned_data.get('text')
+        song = cleaned_data.get('song')
         if Sketch.objects.filter(song=song, text=text).exists():
-            raise forms.ValidationError((f'({text}) sticker already exist in the song'), code='duplicate value' )
+            raise forms.ValidationError((DUPLICATE_ITEM_ERROR), code='duplicate value')
         return cleaned_data

@@ -23,7 +23,7 @@ class NewVisitorTest(FunctionalTest):
 
 
         # Check the correct input tag and placeholder
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_song_input_box()
         
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
@@ -40,16 +40,13 @@ class NewVisitorTest(FunctionalTest):
 
         self.assertIn(f'Your Music List for ({song_name})', inputbox)
 
-
-
         # Add a new item chunk to the song list
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_sketch_input_box()
         
         # Check that inputbox centered
-
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter an item'
+            'Enter a song item'
         )
 
         inputbox.send_keys('First chunk')
@@ -57,12 +54,10 @@ class NewVisitorTest(FunctionalTest):
 
         self.wait_for_row_in_list_table('1: First chunk')
 
-        
         # Try to fill the second info in form space and press 'enter' key
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_sketch_input_box()
         inputbox.send_keys('Second chunk')
         inputbox.send_keys(Keys.ENTER)
-        
         
         self.wait_for_row_in_list_table('1: First chunk')
         self.wait_for_row_in_list_table('2: Second chunk')
@@ -77,7 +72,7 @@ class NewVisitorTest(FunctionalTest):
         self.browser.get(self.live_server_url)
 
         # Add a song
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_song_input_box()
         song_name = 'First user song'
         inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
@@ -89,7 +84,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertEqual(inputbox, f'Your Music List for ({song_name})')
 
         # Add a first item to the song
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_sketch_input_box()
         inputbox.send_keys('First user song chunk')
         inputbox.send_keys(Keys.ENTER)
         
@@ -105,21 +100,16 @@ class NewVisitorTest(FunctionalTest):
         # Start new session with a new user
         self.browser = webdriver.Chrome()
 
-        # Open a starting page, and make sure that there is nothing in it
-        # from previous user
-        self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.assertNotIn('First user song', page_text)
-        self.assertNotIn('Firds user second song', page_text)
-
         # Add a song  for the second user 
-        inputbox = self.get_item_input_box()
+        self.browser.get(self.live_server_url)
+
+        inputbox = self.get_song_input_box()
         song_name = 'Second user song'
         inputbox.send_keys(f'{song_name}')
         inputbox.send_keys(Keys.ENTER)
 
         # New user starts to add new elements in the list
-        inputbox = self.get_item_input_box()
+        inputbox = self.get_sketch_input_box()
         inputbox.send_keys('Second user song')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Second user song')

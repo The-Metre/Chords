@@ -31,7 +31,7 @@ def song_page(request, song_id):
     song = Song.objects.get(pk=song_id)
     form = SketchForm(initial={
         'text': "",
-        'song': song_id
+        'song': song
     })
     if request.method == "POST":
         form = SketchForm(request.POST)
