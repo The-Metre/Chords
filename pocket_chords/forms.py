@@ -48,3 +48,11 @@ class SketchForm(forms.models.ModelForm):
                     "unique": DUPLICATE_ITEM_ERROR
                     }
         }
+    
+    def clean_text(self):
+        cleaned_data = self.cleaned_data
+        text = cleaned_data['text']
+        song = cleaned_data['song']
+        if Sketch.objects.filter(song=song, text=text).exists():
+            raise forms.ValidationError((f'({text}) sticker already exist in the song'), code='duplicate value' )
+        return cleaned_data
