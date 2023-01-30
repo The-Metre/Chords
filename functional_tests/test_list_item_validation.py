@@ -69,4 +69,3 @@ class ItemValidationTest(FunctionalTest):
             self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
             "You've already got this in your list"
         ))
-
