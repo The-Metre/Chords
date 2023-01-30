@@ -5,7 +5,9 @@ from unittest import skip
 
 
 class ItemValidationTest(FunctionalTest):
-
+    
+    def get_error_element(self):
+        return self.browser.find_element(By.TAG_NAME, 'li')
 
     def test_cannot_create_empty_list(self):
         """ Test cannot create an empty list """
@@ -66,8 +68,30 @@ class ItemValidationTest(FunctionalTest):
 
         # Check that error message appear
         self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element(By.TAG_NAME, 'li').text,
+            self.get_error_element().text,
             "Item already exists in the model"
         ))
 
-    
+    def test_error_messages_are_cleared_on_input(self):
+        self.browser.get(self.live_server_url)
+        # Add song
+        self.get_song_input_box().send_keys('test song')
+        self.get_song_input_box().send_keys(Keys.ENTER)
+        # Add song item
+        self.get_sketch_input_box().send_keys('First')
+        self.get_sketch_input_box().send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: First')
+        self.get_sketch_input_box().send_keys('First')
+        self.get_sketch_input_box().send_keys(Keys.ENTER)
+
+        # Check that an error message appear
+        self.wait_for(lambda: self.assertTrue(
+            self.get_error_element().is_displayed()
+        ))
+        # Start typing new item
+        self.get_sketch_input_box().send_keys('t')
+
+        # Check that the error message disappeard
+        self.wait_for(lambda: self.assertFalse(
+            self.get_error_element().is_displayed()
+        ))
