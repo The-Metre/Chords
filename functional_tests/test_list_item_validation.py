@@ -66,13 +66,7 @@ class ItemValidationTest(FunctionalTest):
 
         # Check that error message appear
         self.wait_for(lambda: self.assertEqual(
-<<<<<<< HEAD
-            self.browser.find_element(By.CSS_SELECTOR, '.alert-danger').text,
-            "You've already got this in your list"
-        ))
-=======
             self.browser.find_element(By.TAG_NAME, 'li').text,
             "Item already exists in the model"
         ))
 
->>>>>>> main
