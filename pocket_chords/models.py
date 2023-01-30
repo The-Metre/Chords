@@ -9,6 +9,9 @@ class Song(models.Model):
     name = models.CharField(max_length=255, blank=False, unique=True)
     text = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ('name',)
+
     def get_absolute_url(self):
         """ Get an absolute url """
         return reverse('song_page', args=[self.id])
@@ -24,7 +27,6 @@ class Sketch(models.Model):
 
     class Meta:
         ordering = ('id',)
-        unique_together = ('text', 'song')
     
     def __str__(self):
         return self.text

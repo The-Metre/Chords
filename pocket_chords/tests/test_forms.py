@@ -60,6 +60,6 @@ class SketchFormTest(TestCase):
         form = SketchForm(data={'text': 'dup', "song": song})
         self.assertFalse(form.is_valid())
         self.assertEqual(
-            form.errors['text'],
+            form.errors["__all__"],
             [DUPLICATE_ITEM_ERROR]
         )

@@ -70,3 +70,4 @@ class ItemValidationTest(FunctionalTest):
             "Item already exists in the model"
         ))
 
+    

@@ -57,13 +57,6 @@ class SketchModelTest(TestCase):
             chunk.full_clean()
             chunk.save()
 
-    def test_duplicate_items_are_invalid_in_sketch_model(self):
-        """ test: cannot save duplicate items in Sketch model """
-        song = Song.objects.create(name="Test item")
-        chunk = Sketch.objects.create(text="Test sketch", song=song)
-        with self.assertRaises(ValidationError):
-            dup_sketch = Sketch(text="Test sketch", song=song)
-            dup_sketch.full_clean()
 
     def test_Can_save_duplicate_sketch_model_items_in_different_song_models(self):
         """ Test that duplicate Sketch model can save in

@@ -48,7 +48,7 @@ class SketchForm(forms.models.ModelForm):
             'text': {"required": EMPTY__ITEM_ERROR}
             }
     
-    def clean_text(self):
+    def clean(self):
         cleaned_data = super().clean()
         text = cleaned_data.get('text')
         song = cleaned_data.get('song')
