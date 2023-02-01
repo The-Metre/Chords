@@ -10,7 +10,7 @@
         <div id="qunit-fixture">
             <form>
                 <input name='text'>
-                <div class='has-error'>Error text</div>
+                <li>Error message</li>>
             </form>
         </div>
         <script src="../jquery-3.6.3.js"></script>
@@ -18,15 +18,15 @@
         <script src="../song.js"></script>
         
         <script>
-            QUnit.test('errors should be hidden on keypress', function (assert) {
-                initialize()
+            QUnit.test("errors should be hidden on keypress", function (assert) {
+                initialize();
                 $('input[name="text"]').trigger('keypress');
-                assert.equal($('.has-error').is(':visible'), false);
+                assert.equal($('li').is(':visible'), false);
                 });
 
             QUnit.test('errors arent hidden if there is no keypress', function (assert) {
                 initialize()
-                assert.equal($('.has-error').is(':visible'), true);
+                assert.equal($('li').is(':visible'), true);
                 });
         </script>
         
