@@ -1,7 +1,9 @@
-let initialize = function () {
-    $(document).ready(function(){
-        $("input[name='text']").keypress(function(){
-            $("li").hide();
-        });
+window.Songlists = {};
+
+window.Songlists.initialize = function () {
+    $("input[name='text']").keypress(function(){
+        $("li").hide();
     });
 }
+
+
