@@ -26,7 +26,7 @@ def send_login_email(request):
     uid = str(uuid.uuid4())
     Token.objects.create(email=email, uid=uid)
     print('saving uid', uid, 'for email', email, file=sys.stderr)
-    url = request.build_absolute_url(f'accounts/login?uid={uid}')
+    url = request.build_absolute_uri(f'accounts/login?uid={uid}')
     send_mail(
         'Your login link for Pocket chords',
         f'Use this link to login:\n\n{url}',

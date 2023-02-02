@@ -152,3 +152,19 @@ EMAIL_POST = 587
 EMAIL_USE_TLS = True
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'habdlers': ['console'],
+        },
+    },
+    'root': {'level': 'INFO'},
+}
