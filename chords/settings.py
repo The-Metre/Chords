@@ -49,6 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pocket_chords',
+    'accounts',
+]
+
+AUTH_USER_MODEL = 'accounts.ChordsUser'
+AUTHENTICATION_BACKENDS = [
+    'accounts.authentication.PasswordlessAuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +142,13 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email for accounts app
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'authenticator.sreda.test.app@gmail.com'
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_POST = 587
+EMAIL_USE_TLS = True
+
+
