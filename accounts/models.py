@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
 
+
 class ChordsUserManager(BaseUserManager):
     """ manager of the Chords proj user """
 
@@ -10,7 +11,7 @@ class ChordsUserManager(BaseUserManager):
         """ create a user """
         ChordsUser.objects.create(email=email)
 
-    def create_super_user(self, email, password):
+    def create_superuser(self, email, password):
         """ create superuser """
         self.create_user(email)
 
@@ -30,6 +31,7 @@ class ChordsUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_active(self):
         return True
+
 
 
 class Token(models.Model):

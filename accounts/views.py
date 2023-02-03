@@ -1,7 +1,7 @@
 import sys
 import uuid
 
-from django.contrib.auth import authenticate
+from django.contrib import auth
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render, redirect
@@ -14,7 +14,8 @@ def login(request):
     
     print('login view', file=sys.stderr)
     uid = request.GET.get('uid')
-    user = authenticate(uid=uid)
+    user = auth.authenticate(uid=uid)
+    print(user)
     if user is not None:
         auth_login(request, user)
     return redirect('/')
@@ -30,8 +31,8 @@ def send_login_email(request):
     url = request.build_absolute_uri(f'/accounts/login?uid={uid}')
     send_mail(
         'Your login link for Pocket chords',
-        f'Use this link to login:\n\n{url}',
-        'noreply@pocket_chords',
+        f'Use this link to log in:\n\n{url}',
+        'noreply@chords',
         [email],
     )
     return render(request, 'login_email_sent.html')

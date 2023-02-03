@@ -18,3 +18,7 @@ class PasswordlessAuthenticationBackend(object):
         except ChordsUser.DoesNotExist:
             print('new user', file=sys.stderr)
             return ChordsUser.objects.create(email=token.email)
+        
+    def get_user(self, email):
+        """ Get a user by email """
+        return ChordsUser.object.get(email=email)
