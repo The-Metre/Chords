@@ -10,7 +10,7 @@ def send_login_email(request):
     email = request.POST['email']
     send_mail(
         'Your login link for Chords',
-        'body text',
+        'Use this link to log in',
         'noreply@chords',
         [email],
     )
@@ -19,4 +19,7 @@ def send_login_email(request):
         'Check your email, we sent you a link, \
         which you can use to login into the site'
     )
+    return redirect('/')
+
+def login(request):
     return redirect('/')

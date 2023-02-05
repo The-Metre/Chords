@@ -7,7 +7,7 @@ import re
 from .base import FunctionalTest
 
 TEST_EMAIL = 'edit@example.com'
-SUBJECT = 'Your login link for Pocket chords'
+SUBJECT = 'Your login link for Chords'
 
 class LoginTest(FunctionalTest):
     """ Test login on a system """
@@ -22,7 +22,7 @@ class LoginTest(FunctionalTest):
 
         # Show a message that an email was sent
         self.wait_for(lambda: self.assertIn(
-            'Checkout your email',
+            'Check your email',
             self.browser.find_element(By.TAG_NAME, 'body').text
         ))
 

@@ -50,3 +50,10 @@ class SendLoginEmailViews(TestCase):
                  moch_messages.success.call_args,
                  call(response.wsgi_request, expected),
             )
+
+class LoginViewsTest(TestCase):
+     """ test view log in to system """
+     
+     def test_redirect_to_home_page(self):
+          response = self.client.get('/accounts/login?token=abcd123')
+          self.assertRedirects(response, '/')
