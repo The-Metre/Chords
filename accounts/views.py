@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
+from django.contrib import messages
 
-#from accounts.models import Token
 
 def send_login_email(request):
     """ send a link on login 
@@ -13,5 +13,10 @@ def send_login_email(request):
         'body text',
         'noreply@chords',
         [email],
+    )
+    messages.success(
+        request,
+        'Check your email, we sent you a link, \
+        which you can use to login into the site'
     )
     return redirect('/')
