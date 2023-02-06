@@ -1,16 +1,23 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
+from django.urls import reverse
 from django.contrib import messages
 
+from accounts.models import Token
 
 def send_login_email(request):
     """ send a link on login 
         through email
     """
     email = request.POST['email']
+    token = Token.objects.create(email=email)
+    url = request.build_absolute_uri(
+        reverse('login') + '?token=' + str(token.uid)
+    )
+    message_body = f'Use this link to log in:\n\n{url}'
     send_mail(
         'Your login link for Chords',
-        'Use this link to log in',
+        message_body,
         'noreply@chords',
         [email],
     )
