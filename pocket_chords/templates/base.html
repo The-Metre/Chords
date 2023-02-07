@@ -17,7 +17,7 @@
                     {% if user.email %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="navbar-text">Logged is as {{ user.email }}</li>
-                        <li><a href="#">Log out</a></li>
+                        <li><a href="{% url 'logout' %}">Log out</a></li>
                     </ul>
                     {% else %}
                     <form class="navbar-form navbar-right" 
@@ -29,7 +29,7 @@
                     </form>
                     {% endif %}
                 </div>
-            </nav>
+            
                 {% if messages %}
                 <div class="row">
                     <div class="col-md-8">
@@ -43,6 +43,7 @@
                     </div>
                 </div>
             {% endif %}
+        </nav>
         </div>
             
             

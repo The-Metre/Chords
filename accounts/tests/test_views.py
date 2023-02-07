@@ -90,10 +90,9 @@ class LoginViewsTest(TestCase):
 
     def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
         self.client.get('/accounts/login?token=abcd123')
-        self.assertEqual(
-            mock_auth.authenticate.call_args,
-            call(uid='abcd123')
-        )
+        expected = mock_auth.authenticate.call_args
+        actual = call(mock_auth.authenticate.call_args[0][0], uid='abcd123')
+        self.assertEqual(expected, actual)
     
     def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
         response = self.client.get('/accounts/login?token=abcd123')
