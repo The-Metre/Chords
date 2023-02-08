@@ -53,6 +53,7 @@ class FunctionalTest(StaticLiveServerTestCase):
             and trying to find our email dress 
             on a page
         """
+        print(self.browser)
         self.wait_for(
             lambda: self.browser.find_element(By.LINK_TEXT, 'Log out')
         )

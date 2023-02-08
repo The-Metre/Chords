@@ -43,17 +43,7 @@ class LoginTest(FunctionalTest):
         self.browser.get(url)
 
         # User is registered in the system
-        self.wait_for(
-            lambda: self.browser.find_element(By.LINK_TEXT, 'Log out')
-        )
-        navbar = self.browser.find_element(By.CSS_SELECTOR, '.navbar').text
-        self.assertIn(TEST_EMAIL, navbar)
-
-    
-    def test_can_get_email_link_to_log_in(self):
-        """ test: can get a link
-            in mailbox from registration
-        """
         self.wait_to_be_logged_in(email=TEST_EMAIL)
         self.browser.find_element(By.LINK_TEXT, 'Log out').click()
         self.wait_to_be_logged_out(email=TEST_EMAIL)
+    

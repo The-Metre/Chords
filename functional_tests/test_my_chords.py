@@ -13,14 +13,24 @@ class MySongsTest(FunctionalTest):
     def create_pre_authenticated_session(self, email):
         user = User.objects.create(email=email)
         session = SessionStore()
-        session['SESSION_KEY'] = user.pk
-        session['BACKEND_SESSION_KEY'] = settings.AUTHENTICATION_BACKENDS[0]
+        session[SESSION_KEY] = user.pk
+        session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
         session.save()
         # Set a cookie, that we will needed for 
         # the first visiting of a domain
-        self.browser.get(self.live_server_url + '/404_no_such_url/')
+        self.browser.get(self.live_server_url + "/404_no_such_url/")
         self.browser.add_cookie(dict(
             name=settings.SESSION_COOKIE_NAME,
             value=session.session_key,
             path='/',
         ))
+
+    def test_logged_in_users_chords_are_saved_as_my_chords(self):
+        email = 'edith@example.com'
+        self.browser.get(self.live_server_url)
+        self.wait_to_be_logged_out(email)
+
+        self.create_pre_authenticated_session(email)
+        self.browser.get(self.live_server_url)
+        self.wait_to_be_logged_in(email)
+
