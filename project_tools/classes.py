@@ -87,10 +87,7 @@ class GuitarNotes:
         self.guitar_fretboard = [self.string_tuning(item) for item in strings_list]
 
     
-    
 
-
-    
 
 def main():
    pass
