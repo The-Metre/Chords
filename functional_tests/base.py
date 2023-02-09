@@ -3,6 +3,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
 import os
@@ -67,7 +68,15 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.assertNotIn(email, navbar.text)
 
 
-    
+    def add_song_item(self, item_text):
+        # add a new elements of the list
+        num_rows = len(self.browser.find_elements(
+            By.CSS_SELECTOR, '#id_song_table'))
+        print(num_rows)
+        self.get_song_input_box().send_keys(item_text)
+        self.get_song_input_box().send_keys(Keys.ENTER)
+        item_number = num_rows + 1
+        self.wait_for_row_in_list_table(f'{item_number}: {item_text}')
 
     def get_song_input_box(self):
         return self.browser.find_element(By.ID, 'id_name')
