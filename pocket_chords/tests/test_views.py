@@ -121,3 +121,10 @@ class ListViewTest(TestCase):
     def test_that_validation_error_on_invalid_chunk_shows_error_on_page(self):
         response = self.post_invalid_chunk_input()
         self.assertContains(response, escape(EMPTY__ITEM_ERROR))
+
+
+class MySongsTest(TestCase):
+
+    def test_my_songs_url_renders_my_songs_template(self):
+        response = self.client.get('/songs/users/a@b.com')
+        self.assertTemplateUsed(response, 'my_songs.html')

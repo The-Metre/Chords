@@ -40,3 +40,6 @@ def song_page(request, song_id):
             Sketch.objects.create(text=request.POST['text'], song=song)
             return redirect(song)
     return render(request, 'song_page.html', {'song': song, 'form': form})
+
+def my_songs(request, user_email):
+    return render(request, 'my_songs.html')
