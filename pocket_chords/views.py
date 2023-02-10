@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
 from pocket_chords.models import Song, Sketch
 from pocket_chords.forms import (
@@ -9,7 +10,8 @@ from pocket_chords.forms import (
     )
 
 import sys
-# Create your views here.
+
+User = get_user_model()
 
 def home_page(request):
     return render(request, 'homepage.html', {'form': SongForm(), 'songs_list': Song.objects.all()})
@@ -42,4 +44,5 @@ def song_page(request, song_id):
     return render(request, 'song_page.html', {'song': song, 'form': form})
 
 def my_songs(request, user_email):
-    return render(request, 'my_songs.html')
+    owner = User.objects.get(email=user_email)
+    return render(request, 'my_songs.html', {'owner': owner})

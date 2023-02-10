@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.utils.html import escape
+from django.contrib.auth import get_user_model
 
 from pocket_chords.models import Song, Sketch
 from pocket_chords.forms import (
@@ -8,6 +9,8 @@ from pocket_chords.forms import (
 )
 
 # Create your tests here.
+
+User = get_user_model()
 
 class HomePageTest(TestCase):
     ''' test home page'''
@@ -126,5 +129,14 @@ class ListViewTest(TestCase):
 class MySongsTest(TestCase):
 
     def test_my_songs_url_renders_my_songs_template(self):
+        User.objects.create(email='a@b.com')
         response = self.client.get('/songs/users/a@b.com')
         self.assertTemplateUsed(response, 'my_songs.html')
+
+    def test_passes_correct_owner_to_template(self):
+        User.objects.create(email='whorg@owner.com')
+        correct_user = User.objects.create(email='a@b.com')
+        response = self.client.get('/songs/users/a@b.com')
+        self.assertEqual(response.context['owner'], correct_user)
+
+    
