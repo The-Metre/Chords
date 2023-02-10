@@ -22,10 +22,11 @@ def new_song(request):
     form = SongForm(data=request.POST)
     if form.is_valid():
         song = Song.objects.create(name=request.POST['name'])
+        song.owner = request.user
+        song.save()
         return redirect(song)
     else:
-        return render(request, 'homepage.html',
-                     {"form": form, 'songs_list': Song.objects.all()})
+        return render(request, 'homepage.html', {"form": form})
 
 
 def song_page(request, song_id):

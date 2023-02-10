@@ -25,7 +25,8 @@ class SongForm(forms.models.ModelForm):
         error_messages = {
             'name': {"required": EMPTY__ITEM_ERROR}
         }
-
+    
+    
 class SketchForm(forms.models.ModelForm):
 
     class Meta:

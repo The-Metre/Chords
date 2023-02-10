@@ -139,4 +139,11 @@ class MySongsTest(TestCase):
         response = self.client.get('/songs/users/a@b.com')
         self.assertEqual(response.context['owner'], correct_user)
 
+    def test_song_owner_is_saved_if_user_is_authenticated(self):
+        user = User.objects.create(email='a@b.com')
+        self.client.force_login(user)
+        self.client.post('/song_page/new', data={'name': 'new_song'})
+        song = Song.objects.first()
+        self.assertEqual(song.owner, user)
+
     
