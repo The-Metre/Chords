@@ -57,11 +57,18 @@
                             {% block header_text %}
                             {% endblock %}
                         </h1>
-                        <form method="POST" action="{% block form_action %}{% endblock %}">
-                            {% csrf_token %}
-                            {% block form_content %}
-                            {% endblock %}  
-                        </form>
+                        {% block song_form %}
+                            <form method="POST" action="{% block form_action %}{% endblock %}">
+                                {% csrf_token %}
+                                {% block form_content %}
+                                {% endblock %}  
+                                {% if form.errors %}
+                                    <div class="form-group has-error">
+                                        <div class="help-block">{{ form.text.errors }}</div>
+                                    </div>
+                                {% endif %}
+                            </form>
+                        {% endblock %}
                     </div>
                 </div>
             </div>
@@ -70,6 +77,11 @@
                     {% block table %}
                     {% endblock %}
                 </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                {% block extra_content %}
+                {% endblock %}
             </div>
         </div>
         <div>
