@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+from django.conf import settings
 
 # Create your models here.
 
@@ -8,6 +9,7 @@ class Song(models.Model):
     """ Contain info about a song """
     name = models.CharField(max_length=255, blank=False, unique=True)
     text = models.TextField(blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ('name',)

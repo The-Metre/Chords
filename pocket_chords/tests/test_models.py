@@ -1,11 +1,10 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth import get_user_model
 from pocket_chords.models import Song, Sketch
 
 
-# Create your tests here.
-
+User = get_user_model()
 
 class SongModelTest(TestCase):
     ''' test Song model '''
@@ -29,6 +28,14 @@ class SongModelTest(TestCase):
         with self.assertRaises(ValidationError):
             new_song = Song(name="Test item")
             new_song.full_clean()
+
+    def test_song_can_have_owner(self):
+        user = User.objects.create(email='a@b.com')
+        song = Song.objects.create(owner = user, name='test name')
+        self.assertIn(song, user.song_set.all())
+
+    def test_song_owner_is_optional(self):
+        Song.objects.create(name='test name')
 
 class SketchModelTest(TestCase):
     ''' test Sketch model '''

@@ -21,8 +21,10 @@ def new_song(request):
     """ Create new song page """
     form = SongForm(data=request.POST)
     if form.is_valid():
-        song = Song.objects.create(name=request.POST['name'])
-        song.owner = request.user
+        song = Song()
+        if request.user.is_authenticated:
+            song.owner = request.user
+        song.name = name=request.POST['name']
         song.save()
         return redirect(song)
     else:
