@@ -37,6 +37,8 @@ class SongModelTest(TestCase):
     def test_song_owner_is_optional(self):
         Song.objects.create(name='test name')
 
+
+
 class SketchModelTest(TestCase):
     ''' test Sketch model '''
 

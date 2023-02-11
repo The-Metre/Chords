@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header_text %}My Songs{% endblock %}
+
+{% block song_form %}{% endblock %}
+
+{% block extra_content %}
+    <h2>{{ owner.email }}'s songs</h2>
+    <ul>
+        {% for song in owner.song_set.all %}
+        <li><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
