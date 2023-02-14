@@ -2,6 +2,11 @@ from django.test import TestCase
 from django.utils.html import escape
 from django.contrib.auth import get_user_model
 
+import unittest
+from unittest.mock import patch, Mock
+from django.http import HttpRequest
+from pocket_chords.views import new_song2 
+
 from pocket_chords.models import Song, Sketch
 from pocket_chords.forms import (
     SongForm, SketchForm,
@@ -25,7 +30,7 @@ class HomePageTest(TestCase):
         self.assertIsInstance(response.context['form'], SongForm)
         
 
-class ListViewTest(TestCase):
+class SongViewTest(TestCase):
     """ test to check elements in the list """
     def post_invalid_chunk_input(self):
         """ send an invalid input """
@@ -146,4 +151,47 @@ class MySongsTest(TestCase):
         song = Song.objects.first()
         self.assertEqual(song.owner, user)
 
-    
+
+@patch('pocket_chords.views.NewSongForm')
+class NewSongViewIntegratedTest(TestCase):
+
+    def setUp(self) -> None:
+        self.request = HttpRequest()
+        self.request.POST['name'] = 'new song name'
+        self.request.user = Mock()
+
+    @patch('pocket_chords.views.redirect')
+    def test_passes_POST_data_to_NewSongForm(self, mock_redirect, mockNewSongForm):
+        new_song2(self.request)
+        mockNewSongForm.assert_called_once_with(data=self.request.POST)
+
+    @patch('pocket_chords.views.redirect')
+    def test_song_owner_is_saved_if_user_is_authenticated(self,mock_redirect ,mockNewSongForm):
+        mock_form = mockNewSongForm.return_value
+        mock_form.is_valid.return_value = True
+        new_song2(self.request)
+        mock_form.save.assert_called_once_with(owner=self.request.user)
+
+    @patch('pocket_chords.views.redirect')
+    def test_redirect_to_form_returned_object_if_form_is_valid(
+        self, mock_redirect, mockNewSongForm
+    ):
+        mock_form = mockNewSongForm.return_value
+        mock_form.is_valid.return_value = True
+
+        response = new_song2(self.request)
+
+        self.assertEqual(response, mock_redirect.return_value)
+        mock_redirect.assert_called_once_with(mock_form.save.return_value)
+
+    @patch('pocket_chords.views.render')
+    def test_renders_home_template_with_form_if_form_invalid(
+        self, mock_render, mockNewSongForm
+        ):
+            mock_form = mockNewSongForm.return_value
+            mock_form.is_valid.return_value = False
+            response = new_song2(self.request)
+            self.assertEqual(response, mock_render.return_value)
+            mock_render.assert_called_once_with(
+            self.request, 'home.html', {'form': mock_form}
+            )

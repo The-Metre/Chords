@@ -56,3 +56,6 @@ class SketchForm(forms.models.ModelForm):
         if Sketch.objects.filter(song=song, text=text).exists():
             raise forms.ValidationError((DUPLICATE_ITEM_ERROR), code='duplicate value')
         return cleaned_data
+
+class NewSongForm:
+    pass

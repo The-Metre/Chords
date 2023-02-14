@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 from pocket_chords.models import Song, Sketch
 from pocket_chords.forms import (
-    SongForm, SketchForm,
+    SongForm, SketchForm, NewSongForm
     )
 
 import sys
@@ -24,12 +24,16 @@ def new_song(request):
         song = Song()
         if request.user.is_authenticated:
             song.owner = request.user
-        song.name = name=request.POST['name']
+        song.name = request.POST['name']
         song.save()
         return redirect(song)
     else:
         return render(request, 'homepage.html', {"form": form})
 
+def new_song2(requets):
+    form = NewSongForm(data=requets.POST)
+    song = form.save(owner=requets.user)
+    return redirect(song)
 
 def song_page(request, song_id):
     """ Show the user song page """
