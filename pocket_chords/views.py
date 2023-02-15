@@ -30,10 +30,12 @@ def new_song(request):
     else:
         return render(request, 'homepage.html', {"form": form})
 
-def new_song2(requets):
-    form = NewSongForm(data=requets.POST)
-    song = form.save(owner=requets.user)
-    return redirect(song)
+def new_song2(request):
+    form = NewSongForm(data=request.POST)
+    if form.is_valid():
+        song = form.save(owner=request.user)
+        return redirect(song)
+    return render(request, 'homepage.html', {"form": form})
 
 def song_page(request, song_id):
     """ Show the user song page """

@@ -17,6 +17,9 @@ class Song(models.Model):
     def get_absolute_url(self):
         """ Get an absolute url """
         return reverse('song_page', args=[self.id])
+    
+    def create_new(self):
+        pass
 
 
 class Sketch(models.Model):

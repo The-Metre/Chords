@@ -57,5 +57,11 @@ class SketchForm(forms.models.ModelForm):
             raise forms.ValidationError((DUPLICATE_ITEM_ERROR), code='duplicate value')
         return cleaned_data
 
-class NewSongForm:
-    pass
+class NewSongForm(SongForm):
+    
+    def save(self, owner):
+        if owner.is_authenticated:
+            Song.create_new(first_item_name=self.cleaned_data['name'],
+                            owner=owner)
+        else:
+            Song.create_new(first_item_name=self.cleaned_data['name'])

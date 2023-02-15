@@ -193,5 +193,12 @@ class NewSongViewIntegratedTest(TestCase):
             response = new_song2(self.request)
             self.assertEqual(response, mock_render.return_value)
             mock_render.assert_called_once_with(
-            self.request, 'home.html', {'form': mock_form}
+            self.request, 'homepage.html', {'form': mock_form}
             )
+
+    def test_does_not_save_if_form_invalid(self, mockNewSongForm):
+        '''тест: не сохраняет, если форма недопустима'''
+        mock_form = mockNewSongForm.return_value
+        mock_form.is_valid.return_value = False
+        new_song2(self.request)
+        self.assertFalse(mock_form.save.called)
