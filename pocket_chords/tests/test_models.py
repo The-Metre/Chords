@@ -38,7 +38,6 @@ class SongModelTest(TestCase):
         Song.objects.create(name='test name')
 
 
-
 class SketchModelTest(TestCase):
     ''' test Sketch model '''
 
