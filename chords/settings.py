@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pocket_chords',
     'accounts',
+    'intervals',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

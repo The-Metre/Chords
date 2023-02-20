@@ -2,3 +2,34 @@
     margin-top: 2ex;
     margin-bottom: 5ex;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.fretboard {
+    background: #be975b;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 300px;
+    margin-top: 50px;
+}
+
+.string {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+
+}
+
+.string:before {
+    content: "";
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(#eee, #999);
+    box-shadow: 76px 3px 10px #806233;
+}
