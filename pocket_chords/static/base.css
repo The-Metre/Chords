@@ -67,5 +67,9 @@
     background: teal;
     z-index: 2;
     color: #eee;
-    opacity: 0.5;
+    opacity: 0.2;
+}
+
+.single-fretmark:after {
+    content: 'as'
 }
