@@ -1,7 +1,7 @@
 const root = document.documentElement;
 
 const fretboard = document.querySelector('.fretboard');
-const number_of_frets = 24;
+const number_of_frets = 12;
 const number_of_strings = 6;
 
 const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
@@ -18,9 +18,10 @@ let accidentals = 'sharps';
 // guitar fretboard with choosen numbers of strings and frets
 const fretboard_app = {
     init() {
-        this.setUpFretboard();
+        this.setup_fretboard();
+        this.setup_event_listeners();
     },
-    setUpFretboard() {
+    setup_fretboard() {
         root.style.setProperty('--number-of-strings', number_of_strings);
         // Add strings to fretboard
         for (let i = 0; i < number_of_strings; i++) {
@@ -58,6 +59,17 @@ const fretboard_app = {
             note_name = sharp_notes[note_index];
         }
         return note_name;
+    },
+    setup_event_listeners() {
+        fretboard.addEventListener('mouseover', (event) => {
+            if (event.target.classList.contains('fret-note')) {
+                event.target.style.setProperty('--note-dot-opacity', 1);
+            }
+
+        });
+        fretboard.addEventListener('mouseout', (event) => {
+            event.target.style.setProperty('--note-dot-opacity', 0);
+        });
     }
 }
 
