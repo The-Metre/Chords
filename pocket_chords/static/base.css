@@ -69,7 +69,7 @@
 }
 
 .fret-note:before {
-    content: 'E';
+    content: attr(note-data);
     width: 33px;
     height: 33px;
     border-radius: 50%;

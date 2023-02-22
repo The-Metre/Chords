@@ -1,11 +1,18 @@
 const root = document.documentElement;
 
 const fretboard = document.querySelector('.fretboard');
-const number_of_frets = 12;
+const number_of_frets = 24;
 const number_of_strings = 6;
 
 const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
 const double_fret_mark_positions = [12, 24];
+
+const flat_notes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
+const sharp_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#','G', 'G#'];
+
+const guitar_tuning = [7, 2, 10, 5, 0, 7];
+
+let accidentals = 'sharps';
 
 // Const contain function, that initializes
 // guitar fretboard with choosen numbers of strings and frets
@@ -26,6 +33,9 @@ const fretboard_app = {
                 let fret_note = fretboard_tools.createElement('div');
                 fret_note.classList.add('fret-note');
                 string.appendChild(fret_note);
+                
+                let note_name = this.generate_notes_name((fret + guitar_tuning[i]), accidentals);
+                fret_note.setAttribute('note-data', note_name);
 
                 // If the fret of first string in single fretmark position
                 // add a new class to it
@@ -38,6 +48,16 @@ const fretboard_app = {
                 }
             }
         }
+    },
+    generate_notes_name(note_index, accidentals) {
+        note_index = note_index % 12;
+        let note_name;
+        if (accidentals === 'flats') {
+            note_name = flat_notes[note_index];
+        } else if (accidentals ==='sharps') {
+            note_name = sharp_notes[note_index];
+        }
+        return note_name;
     }
 }
 
