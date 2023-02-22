@@ -90,7 +90,9 @@ class GuitarNotes:
 
 
 def main():
-    pass
+    a = GuitarNotes()
+    for item in a.show_target_notes_on_freatboard(a.show_scale('a', 'minor penta')):
+        print(item)
 
 if __name__ == '__main__':
     main()
