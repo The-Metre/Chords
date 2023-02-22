@@ -22,7 +22,6 @@
 
 .fretboard {
     background: #555D50;
-    font-family: sans-serif;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -82,7 +81,7 @@
     opacity: var(--note-dot-opacity);
 }
 
-.single-fretmark:after, .double-fretmark::before, .double-fretmark::after {
+.single-fretmark:after, .double-fretmark:before, .double-fretmark:after {
     content: "";
     position: absolute;
     height: 20px;
@@ -96,12 +95,12 @@
     transform: translate(0, -50%);
 }
 
-.double-fretmark::before {
+.double-fretmark:before {
     top: calc(var(--double-fretmark-position-first) * 1px);
     transform: translate(-140%, -50%);
 }
 
-.double-fretmark::after {
+.double-fretmark:after {
     top: calc(var(--double-fretmark-position-second) * 1px);
     transform: translate(-140%, -50%);
 }

@@ -44,8 +44,10 @@ const fretboard_app = {
                     fret_note.classList.add('single-fretmark');
                 }
                 // same for double fretmark position
-                if (i === 0 && double_fret_mark_positions.indexOf(fret) !== -1 ) {
-                    fret_note.classList.add('double-fretmark');
+                if (i === 0 && double_fret_mark_positions.indexOf(fret) !== -1) {
+                    let double_fretmark = fretboard_tools.createElement('div');
+                    double_fretmark.classList.add('double-fretmark');
+                    fret_note.appendChild(double_fretmark);
                 }
             }
         }
