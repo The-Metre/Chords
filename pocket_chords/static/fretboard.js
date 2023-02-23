@@ -3,15 +3,13 @@ const root = document.documentElement;
 const fretboard = document.querySelector('.fretboard');
 const selected_instrument_selector = document.querySelector('#instrument-selector'); 
 const accidentals_selector = document.querySelector('.accidental-selector'); 
-
-const number_of_frets = 12;
+const number_of_frets_selector = document.querySelector('#number-of-frets');
 
 const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
 const double_fret_mark_positions = [12, 24];
 
 const flat_notes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
 const sharp_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#','G', 'G#'];
-
 
 const instrument_tuning_presets = {
     "Guitar": [7, 2, 10, 5, 0, 7],
@@ -20,8 +18,10 @@ const instrument_tuning_presets = {
 };
 
 let selected_instrument = 'Guitar';
+let number_of_frets = 12;
 let number_of_strings = instrument_tuning_presets[selected_instrument].length;
 let accidentals = 'sharps';
+
 
 // Const contain function, that initializes
 // guitar fretboard with choosen numbers of strings and frets
@@ -104,7 +104,8 @@ const fretboard_app = {
             number_of_strings = instrument_tuning_presets[selected_instrument].length;
             this.setup_fretboard();
         });
-        //
+        // Whe user switch accidental options,
+        // change a type of notes notation (flats or sharps)
         accidentals_selector.addEventListener('click', (event) => {
             if (event.target.classList.contains('acc-select')) {
                 accidentals = event.target.value;
@@ -112,6 +113,12 @@ const fretboard_app = {
             } else {
                 return;
             }
+        });
+        // Add listener to input number,
+        // that change number of rendered frets of an instrument
+        number_of_frets_selector.addEventListener('change', (event) => {
+            number_of_frets = number_of_frets_selector.value;
+            this.setup_fretboard();
         });
     },
 }
