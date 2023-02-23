@@ -19,6 +19,18 @@
     margin-bottom: 5ex;
 }
 
+.accidental-selector {
+    margin-left: 20px;
+
+}
+
+.fretboard-settings {
+    display: flex;
+    color: #fff;
+    padding: 20px;
+    border-bottom: 1px solid #444;
+    background: #282828;
+}   
 
 .fretboard {
     background: #555D50;
