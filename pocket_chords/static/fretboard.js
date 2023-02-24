@@ -4,6 +4,8 @@ const fretboard = document.querySelector('.fretboard');
 const selected_instrument_selector = document.querySelector('#instrument-selector'); 
 const accidentals_selector = document.querySelector('.accidental-selector'); 
 const number_of_frets_selector = document.querySelector('#number-of-frets');
+const show_all_notes_selector = document.querySelector('#show-all-notes');
+const show_duplicate_notes_selector = document.querySelector('#show-duplicate-notes');
 
 const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
 const double_fret_mark_positions = [12, 24];
@@ -16,6 +18,9 @@ const instrument_tuning_presets = {
     "Bass (4 strings)": [10, 5, 0, 7],
     'Ukulele': [0, 7, 3, 10],
 };
+
+let all_notes;
+let show_duplicate_notes = false;
 
 let selected_instrument = 'Guitar';
 let number_of_frets = 12;
@@ -82,21 +87,31 @@ const fretboard_app = {
             selected_instrument_selector.appendChild(instrument_option);
         }
     },
-    
+    show_note_dot(event) {
+        if (event.target.classList.contains('fret-note')) {
+            if (show_duplicate_notes) {
+                fretboard_app.toggle_duplicate_notes(event.target.getAttribute('note-data'), 1);
+            } else {
+                event.target.style.setProperty('--note-dot-opacity', 1);
+            }
+        }
+    },
+    hide_note_dot(event) {
+        if (show_duplicate_notes) {
+            fretboard_app.toggle_duplicate_notes(event.target.getAttribute('note-data'), 0);
+        } else {
+            event.target.style.setProperty('--note-dot-opacity', 0);
+        }
+    },
+
     setup_event_listeners() {
         // Add listeners to each fret, when hover on it by the mouse
         // change opacity, so a note of the fret will be visible
-        fretboard.addEventListener('mouseover', (event) => {
-            if (event.target.classList.contains('fret-note')) {
-                event.target.style.setProperty('--note-dot-opacity', 1);
-            }
-
-        });
+        fretboard.addEventListener('mouseover', this.show_note_dot);
         // When mouse out from the fret, change it opactity
         // to zero
-        fretboard.addEventListener('mouseout', (event) => {
-            event.target.style.setProperty('--note-dot-opacity', 0);
-        });
+        fretboard.addEventListener('mouseout', this.hide_note_dot);
+
         // Whe user switch instrument options,
         // change number of strings value, based on an instrument
         selected_instrument_selector.addEventListener('change', (event) => {
@@ -120,6 +135,40 @@ const fretboard_app = {
             number_of_frets = number_of_frets_selector.value;
             this.setup_fretboard();
         });
+        //
+        show_all_notes_selector.addEventListener('change', () => {
+            // Remove event listeners from notes, when
+            // show-all-notes flag are checked
+            if (show_all_notes_selector.checked) {
+                root.style.setProperty('--note-dot-opacity', 1);
+
+                fretboard.removeEventListener('mouseover', this.show_note_dot);
+                fretboard.removeEventListener('mouseout', this.hide_note_dot);
+                this.setup_fretboard();
+                // Add the event listeners if flag removed
+            } else {
+                root.style.setProperty('--note-dot-opacity', 0);
+
+                fretboard.addEventListener('mouseover', this.show_note_dot);
+                fretboard.addEventListener('mouseout', this.hide_note_dot);
+                this.setup_fretboard();
+            }
+        });
+        /*  */
+        show_duplicate_notes_selector.addEventListener('change', () => {
+            show_duplicate_notes = !show_duplicate_notes;
+        });
+    },
+    /* When checkbox flag toggled
+        change opacity of a target note
+    */
+    toggle_duplicate_notes(note_name, opacity) {
+        all_notes = document.querySelectorAll('.fret-note');
+        for (let i = 0; i < all_notes.length; i++) {
+            if (all_notes[i].getAttribute('note-data') === note_name) {
+                all_notes[i].style.setProperty('--note-dot-opacity', opacity); 
+            }
+        }
     },
 }
 
