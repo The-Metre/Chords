@@ -6,6 +6,7 @@ const accidentals_selector = document.querySelector('.accidental-selector');
 const number_of_frets_selector = document.querySelector('#number-of-frets');
 const show_all_notes_selector = document.querySelector('#show-all-notes');
 const show_duplicate_notes_selector = document.querySelector('#show-duplicate-notes');
+const note_name_section = document.querySelector('.note-name-section');
 
 const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
 const double_fret_mark_positions = [12, 24];
@@ -34,6 +35,7 @@ const fretboard_app = {
     init() {
         this.setup_fretboard();
         this.setup_selected_instrument();
+        this.setup_note_name_section();
         this.setup_event_listeners();
     },
     setup_fretboard() {
@@ -87,6 +89,21 @@ const fretboard_app = {
             selected_instrument_selector.appendChild(instrument_option);
         }
     },
+    /*  */
+    setup_note_name_section() {
+        note_name_section.innerHTML = '';
+        let note_names;
+        if (accidentals === 'flats') {
+            note_names = flat_notes;
+        } else {
+            note_names = sharp_notes;
+        }
+        note_names.forEach((note_name) => {
+            let note_name_element = fretboard_tools.createElement('span', note_name);
+            note_name_section.appendChild(note_name_element);
+        });
+    },
+    /*  */
     show_note_dot(event) {
         if (event.target.classList.contains('fret-note')) {
             if (show_duplicate_notes) {
@@ -96,6 +113,7 @@ const fretboard_app = {
             }
         }
     },
+    /*  */
     hide_note_dot(event) {
         if (show_duplicate_notes) {
             fretboard_app.toggle_duplicate_notes(event.target.getAttribute('note-data'), 0);
@@ -125,6 +143,7 @@ const fretboard_app = {
             if (event.target.classList.contains('acc-select')) {
                 accidentals = event.target.value;
                 this.setup_fretboard();
+                this.setup_note_name_section();
             } else {
                 return;
             }
@@ -154,11 +173,26 @@ const fretboard_app = {
                 this.setup_fretboard();
             }
         });
-        /*  */
+        /* Realization of a toggle event on the checkbox */
         show_duplicate_notes_selector.addEventListener('change', () => {
             show_duplicate_notes = !show_duplicate_notes;
         });
+        /*  */
+        note_name_section.addEventListener('mouseover', (event) => {
+             let note_to_show = event.target.innerText;
+             fretboard_app.toggle_duplicate_notes(note_to_show, 1);
+        });
+        /*  */
+        note_name_section.addEventListener('mouseout', (event) => {
+            if (!show_all_notes_selector.checked) {
+                let note_to_show = event.target.innerText;
+                fretboard_app.toggle_duplicate_notes(note_to_show, 0);
+            } else {
+                return;
+            }
+        });
     },
+
     /* When checkbox flag toggled
         change opacity of a target note
     */
