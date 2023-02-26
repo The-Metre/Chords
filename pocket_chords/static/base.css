@@ -1,3 +1,6 @@
+
+
+/* GUITAR FRETBOARD STUFF */
 :root {
     --fretboard-height: 300;
     --number-of-strings: 6;
@@ -142,3 +145,7 @@ label {
 .note-name-section span:hover {
     color: #00baba;
 }
+
+
+/* METRONOME STUFF */
+

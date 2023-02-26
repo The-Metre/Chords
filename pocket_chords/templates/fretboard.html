@@ -26,8 +26,32 @@
 
 <div class="note-name-section">
 </div>
+
+<div class="metronome-container">
+    <div class="metronome">
+        <div class="bpm-display">
+            <span class="tempo">140</span>
+            <span class="bpm">BPM</span>
+        </div>
+        <div class="tempo-text">Fast</div>
+        <div class="tempo-settings">
+            <div class="adjust-tempo decrease-tempo">-</div>
+            <input type="range" min="20" max="280" step="1" class="tempo-slider">
+            <div class="adjust-tempo increase-tempo">+</div>
+        </div>
+        <div>
+            <button class="metronome-start-stop">Start</button>
+        </div>
+        <div class="measures">
+            <div class="subtract-beats stepper">-</div>
+            <div class="measure-count">4</div>
+            <div class="add-beats stepper">+</div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block fretboard_scripts %}
     <script src="/static/fretboard.js"></script>
+    <script src="/static/metronome.js"></script>
 {% endblock %}
