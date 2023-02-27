@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
 /* GUITAR FRETBOARD STUFF */
 :root {
@@ -149,3 +149,100 @@ label {
 
 /* METRONOME STUFF */
 
+body {
+    font-family: 'Raleway', sans-serif;
+    color: #525252;
+}
+
+.metronome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.metronome {
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+    justify-content: space-between;
+}
+
+.bpm-display {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.bpm-display .tempo {
+    font-size: 4em;
+}
+
+.tempo-text {
+    font-size: 1.6em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.tempo-settings {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tempo-settings .adjust-tempo-button {
+    width: 30px;
+    height: 30px;
+    font-size: 40px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tempo-settings .adjust-tempo-button:hover {
+    background: #525252;
+    color: #fff
+}
+
+.tempo-settings .decrease-tempo {
+    line-height: 23px;
+}
+
+.tempo-settings .increase-tempo {
+    line-height: 28px;
+}
+
+.metronome-start-stop-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1em;
+    text-align: center;
+    background: #525252;
+    color: #fff;
+    border-radius: 50%;
+    line-height: 50px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.metronome-start-stop-button:hover {
+    background: #666666;
+}
+
+.measures {
+    display: flex;
+    justify-content: center;
+}
+
+.measures .stepper {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    text-align: center;
+    margin: 0 5px;
+    cursor: pointer;
+}
