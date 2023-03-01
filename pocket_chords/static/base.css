@@ -152,6 +152,7 @@ label {
 body {
     font-family: 'Raleway', sans-serif;
     color: #525252;
+    user-select: none;
 }
 
 .metronome-container {
@@ -162,11 +163,10 @@ body {
 }
 
 .metronome {
-    border: 1px solid #000;
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 200px;
+    width: 400px;
+    height: 300px;
     justify-content: space-between;
 }
 
@@ -215,6 +215,60 @@ body {
     line-height: 28px;
 }
 
+input[type=range] { 
+    -webkit-appearance: none;
+    background: transparent;
+    width: 70%;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #525252;
+    margin-top: -8px;
+}
+
+
+input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #525252;
+    border: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 1px;
+    background: #525252;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 1px;
+    background: #525252;
+}
+
+.beats-per-measure-text {
+    text-align: center;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+
+
+
 .metronome-start-stop-button {
     width: 50px;
     height: 50px;
@@ -245,4 +299,17 @@ body {
     text-align: center;
     margin: 0 5px;
     cursor: pointer;
+}
+
+.measures .stepper:hover {
+    background: #666666;
+    color: #ffffff;
+}
+
+.measures .add-beats {
+    line-height: 20px;
+}
+
+.measures .subtract-beats {
+    line-height: 17px;
 }
