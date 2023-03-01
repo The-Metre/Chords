@@ -7,6 +7,9 @@
     const show_all_notes_selector = document.querySelector('#show-all-notes');
     const show_duplicate_notes_selector = document.querySelector('#show-duplicate-notes');
     const note_name_section = document.querySelector('.note-name-section');
+    
+    const chord_section = document.querySelector('.chord')
+
     const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
     const double_fret_mark_positions = [12, 24];
     const flat_notes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
@@ -194,13 +197,13 @@
             show_duplicate_notes = !show_duplicate_notes;
         },
         set_notes_to_show(event) {
-            let note_to_show = event.target.innerText;
-            fretboard_app.toggle_duplicate_notes(note_to_show, 1);
+            let note_to_show = event.target.innerText.split(" ");
+            note_to_show.forEach(note => fretboard_app.toggle_duplicate_notes(note, 1));
         },
         set_notes_to_hide(event) {
             if (!show_all_notes_selector.checked) {
-                let note_to_hide = event.target.innerText;
-                fretboard_app.toggle_duplicate_notes(note_to_hide, 0);
+                let note_to_hide = event.target.innerText.split(" ");
+                note_to_hide.forEach(note => fretboard_app.toggle_duplicate_notes(note, 0));
             } else {
                 return;
             }
@@ -216,6 +219,8 @@
             show_duplicate_notes_selector.addEventListener('change', this.set_show_duplicate_notes);
             note_name_section.addEventListener('mouseover', this.set_notes_to_show);
             note_name_section.addEventListener('mouseout', this.set_notes_to_hide);
+            chord_section.addEventListener('mouseover', this.set_notes_to_show);
+            chord_section.addEventListener('mouseout', this.set_notes_to_hide);
         },
     }
 
