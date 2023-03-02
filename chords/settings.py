@@ -71,6 +71,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'chords.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
