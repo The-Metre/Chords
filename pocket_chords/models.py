@@ -5,8 +5,19 @@ from django.conf import settings
 
 # Create your models here.
 
-class Chord(models.Model):
-    pass
+class Chords(models.Model):
+    """ Contain information of specific chord
+    """
+    name = models.CharField(max_length=30, blank=False, unique=True)
+
+class ChordNote(models.Model):
+    """ Contain information of notes in chords
+    """
+    name = models.CharField(max_length=10, blank=False)
+    chord = models.ForeignKey(Chords, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('name', 'chord'), )
 
 class Song(models.Model):
     """ Contain info about a song """

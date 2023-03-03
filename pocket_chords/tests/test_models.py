@@ -1,7 +1,8 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from pocket_chords.models import Song, Sketch
+from pocket_chords.models import Song, Sketch, Chords, ChordNote
 
 
 User = get_user_model()
@@ -99,8 +100,24 @@ class ChordModelTest(TestCase):
         """ test: model return correct list of notes
             of specific chord
         """
-        chord = Chord.objects.create(name="A minor", notes=['A', 'C', 'E'])
-        self.assertEqual(chord.notes, ['A', 'C', 'E'])
+        notes = ["A", "C", "E"]
+        another = ["A", "C#", "E"]
+        chord = Chords.objects.create(name="A minor")
+        mchord = Chords.objects.create(name='A major')
 
-class NotesModelTest(TestCase):
-    pass
+        for item in notes:
+            ChordNote.objects.create(name=item, chord=chord)
+        for item in another:
+            ChordNote.objects.create(name=item, chord=mchord)
+
+        self.assertEqual(chord.name, 'A minor')
+        self.assertEqual(len(ChordNote.objects.all()), 6)
+
+    def test_throw_error_if_duplicate_note_in_chord(self):
+        notes = ["A", "C", "E"]
+        chord = Chords.objects.create(name="A minor")
+        for item in notes:
+            ChordNote.objects.create(name=item, chord=chord)
+        with self.assertRaises(IntegrityError):
+            for item in notes:
+                ChordNote.objects.create(name=item, chord=chord)
