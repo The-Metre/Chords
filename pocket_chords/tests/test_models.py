@@ -102,8 +102,8 @@ class ChordModelTest(TestCase):
         """
         notes = ["A", "C", "E"]
         another = ["A", "C#", "E"]
-        chord = Chords.objects.create(name="A minor")
-        mchord = Chords.objects.create(name='A major')
+        chord = Chords.objects.create(name="A minor", root_note='A')
+        mchord = Chords.objects.create(name='A major', root_note='A')
 
         for item in notes:
             ChordNote.objects.create(name=item, chord=chord)
@@ -115,7 +115,7 @@ class ChordModelTest(TestCase):
 
     def test_throw_error_if_duplicate_note_in_chord(self):
         notes = ["A", "C", "E"]
-        chord = Chords.objects.create(name="A minor")
+        chord = Chords.objects.create(name="A minor", root_note="A")
         for item in notes:
             ChordNote.objects.create(name=item, chord=chord)
         with self.assertRaises(IntegrityError):

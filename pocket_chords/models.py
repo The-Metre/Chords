@@ -9,6 +9,7 @@ class Chords(models.Model):
     """ Contain information of specific chord
     """
     name = models.CharField(max_length=30, blank=False, unique=True)
+    root_note = models.CharField(max_length=5, default='')
 
 class ChordNote(models.Model):
     """ Contain information of notes in chords
