@@ -1,22 +1,25 @@
 class GuitarNotes:
 
     # All music tones names
-    __notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+    _notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 
     # Standart guitar tuning
     __default_tuning = ['E', 'B', 'G', 'D', 'A', 'E']
 
     # Contain indexes of semitones for each chord type
-    __chord_formula = {
+    _chord_formula = {
                 'major' : [0, 4, 7],
                 'minor' : [0, 3, 7],
+                'dim': [0, 4, 6],
                 '7': [0, 4, 7, 10],
+                'm7': [0, 3, 7, 10],
+                'M7': [0, 4, 7, 11],
                 'sus2': [0, 2, 7],
                 'sus4': [0, 5, 7]
     }
 
     # Contain indexes of semitones for each scale type
-    __scale_formula = {
+    _scale_formula = {
             'major' :  [0, 2, 4, 5, 7, 9, 11],
             'minor' : [0, 2, 3, 5, 7, 8, 10],
             'major penta': [0, 2, 4, 7, 9],
@@ -36,10 +39,10 @@ class GuitarNotes:
         root_note = self.set_root_note(root_note)
         scale = self.string_tuning(root_note)
 
-        if scale_type.lower() not in self.__scale_formula:
+        if scale_type.lower() not in self._scale_formula:
             raise KeyError(f'Invalid scale type: {scale_type}')
         
-        scale_notes = self.__scale_formula[scale_type.lower()]
+        scale_notes = self._scale_formula[scale_type.lower()]
         return [note for note in scale if scale.index(note) in scale_notes]
 
 
@@ -52,17 +55,17 @@ class GuitarNotes:
         root_note = self.set_root_note(root_note)
         scale = self.string_tuning(root_note)
 
-        if chord_type.lower() not in self.__chord_formula:
+        if chord_type.lower() not in self._chord_formula:
             raise KeyError(f'Invalid chord type: {chord_type}')
 
-        chord = self.__chord_formula[chord_type.lower()]
+        chord = self._chord_formula[chord_type.lower()]
         return [note for note in scale if scale.index(note) in chord]
 
     def set_root_note(self, root_note:str) -> list[str]:
         """ Return a valid root note from notes list,
             if note doesn't exist raise an error 
         """
-        if root_note.upper() not in self.__notes:
+        if root_note.upper() not in self._notes:
             raise ValueError(f'Incorrect root note: "{root_note}"!')
         return root_note.upper()
     
@@ -79,8 +82,8 @@ class GuitarNotes:
             be a note from the choosen fret
         """
         note = self.set_root_note(fretnote)
-        note_index = self.__notes.index(note)
-        return self.__notes[note_index:] + self.__notes[:note_index]
+        note_index = self._notes.index(note)
+        return self._notes[note_index:] + self._notes[:note_index]
 
     def set_guitar_fretboard(self, strings_list: list[str]) -> list[list[str]]:
         """ Form the guitar fretboard with provided strings """
@@ -91,8 +94,10 @@ class GuitarNotes:
 
 def main():
     a = GuitarNotes()
-    for item in a.show_target_notes_on_freatboard(a.show_scale('a', 'minor penta')):
-        print(item)
+    notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+    for root in notes:
+        for chord in a._chord_formula:
+            print(f'root note: {root}',a.show_chord(root, chord), root + ' ' + chord)
 
 if __name__ == '__main__':
     main()

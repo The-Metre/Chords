@@ -91,3 +91,16 @@ class SketchModelTest(TestCase):
         """ test: string representation """
         chunk = Sketch(text="Some text")
         self.assertEqual(str(chunk), "Some text")
+
+
+class ChordModelTest(TestCase):
+    
+    def test_return_correct_chord_notes(self):
+        """ test: model return correct list of notes
+            of specific chord
+        """
+        chord = Chord.objects.create(name="A minor", notes=['A', 'C', 'E'])
+        self.assertEqual(chord.notes, ['A', 'C', 'E'])
+
+class NotesModelTest(TestCase):
+    pass

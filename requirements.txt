@@ -5,3 +5,4 @@ psycopg2-binary>=2.8
 python-environ>=0.4.54
 selenium==4.8.0
 chromedriver-binary==83.0.4103.39.0
+mingus==0.6.1

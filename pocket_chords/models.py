@@ -5,6 +5,9 @@ from django.conf import settings
 
 # Create your models here.
 
+class Chord(models.Model):
+    pass
+
 class Song(models.Model):
     """ Contain info about a song """
     name = models.CharField(max_length=255, blank=False, unique=True)
