@@ -9,7 +9,7 @@ from unittest.mock import patch, Mock
 
 # Sample of Song object for tests
 def create_test_song():
-        return Song.objects.create(name='test')
+    return Song.objects.create(name='test')
 
 
 class SongFormTest(TestCase):

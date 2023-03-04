@@ -2,23 +2,42 @@ from django.db import models
 from django.urls import reverse
 
 from django.conf import settings
+from django.db.models import CheckConstraint, Q
 
 # Create your models here.
 
-class Chords(models.Model):
+MUSIC_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+
+class MusicNote(models.Model):
+    """ Contain information of notes in chords
+    """
+    name = models.CharField(max_length=2, blank=False, unique=True)
+    
+    class Meta:
+        constraints = [
+            CheckConstraint(
+                check = Q(name__in=MUSIC_NOTES),
+                name = 'check_music_note_name',
+            ),
+        ]
+
+
+class Chord(models.Model):
     """ Contain information of specific chord
     """
     name = models.CharField(max_length=30, blank=False, unique=True)
-    root_note = models.CharField(max_length=5, default='')
+    root_note = models.ForeignKey(MusicNote, on_delete=models.CASCADE)
 
-class ChordNote(models.Model):
-    """ Contain information of notes in chords
-    """
-    name = models.CharField(max_length=10, blank=False)
-    chord = models.ForeignKey(Chords, on_delete=models.CASCADE)
+class ChordNotes(models.Model):
+    """ Contain relations between chords and notes models """
+    chord_name = models.ForeignKey(Chord, on_delete=models.CASCADE)
+    chord_note = models.ForeignKey(MusicNote, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (('name', 'chord'), )
+        ordering = ('chord_name', )
+        unique_together = (('chord_name', 'chord_note'), )
+
 
 class Song(models.Model):
     """ Contain info about a song """
@@ -50,3 +69,7 @@ class Sketch(models.Model):
     
     def __str__(self):
         return self.text
+
+
+
+

@@ -2,7 +2,9 @@ from django.test import TestCase
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from pocket_chords.models import Song, Sketch, Chords, ChordNote
+from pocket_chords.models import (
+    Song, Sketch, Chord, MusicNote, ChordNotes
+    )
 
 
 User = get_user_model()
@@ -94,30 +96,68 @@ class SketchModelTest(TestCase):
         self.assertEqual(str(chunk), "Some text")
 
 
-class ChordModelTest(TestCase):
+class MusicNoteModelTest(TestCase):
     
-    def test_return_correct_chord_notes(self):
-        """ test: model return correct list of notes
-            of specific chord
+    def test_save_note(self):
+        """ test: model save a note
         """
-        notes = ["A", "C", "E"]
-        another = ["A", "C#", "E"]
-        chord = Chords.objects.create(name="A minor", root_note='A')
-        mchord = Chords.objects.create(name='A major', root_note='A')
+        a_note = MusicNote.objects.create(name='A')
+        self.assertEqual(a_note.name, 'A')
+        self.assertEqual(len(MusicNote.objects.all()), 1)
+        # Trying to save another one
+        a_sharp_note = MusicNote.objects.create(name='A#')
+        self.assertEqual(len(MusicNote.objects.all()), 2)
+        self.assertNotEqual(a_note.name, a_sharp_note.name)
 
-        for item in notes:
-            ChordNote.objects.create(name=item, chord=chord)
-        for item in another:
-            ChordNote.objects.create(name=item, chord=mchord)
+    def test_saving_invalid_note(self):
+        """ test: model cannot save invaid notes """
+        correct_note = MusicNote.objects.create(name="G#")
+        self.assertEqual(len(MusicNote.objects.all()), 1)
 
-        self.assertEqual(chord.name, 'A minor')
-        self.assertEqual(len(ChordNote.objects.all()), 6)
-
-    def test_throw_error_if_duplicate_note_in_chord(self):
-        notes = ["A", "C", "E"]
-        chord = Chords.objects.create(name="A minor", root_note="A")
-        for item in notes:
-            ChordNote.objects.create(name=item, chord=chord)
         with self.assertRaises(IntegrityError):
-            for item in notes:
-                ChordNote.objects.create(name=item, chord=chord)
+            incorrect_note = MusicNote.objects.create(name="Gu")
+
+    def test_model_throw_an_error_in_trying_to_save_duplicate_note(self):
+        """ test: model will throw integrity error, if we trying to save
+            the same note in the table
+        """
+        a_note = MusicNote.objects.create(name="A")
+        with self.assertRaises(IntegrityError):
+            another_a_note = MusicNote.objects.create(name="A")
+        
+
+MUSIC_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+class ChordModelTest(TestCase):
+
+    def setUp(self):
+        # setup a music note table, with all valid notes
+        for item in MUSIC_NOTES:
+            MusicNote.objects.create(name=item)
+
+    def test_save_chord(self):
+        note = ' a '.strip().upper()
+        # Check is note is valid
+        root_note = MusicNote.objects.get(name=note)
+        a_chord = Chord.objects.create(name='A minor', root_note=root_note)
+        self.assertEqual(a_chord.name, 'A minor')
+        self.assertEqual(a_chord.root_note, root_note)
+
+
+class ChordNotesModelTest(TestCase):
+
+    def setUp(self):
+        # setup a music note table, with all valid notes
+        for item in MUSIC_NOTES:
+            MusicNote.objects.create(name=item)
+
+    def test_a_minor(self):
+        a_minor_notes = ['A', 'C', 'E']
+        root = MusicNote.objects.get(name=a_minor_notes[0])
+        a_chord = Chord.objects.create(name='A minor', root_note=root)
+        for item in a_minor_notes:
+            note = MusicNote.objects.get(name=item)
+            ChordNotes.objects.create(chord_name=a_chord, chord_note=note)
+        
+        for item in ChordNotes.objects.all():
+            print(item.chord_note.name)
