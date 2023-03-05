@@ -3,10 +3,11 @@ from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from pocket_chords.models import (
-    Song, Sketch, Chord, MusicNote, ChordNotes
+    Song, Sketch, Chord, MusicNote, ChordNotesRelation
     )
+from project_tools.classes import GuitarNotes
 
-
+MUSIC_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 User = get_user_model()
 
 class SongModelTest(TestCase):
@@ -126,7 +127,6 @@ class MusicNoteModelTest(TestCase):
             another_a_note = MusicNote.objects.create(name="A")
         
 
-MUSIC_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 
 class ChordModelTest(TestCase):
 
@@ -144,20 +144,57 @@ class ChordModelTest(TestCase):
         self.assertEqual(a_chord.root_note, root_note)
 
 
-class ChordNotesModelTest(TestCase):
+class ChordNotesRelationModelTest(TestCase):
 
     def setUp(self):
         # setup a music note table, with all valid notes
         for item in MUSIC_NOTES:
             MusicNote.objects.create(name=item)
 
-    def test_a_minor(self):
+    def test_adding_a_chord_notes_to_chord(self):
+        # Test: create new relation between chord and chord notes
         a_minor_notes = ['A', 'C', 'E']
         root = MusicNote.objects.get(name=a_minor_notes[0])
         a_chord = Chord.objects.create(name='A minor', root_note=root)
         for item in a_minor_notes:
             note = MusicNote.objects.get(name=item)
-            ChordNotes.objects.create(chord_name=a_chord, chord_note=note)
+            ChordNotesRelation.objects.create(chord_name=a_chord, chord_note=note)
+        # Check that we save all notes of a chord in the model        
+        for note in ChordNotesRelation.objects.filter(chord_name=a_chord):
+            self.assertIn(note.chord_note.name, a_minor_notes)
+        self.assertEqual(len(a_minor_notes), len(ChordNotesRelation.objects.filter(chord_name=a_chord)))
+
+    def test_throw_an_error_when_adding_duplicate_notes_in_chord(self):
+        """ Test: model throw an error when adding duplicates in it """
+        f_major_notes = ['F', 'A', 'C']
+        root = MusicNote.objects.get(name=f_major_notes[0])
+        f_maj_chord = Chord.objects.create(name='F major', root_note=root)
+
+        with self.assertRaises(IntegrityError):
+            ChordNotesRelation.objects.create(chord_name=f_maj_chord, chord_note=root)
+            ChordNotesRelation.objects.create(chord_name=f_maj_chord, chord_note=root)
+
         
-        for item in ChordNotes.objects.all():
+class GuitarNotesClassTest(TestCase):
+
+    def setUp(self) -> None:
+        for note in GuitarNotes._notes:
+            MusicNote.objects.create(name=note)
+        
+        self.guitar = GuitarNotes()
+
+    def test_creating_a_chords(self):
+        root = MusicNote.objects.get(name='F')
+        scale_from_root = self.guitar.string_tuning(root.name)
+
+        for chord_name in self.guitar._chord_formula:
+            chord, _ = Chord.objects.get_or_create(name=f"{root.name} {chord_name}", root_note=root)
+            notes = self.guitar._chord_formula[chord_name]
+            for note in notes:
+                chord_note = MusicNote.objects.get(name=scale_from_root[note])
+                ChordNotesRelation.objects.get_or_create(chord_name=chord, chord_note=chord_note)
+
+        b_minor = ChordNotesRelation.objects.filter(chord_name = Chord.objects.get(name='F major'))
+
+        for item in b_minor:
             print(item.chord_note.name)

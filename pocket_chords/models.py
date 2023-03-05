@@ -22,14 +22,13 @@ class MusicNote(models.Model):
             ),
         ]
 
-
 class Chord(models.Model):
     """ Contain information of specific chord
     """
     name = models.CharField(max_length=30, blank=False, unique=True)
     root_note = models.ForeignKey(MusicNote, on_delete=models.CASCADE)
 
-class ChordNotes(models.Model):
+class ChordNotesRelation(models.Model):
     """ Contain relations between chords and notes models """
     chord_name = models.ForeignKey(Chord, on_delete=models.CASCADE)
     chord_note = models.ForeignKey(MusicNote, on_delete=models.CASCADE)
