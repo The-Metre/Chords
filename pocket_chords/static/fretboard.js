@@ -8,7 +8,7 @@
     const show_duplicate_notes_selector = document.querySelector('#show-duplicate-notes');
     const note_name_section = document.querySelector('.note-name-section');
     
-    const chord_section = document.querySelector('.chord')
+    const chord_section = document.querySelectorAll('.chord-notes')
 
     const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
     const double_fret_mark_positions = [12, 24];
@@ -219,8 +219,10 @@
             show_duplicate_notes_selector.addEventListener('change', this.set_show_duplicate_notes);
             note_name_section.addEventListener('mouseover', this.set_notes_to_show);
             note_name_section.addEventListener('mouseout', this.set_notes_to_hide);
-            chord_section.addEventListener('mouseover', this.set_notes_to_show);
-            chord_section.addEventListener('mouseout', this.set_notes_to_hide);
+            chord_section.forEach(element => {
+                element.addEventListener('mouseover', this.set_notes_to_show);
+                element.addEventListener('mouseout', this.set_notes_to_hide);
+            });
         },
     }
 

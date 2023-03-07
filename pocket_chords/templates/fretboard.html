@@ -26,9 +26,10 @@
 <div class="fretboard">
 </div>
 
-<div class="chord">
+<div class="chord-section">
     {% for key, value in chords %}
-        {{ key }} {{ value }}
+    <div class="chord-name">{{ key }}</div>
+    <div class="chord-notes">{{ value }}</div>
     {% endfor %}
 </div>
 
