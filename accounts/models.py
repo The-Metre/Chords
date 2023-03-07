@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.db import models
 import uuid
+from django.contrib.auth.base_user import BaseUserManager
 
 
 class User(models.Model):

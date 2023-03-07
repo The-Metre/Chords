@@ -4,7 +4,7 @@ from django.db.utils import IntegrityError
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from pocket_chords.models import Song, Sketch
+from pocket_chords.models import Song, Sketch, ChordNotesRelation
 from pocket_chords.forms import (
     SongForm, SketchForm, NewSongForm
     )

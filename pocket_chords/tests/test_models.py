@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from pocket_chords.models import (
     Song, Sketch, Chord, MusicNote, ChordNotesRelation
     )
-from project_tools.classes import GuitarNotes
+from project_tools.classes import GuitarStuffClass
 
 MUSIC_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 User = get_user_model()
@@ -175,16 +175,21 @@ class ChordNotesRelationModelTest(TestCase):
             ChordNotesRelation.objects.create(chord_name=f_maj_chord, chord_note=root)
 
         
-class GuitarNotesClassTest(TestCase):
+class GuitarStuffClassTest(TestCase):
 
     def setUp(self) -> None:
-        for note in GuitarNotes._notes:
+        for note in GuitarStuffClass._notes:
             MusicNote.objects.create(name=note)
         
-        self.guitar = GuitarNotes()
+        self.guitar = GuitarStuffClass()
 
-    def test_creating_a_chords(self):
-        root = MusicNote.objects.get(name='F')
+        for note in MusicNote.objects.all():
+            self.fill_the_chord_with_notes(note.name)
+
+
+    def fill_the_chord_with_notes(self, key_note):
+        root = MusicNote.objects.get(name=key_note)
+
         scale_from_root = self.guitar.string_tuning(root.name)
 
         for chord_name in self.guitar._chord_formula:
@@ -194,7 +199,4 @@ class GuitarNotesClassTest(TestCase):
                 chord_note = MusicNote.objects.get(name=scale_from_root[note])
                 ChordNotesRelation.objects.get_or_create(chord_name=chord, chord_note=chord_note)
 
-        b_minor = ChordNotesRelation.objects.filter(chord_name = Chord.objects.get(name='F major'))
-
-        for item in b_minor:
-            print(item.chord_note.name)
+        

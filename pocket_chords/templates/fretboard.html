@@ -26,7 +26,11 @@
 <div class="fretboard">
 </div>
 
-<div class="chord">(Chords: F A C to do)</div>
+<div class="chord">
+    {% for key, value in chords %}
+        {{ key }} {{ value }}
+    {% endfor %}
+</div>
 
 <div class="note-name-section">
 </div>
@@ -54,6 +58,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 {% block fretboard_scripts %}
     <script src="/static/metronome.js" type="module"></script>

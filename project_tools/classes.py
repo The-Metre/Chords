@@ -1,4 +1,4 @@
-class GuitarNotes:
+class GuitarStuffClass:
 
     # All music tones names
     _notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
@@ -93,7 +93,7 @@ class GuitarNotes:
 
 
 def main():
-    a = GuitarNotes()
+    a = GuitarStuffClass()
     notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
     for root in notes:
         for chord in a._chord_formula:
