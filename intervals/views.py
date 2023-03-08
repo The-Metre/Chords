@@ -5,7 +5,7 @@ from pocket_chords.models import (
 # Create your views here.
 
 def fretboard(request):
-    song_chords = ['F m7', 'B minor', 'A minor']
+    song_chords = ['F m7', 'B minor', 'A minor', 'D 7', 'A major', 'G m7', 'F minor']
     relations = dict()
     for smth in song_chords:
         chord = ChordNotesRelation.objects.filter(chord_name=Chord.objects.get(name=smth))
