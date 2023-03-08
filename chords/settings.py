@@ -42,15 +42,16 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'pocket_chords',
+    'accounts',
+    'intervals',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pocket_chords',
-    'accounts',
-    'intervals',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -152,3 +153,6 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Daphne
+ASGI_APPLICATION = 'chords.asgi.application'

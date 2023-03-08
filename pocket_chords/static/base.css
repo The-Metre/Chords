@@ -335,3 +335,15 @@ input[type=range]::-moz-range-track {
 .measures .subtract-beats {
     line-height: 17px;
 }
+
+
+/* Intervals */
+
+.interval-button, .target-note {
+    width: 100%;
+    color: #000;
+    font-weight: 100;
+    font-size: 2.5em;
+    display: flex;
+    justify-content: center;
+}

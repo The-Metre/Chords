@@ -69,6 +69,16 @@
         <div class="beats-per-measure-text">Beats per measure</div>
     </div>
 </div>
+
+<div class="intervals-container">
+    <div class="target-note">Note</div>
+    <div class="interval-button">
+        <button>Listening</button>
+    </div>
+    <div>What chat room would you like to enter?</div>
+    <input id="room-name-input" type="text" size="100">
+    <input id="room-name-submit" type="button" value="Enter">    
+</div>
 {% endblock %}
 
 
@@ -76,4 +86,5 @@
     <script src="/static/metronome.js" type="module"></script>
     <script src="/static/timer.js"></script>
     <script src="/static/fretboard.js"></script>
+    <script src="/static/intervals.js"></script>
 {% endblock %}
