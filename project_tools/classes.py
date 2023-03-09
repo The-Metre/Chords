@@ -89,15 +89,13 @@ class GuitarStuffClass:
         """ Form the guitar fretboard with provided strings """
         self.guitar_fretboard = [self.string_tuning(item) for item in strings_list]
 
+
+
     
 
 
 def main():
-    a = GuitarStuffClass()
-    notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
-    for root in notes:
-        for chord in a._chord_formula:
-            print(f'root note: {root}',a.show_chord(root, chord), root + ' ' + chord)
+    pass
 
 if __name__ == '__main__':
     main()
