@@ -2,5 +2,5 @@ from django.urls import path
 from intervals import views
 
 urlpatterns = [
-    path('', views.index, name='practice_index'),
+    path('<str:user_id>', views.index, name='user_practice'),
 ]

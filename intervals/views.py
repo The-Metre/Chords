@@ -4,7 +4,7 @@ from pocket_chords.models import (
 )
 # Create your views here.
 
-def index(request):
+def index(request, user_id):
     song_chords = ['F m7', 'B minor', 'A minor', 'D 7', 'A major', 'G m7', 'F minor']
     relations = dict()
     for smth in song_chords:
@@ -15,4 +15,4 @@ def index(request):
             else:
                 relations[item.chord_name.name] += f' {item.chord_note.name}'
                 
-    return render(request, 'fretboard.html', {'chords':relations.items()})
+    return render(request, 'fretboard.html', {'chords':relations.items(), 'user_name': user_id})

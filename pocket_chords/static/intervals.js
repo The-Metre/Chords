@@ -1,11 +1,27 @@
-document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
+const user_name = JSON.parse(document.getElementById('user_name').textContent);
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
+const intervals_socket = new WebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/intervals/'
+    + user_name
+    + '/'
+) 
+
+intervals_socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    document.querySelector('.target-note').innerHTML = (data.message);
+};
+
+intervals_socket.onclose = function(e) {
+    console.error('Interval socket closed unexpectedly');
+}
+
+document.querySelector('.interval-button').onclick = function(e) {
+    const current_chord = document.querySelector('.target-note');
+    const message = current_chord.innerHTML;
+    console.log(current_chord, message, intervals_socket)
+    intervals_socket.send(JSON.stringify({
+        'message': message
+    }));  
+}
