@@ -10,7 +10,7 @@ const intervals_socket = new WebSocket(
 
 intervals_socket.onmessage = function(e) {
     const data = JSON.parse(e.data);
-    document.querySelector('.target-note').innerHTML = (data.message);
+    document.querySelector('.target-note').value = (data.message);
 };
 
 intervals_socket.onclose = function(e) {
@@ -19,8 +19,7 @@ intervals_socket.onclose = function(e) {
 
 document.querySelector('.interval-button').onclick = function(e) {
     const current_chord = document.querySelector('.target-note');
-    const message = current_chord.innerHTML;
-    console.log(current_chord, message, intervals_socket)
+    const message = current_chord.value;
     intervals_socket.send(JSON.stringify({
         'message': message
     }));  

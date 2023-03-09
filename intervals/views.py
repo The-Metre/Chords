@@ -5,14 +5,11 @@ from pocket_chords.models import (
 # Create your views here.
 
 def index(request, user_id):
-    song_chords = ['F m7', 'B minor', 'A minor', 'D 7', 'A major', 'G m7', 'F minor']
-    relations = dict()
-    for smth in song_chords:
-        chord = ChordNotesRelation.objects.filter(chord_name=Chord.objects.get(name=smth))
-        for item in chord:
-            if item.chord_name.name not in relations:
-                relations[item.chord_name.name] = item.chord_note.name
-            else:
-                relations[item.chord_name.name] += f' {item.chord_note.name}'
+    song_chords = ['A minor']
+    relations = {chord: ' '.join([note.chord_note.name for note in
+                    ChordNotesRelation.objects.filter(
+                        chord_name=Chord.objects.get(name=chord))
+                        ]) for chord in song_chords
+                }
                 
     return render(request, 'fretboard.html', {'chords':relations.items(), 'user_name': user_id})
