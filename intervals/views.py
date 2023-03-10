@@ -4,7 +4,7 @@ from pocket_chords.models import (
 )
 # Create your views here.
 
-def index(request, user_id):
+def index(request, user_id=None):
     song_chords = ['A minor']
     relations = {chord: ' '.join([note.chord_note.name for note in
                     ChordNotesRelation.objects.filter(
