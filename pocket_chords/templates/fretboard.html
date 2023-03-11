@@ -22,9 +22,7 @@
     <label for="show-duplicate-notes">Show duplicate notes: </label>
     <input type="checkbox" id="show-duplicate-notes">
 
-    <div class="chords-notes-selector">
-        <button>Chords</button>
-    </div>
+
 
 </div>
 <div class="fretboard">
@@ -71,9 +69,13 @@
 </div>
 
 <div class="intervals-container">
-    <input type="text" class="target-note">
+    
+    <div class="chords-notes-selector">
+        <button>Chords</button>
+    </div>
     <div class="interval-button">
-        <button>Listening</button>
+        <div class="Note">Note</div>
+        <button class="stop-interval-button">Listening</button>
     </div>
     {{ user_name|json_script:'user_name' }}
 </div>

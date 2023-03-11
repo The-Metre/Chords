@@ -35,14 +35,16 @@ class IntervalConsumer(AsyncWebsocketConsumer):
                 if freq:
                     freq = get_closest_note(freq)
                     print(freq)
+
+                    await self.channel_layer.group_send(self.room_group_name, \
+                                            {'type': 'chords_message', \
+                                             'message': freq})
         except struct.error as error:
             print(error)
 
         
 
-        await self.channel_layer.group_send(self.room_group_name, \
-                                            {'type': 'chords_message', \
-                                             'message': f'fuck'})
+        
     
     async def chords_message(self, event):
         message = event['message']
