@@ -38,7 +38,7 @@ class IntervalConsumer(AsyncWebsocketConsumer):
 
                     await self.channel_layer.group_send(self.room_group_name, \
                                             {'type': 'chords_message', \
-                                             'message': freq})
+                                             'message': freq[1]})
         except struct.error as error:
             print(error)
 

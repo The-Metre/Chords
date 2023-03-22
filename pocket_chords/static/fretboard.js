@@ -20,6 +20,8 @@
         'Ukulele': [0, 7, 3, 10],
     };
 
+    const test = document.querySelector('.test')
+
     let all_notes;
     let show_duplicate_notes = false;
     let show_all_notes = false;
@@ -223,6 +225,8 @@
                 element.addEventListener('mouseover', this.set_notes_to_show);
                 element.addEventListener('mouseout', this.set_notes_to_hide);
             });
+            test.addEventListener('mouseover', this.set_notes_to_show);
+            test.addEventListener('mouseout', this.set_notes_to_hide);
         },
     }
 

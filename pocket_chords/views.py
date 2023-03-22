@@ -9,9 +9,10 @@ from pocket_chords.forms import (
     SongForm, SketchForm, NewSongForm
     )
 
+from accounts.models import User
+
 import sys
 
-User = get_user_model()
 
 def home_page(request):
     return render(request, 'homepage.html', {'form': SongForm(), 'songs_list': Song.objects.all()})
