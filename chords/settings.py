@@ -56,7 +56,7 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
-    'accounts.models.PasswordlessAuthenticationBackend',
+    'accounts.authentication.PasswordlessAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 

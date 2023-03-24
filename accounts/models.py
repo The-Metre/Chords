@@ -1,11 +1,11 @@
-from django.contrib import auth
 from django.db import models
 import uuid
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(primary_key=True, unique=True)
-    REQUIRED_FIELDS = []
+    username = models.CharField(max_length=30, unique=True, default='')
+    REQUIRED_FIELDS = ['username']
     USERNAME_FIELD = 'email'
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)

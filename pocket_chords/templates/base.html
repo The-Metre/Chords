@@ -14,13 +14,13 @@
             <nav class="navbar navbar-default" role="navigation">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">Pocket Chords</a>
-                    <a class="navbar-brand" href="{% url 'user_practice' user %}">Practice </a>
                     {% if user.email %}
+                    <a class="navbar-brand" href="{% url 'user_practice' user.username %}">Practice </a>
                     <ul class="nav navbar-nav navbar-left">
-                        <li><a href="{% url 'my_songs' user.email %}">My songs</a></li>
+                        <a class="navbar-brand" href="{% url 'my_songs' user.email %}">My songs </a>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="navbar-text">Logged is as {{ user.email }}</li>
+                        <li class="navbar-text">Logged in as {{ user.username }}</li>
                         <li><a href="{% url 'logout' %}">Log out</a></li>
                     </ul>
                     {% else %}
