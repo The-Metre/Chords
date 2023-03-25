@@ -7,9 +7,15 @@
 {% block form_content %}{{ form.as_p }}{% endblock %}
 
 {% block table %}
+        <div>
+            <pre>
+                {{ song.text }}
+            </pre>
+        </div>
         <table id="id_song_table" class="table">
             {% for item in song.sketch_set.all %}
             <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
             {% endfor %}
         </table>
+
 {% endblock %}

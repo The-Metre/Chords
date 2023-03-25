@@ -2,6 +2,12 @@
         const interval_name = JSON.parse(document.getElementById('user_name').textContent);
         const recorder_button = document.querySelector('.chords-notes-selector')
         const Note = document.querySelector('.Note')
+        const sharp_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#','G', 'G#'];
+
+        function random_note(notes) {
+            return notes[Math.floor(Math.random() * notes.length)];
+        }
+
         
 
         const interval_time_length = 250
@@ -30,6 +36,9 @@
 
                 socket.onopen = () => {
                     const stop_button = document.querySelector('.stop-interval-button')
+
+                    Note.innerHTML = random_note(sharp_notes);
+
                     const record_and_send = async(stream) => {
                         const recorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
                         const chunks = [];
@@ -62,7 +71,10 @@
 
             socket.onmessage = (message) => {
                 const received = JSON.parse(message.data);
-                Note.innerHTML = received.message;
+                let target_note = 'F'
+                if (received.message === target_note) {
+                    Note.innerHTML = 'Correct';
+                }
                 console.log(received);
             };
             } catch (err) {
@@ -75,6 +87,7 @@
         }
 
 
+        
         intervals_websocket_functionality.init()
 
     })();

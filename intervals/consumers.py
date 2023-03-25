@@ -33,12 +33,12 @@ class IntervalConsumer(AsyncWebsocketConsumer):
             with wave.open(temp_wav, 'rb') as file:
                 freq = find_max_frequency(file)
                 if freq:
-                    freq = get_closest_note(freq)
-                    print(freq)
+                    tone = get_closest_note(freq)
+                    print(tone)
 
                     await self.channel_layer.group_send(self.room_group_name, \
                                             {'type': 'chords_message', \
-                                             'message': freq[1]})
+                                             'message': tone[0]})
         except struct.error as error:
             print(error)
 

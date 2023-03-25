@@ -34,6 +34,7 @@ def send_login_email(request):
 def login(request):
     """ Register log in system """
     uid = request.GET.get('token')
+    print(uid)
     user = auth.authenticate(request, uid=uid)
     if user:
         auth.login(request, user)
