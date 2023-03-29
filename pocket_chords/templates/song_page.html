@@ -14,8 +14,19 @@
         </div>
         <table id="id_song_table" class="table">
             {% for item in song.sketch_set.all %}
-            <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+                <tr><td><data id="data-{{ item.id }}">{{ forloop.counter }}: {{ item.text }}
+                    <input class='chunk-input' value='{{ item.text }}'>
+                    <button class='edit-chunk' onclick="edit('data-{{ item.id }}')">edit {{ item.id }}</button>
+                    <button class='save-chunk' onclick="save('data-{{ item.id }}')" hidden>save {{ item.id }}</button>
+                    <button class='delete-chunk'>delete {{ item.id }}</button>
+                </data>
+                </td></tr>
+                <a></a>
             {% endfor %}
         </table>
 
+{% endblock %}
+
+{% block page_scripts %}
+    <script src="/static/song_page.js"></script> 
 {% endblock %}
