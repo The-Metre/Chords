@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 
 from pocket_chords.models import Song, Sketch, ChordNotesRelation
 from pocket_chords.forms import (
@@ -52,6 +53,10 @@ def song_page(request, song_id):
             Sketch.objects.create(text=request.POST['text'], song=song)
             return redirect(song)
     return render(request, 'song_page.html', {'song': song, 'form': form})
+
+def edit_chunk(request, chunk_id):
+    print(chunk_id)
+    return JsonResponse({"text": chunk_id}, status=200)
 
 def my_songs(request, user_email):
     owner = User.objects.get(email=user_email)

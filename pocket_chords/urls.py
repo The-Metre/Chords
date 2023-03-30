@@ -6,5 +6,10 @@ urlpatterns = [
     path('', views.home_page, name='home'),
     path('song_page/<int:song_id>/', views.song_page, name='song_page'),
     path('song_page/new', views.new_song, name='new_song'),
-    path('songs/users/<str:user_email>', views.my_songs, name='my_songs')
+    path('songs/users/<str:user_email>', views.my_songs, name='my_songs'),
+
+
+    # Api route
+    path('edit/chunk/<int:chunk_id>', views.edit_chunk, name='edit_chunk'),
 ]
+

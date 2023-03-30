@@ -14,7 +14,12 @@ let save = id => {
     element.hidden = false;
     let save = document.getElementById(id).getElementsByClassName('save-chunk')[0];
     save.hidden = true;
-    console.log('saving', id)
+
+
+    fetch(`/edit/chunk/${id.split('data-')[1]}`)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result.text)})
 }
 
 
