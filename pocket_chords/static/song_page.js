@@ -1,4 +1,4 @@
-let edit = id => {
+const edit = id => {
     let element = document.getElementById(id).getElementsByClassName('edit-chunk')[0];
     element.hidden = true;
     let save = document.getElementById(id).getElementsByClassName('save-chunk')[0];
@@ -9,17 +9,27 @@ let edit = id => {
     some.display = 'none'
 }
 
-let save = id => {
-    let element = document.getElementById(id).getElementsByClassName('edit-chunk')[0];
+const save = id => {
+    const element = document.getElementById(id).getElementsByClassName('edit-chunk')[0];
     element.hidden = false;
-    let save = document.getElementById(id).getElementsByClassName('save-chunk')[0];
+    const save = document.getElementById(id).getElementsByClassName('save-chunk')[0];
     save.hidden = true;
+    let text = document.getElementById(id).getElementsByClassName('chunk-input')[0];
+    text.hidden = true;
 
+    save.type = 'hidden'
+    save.name = '_csrf'
 
-    fetch(`/edit/chunk/${id.split('data-')[1]}`)
+    fetch(`/edit/chunk/${id.split('data-')[1]}`, {
+        method: "PUT",
+        body: JSON.stringify({
+            song_chunk: text.value
+        })
+    })
     .then(response => response.json())
     .then(result => {
-        console.log(result.text)})
+        console.log(result.text)}
+        )
 }
 
 

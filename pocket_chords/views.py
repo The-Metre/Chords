@@ -1,3 +1,6 @@
+import json
+
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
@@ -54,9 +57,15 @@ def song_page(request, song_id):
             return redirect(song)
     return render(request, 'song_page.html', {'song': song, 'form': form})
 
+@csrf_exempt
 def edit_chunk(request, chunk_id):
-    print(chunk_id)
-    return JsonResponse({"text": chunk_id}, status=200)
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        chunk = Sketch.objects.get(pk=chunk_id)
+        chunk.text = data['song_chunk']
+        chunk.save()
+        song = chunk.song
+        return JsonResponse({"song": song}, status=200)
 
 def my_songs(request, user_email):
     owner = User.objects.get(email=user_email)
