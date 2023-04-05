@@ -1,5 +1,6 @@
 from django import forms
 from pocket_chords.models import Song, Sketch
+from django.forms.models import inlineformset_factory
 
 EMPTY__ITEM_ERROR = "You can't have an empty list item"
 DUPLICATE_ITEM_ERROR = "Item already exists in the model"
@@ -56,6 +57,13 @@ class SketchForm(forms.models.ModelForm):
         if Sketch.objects.filter(song=song, text=text).exists():
             raise forms.ValidationError((DUPLICATE_ITEM_ERROR), code='duplicate value')
         return cleaned_data
+
+SketchFormSet = inlineformset_factory(
+    Song,
+    Sketch,
+    SketchForm,
+    can_delete=True
+)
 
 class NewSongForm(SongForm):
     

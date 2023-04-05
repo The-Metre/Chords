@@ -35,14 +35,14 @@ def new_song(request):
     else:
         return render(request, 'homepage.html', {"form": form})
 
-def new_song2(request):
+""" def new_song2(request):
     form = NewSongForm(data=request.POST)
     if form.is_valid():
         song = form.save(owner=request.user)
         return redirect(song)
-    return render(request, 'homepage.html', {"form": form})
+    return render(request, 'homepage.html', {"form": form}) """
 
-def song_page(request, song_id):
+def song_page1(request, song_id):
     """ Show the user song page """
     song = Song.objects.get(pk=song_id)
     form = SketchForm(initial={
@@ -57,15 +57,35 @@ def song_page(request, song_id):
             return redirect(song)
     return render(request, 'song_page.html', {'song': song, 'form': form})
 
-@csrf_exempt
-def edit_chunk(request, chunk_id):
-    if request.method == "PUT":
-        data = json.loads(request.body)
-        chunk = Sketch.objects.get(pk=chunk_id)
-        chunk.text = data['song_chunk']
-        chunk.save()
-        song = chunk.song
-        return JsonResponse({"song": song}, status=200)
+def song_page(request, song_id):
+    song = Song.objects.get(pk=song_id)
+    form = SketchForm(initial={
+        'text': "",
+        'song': song,
+    })
+
+    if request.method == 'POST':
+        form = SketchForm(request.POST)
+        if form.is_valid():
+            chunk = Sketch.objects.create(text=request.POST['text'], song=song)
+            return redirect('chunk_detail', pk=chunk.id)
+    
+    return render(request, 'song_page.html', {'song': song, 'form': form})
+
+
+def create_chunk_form(request):
+    context = {
+        'form': SketchForm(),
+    }
+    return render(request, 'partials/chunk_form.html', context)
+
+def chunk_detail(request, chunk_id):
+    chunk = Sketch.objects.get(song=chunk_id)
+    context = {
+        'chunk': chunk
+    }
+    return render(request, 'song_page.html', context)
+
 
 def my_songs(request, user_email):
     owner = User.objects.get(email=user_email)

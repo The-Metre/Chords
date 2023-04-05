@@ -28,7 +28,9 @@ const save = id => {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result.text)}
+        one = document.getElementById(id).getElementsByClassName('chunk-text')[0];
+        one.innerHTML = result.text
+        }
         )
 }
 
