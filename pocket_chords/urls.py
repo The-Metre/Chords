@@ -8,9 +8,9 @@ urlpatterns = [
     path('song_page/new', views.new_song, name='new_song'),
     path('songs/users/<str:user_email>', views.my_songs, name='my_songs'),
 
+    # HTMX routes
     path('htmx/chunk_form/', views.create_chunk_form, name='chunk_form'),
+    path('htmx/chunk_detail/<int:chunk_id>/', views.chunk_detail, name='chunk_detail'),
 
-    # Api route
-    path('song_page/chunk/<int:chunk_id>', views.chunk_detail, name='chunk_detail'),
 ]
 

@@ -53,7 +53,9 @@ class Song(models.Model):
     
     def create_new(self):
         pass
-
+    
+    def __str__(self):
+        return self.name
 
 class Sketch(models.Model):
     """ Class contain string('notes')
