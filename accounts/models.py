@@ -22,3 +22,5 @@ class Token(models.Model):
     email = models.EmailField()
     uid = models.CharField(default = uuid.uuid4,max_length=40)
 
+    def __str__(self):
+        return self.email

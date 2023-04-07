@@ -34,25 +34,9 @@ def new_song(request):
     else:
         return render(request, 'homepage.html', {"form": form})
 
-
-def song_page1(request, song_id):
-    """ Show the user song page """
-    song = Song.objects.get(pk=song_id)
-    form = SketchForm(initial={
-        'text': "",
-        'song': song
-    })
-    if request.method == "POST":
-        form = SketchForm(request.POST)
-        if form.is_valid():
-            #Trying to save an element, if it alredy exists
-            Sketch.objects.create(text=request.POST['text'], song=song)
-            return redirect(song)
-    return render(request, 'song_page.html', {'song': song, 'form': form})
-
 def song_page(request, song_id):
     song = Song.objects.get(pk=song_id)
-    form = SketchForm(request.POST)
+    form = SketchForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
