@@ -7,6 +7,7 @@ from django.db.utils import IntegrityError
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from django.http.response import HttpResponse
 
 from pocket_chords.models import Song, Sketch, ChordNotesRelation
 from pocket_chords.forms import (
@@ -36,6 +37,7 @@ def new_song(request):
 
 def song_page(request, song_id):
     song = Song.objects.get(pk=song_id)
+    song_chunks = Sketch.objects.filter(song=song)
     form = SketchForm(request.POST or None)
 
     if request.method == 'POST':
@@ -53,6 +55,7 @@ def song_page(request, song_id):
     context = {
         'song': song,
         'form': form,
+        'song_chunks': song_chunks,
     }
 
     return render(request, 'song_page.html', context)
@@ -64,12 +67,18 @@ def create_chunk_form(request):
     }
     return render(request, 'partials/chunk_form.html', context)
 
+
 def chunk_detail(request, chunk_id):
     chunk = Sketch.objects.get(pk=chunk_id)
     context = {
         'chunk': chunk
     }
     return render(request, 'partials/chunk_detail.html', context)
+
+def delete_chunk(request, chunk_id):
+    chunk = Sketch.objects.get(pk=chunk_id)
+    chunk.delete()
+    return HttpResponse('')
 
 
 def my_songs(request, user_email):

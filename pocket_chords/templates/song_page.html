@@ -8,7 +8,7 @@
             </pre>
         </div>
         
-        <table id="id_song_table" class="table" >
+        <!-- <table id="id_song_table" class="table" >
             {% for item in song.sketch_set.all %}
                 <tr>
                     <td>
@@ -16,10 +16,21 @@
                     </td>
                 </tr>
             {% endfor %}
-        </table>
-
+        </table> -->
         <h1>Create chunk for {{ song.name }}</h1>
         <button hx-get="{% url 'chunk_form' %}" hx-swap="beforeend" hx-target="#chunkform"> Submit </button>
+
+        <table class="table">
+            {% for chunk in song_chunks %}
+            <tr>
+                <td>
+                    {% include 'partials/chunk_detail.html' %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
 
 
         <div id="chunkform"></div>
