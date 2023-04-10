@@ -2,7 +2,12 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+
+        {% if chunk %}
+        <button hx-post="{% url 'update_chunk' chunk.id %}"></button>
+        {% else %}
         <button hx-post="."></button>
+        {% endif %}
     </form>
 </div>
 

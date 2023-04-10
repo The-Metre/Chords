@@ -5,10 +5,10 @@
         <h3>
             {{ chunk }}
         </h3>
-        <button hx-get="">
+        <button hx-get="{% url 'update_chunk' chunk.id %}">
             Update
         </button>
-        <button hx-post="{%url 'delete_chunk' chunk.id %}">
+        <button hx-post="{% url 'delete_chunk' chunk.id %}">
             Delete
         </button>
     </form>

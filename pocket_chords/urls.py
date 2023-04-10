@@ -12,5 +12,6 @@ urlpatterns = [
     path('htmx/chunk_form/', views.create_chunk_form, name='chunk_form'),
     path('htmx/chunk_detail/<int:chunk_id>/', views.chunk_detail, name='chunk_detail'),
     path('htmx/chunk_detail/<int:chunk_id>/delete/', views.delete_chunk, name='delete_chunk'),
+    path('htmx/chunk_detail/<int:chunk_id>/update/', views.update_chunk, name='update_chunk'),
 ]
 
