@@ -8,13 +8,12 @@
             return notes[Math.floor(Math.random() * notes.length)];
         }
 
-        
 
         const interval_time_length = 250
         const websocket_url = 'ws://'
                             + window.location.host
                             + '/ws/intervals/'
-                            + interval_name
+                            + interval_name.replace('.', '_')
                             + '/'
 
         const intervals_websocket_functionality = {
@@ -36,8 +35,6 @@
 
                 socket.onopen = () => {
                     const stop_button = document.querySelector('.stop-interval-button')
-
-                    Note.innerHTML = random_note(sharp_notes);
 
                     const record_and_send = async(stream) => {
                         const recorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
@@ -76,6 +73,7 @@
                     Note.innerHTML = 'Correct';
                 }
                 console.log(received);
+
             };
             } catch (err) {
                     console.error(`$(err.name): $(err.message)`);

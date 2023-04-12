@@ -83,7 +83,7 @@ def delete_chunk(request, chunk_id):
 def update_chunk(request, chunk_id):
     chunk = Sketch.objects.get(pk=chunk_id)
     form = SketchForm(request.POST or None, instance=chunk)
-
+    
     if request.method == 'POST':
         if form.is_valid():
             if not Sketch.objects.filter(song=chunk.song, text=request.POST['text']).exists():

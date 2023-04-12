@@ -8,19 +8,10 @@
             </pre>
         </div>
         
-        <!-- <table id="id_song_table" class="table" >
-            {% for item in song.sketch_set.all %}
-                <tr>
-                    <td>
-                        {{ item.text }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table> -->
         <h1>Create chunk for {{ song.name }}</h1>
         <button hx-get="{% url 'chunk_form' %}" hx-swap="beforeend" hx-target="#chunkform"> Submit </button>
 
-        <table class="table">
+        <table id="id_song_table" class="table">
             {% for chunk in song_chunks %}
             <tr>
                 <td>
@@ -30,29 +21,11 @@
             {% endfor %}
         </table>
 
-
-
-
         <div id="chunkform"></div>
-
-        <table id="id_song_table" class="table" hidden>
-            {% for item in song.sketch_set.all %}
-           
-                <tr><td><data id="data-{{ item.id }}">
-                    <p class="chunk-text">{{ item.text }}</p>
-                    <input class='chunk-input' value='{{ item.text }}' hidden>
-                    <button class='edit-chunk' onclick="edit('data-{{ item.id }}')">edit {{ item.id }}</button>
-                    <button class='save-chunk' onclick="save('data-{{ item.id }}')" hidden>save {{ item.id }}</button>
-                    <button class='delete-chunk'>delete {{ item.id }}</button>
-                </data>
-                </td></tr>
-            {% endfor %}
-        </table>
 
 {% endblock %}
 
 {% block page_scripts %}
     <script src="https://unpkg.com/htmx.org@1.8.6"></script>
     <script src="/static/song_page.js"></script>
-    <script src="/static/song_page1.js"></script>
 {% endblock %}
