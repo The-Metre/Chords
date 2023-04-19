@@ -25,44 +25,41 @@ def note_range(instrument_type: str = None):
 
 @note_range('guitar')
 def find_max_frequency(audio_file):
-	# Storing our sound file as a numpy array
-	file_length = audio_file.getnframes() 
-	#sampling frequency
-	sampling_frequency = audio_file.getframerate() 
-	# blank array
-	sound = np.zeros(file_length) 
+	# Get the number of frames in the audio file
+    file_length = audio_file.getnframes()
 
-	for i in range(file_length) : 
-		wdata = audio_file.readframes(1)
-		data = struct.unpack("q",wdata)
-		sound[i] = int(data[0])
-	# scaling it to 0 - 1
-	sound=np.divide(sound,float(2**15)) 
+    # Get the sampling frequency of the audio file
+    sampling_frequency = audio_file.getframerate()
 
-	#number of channels mono/sterio
-	counter = audio_file.getnchannels()
+    # Read the audio file as a numpy array
+    sound = np.frombuffer(audio_file.readframes(file_length), dtype=np.int16)
 
-	#fourier transformation from numpy module
-	fourier = np.fft.fft(sound)
-	fourier = np.absolute(fourier)
-	imax=np.argmax(fourier[0:int(file_length/2)]) #index of max element
+    # Normalize the sound array to the range [-1, 1]
+    sound = sound / np.iinfo(np.int16).max
 
-	#peak detection
-	i_begin = -1
-	threshold = 0.3 * fourier[imax]
-	for i in range (0,imax+100):
-		if fourier[i] >= threshold:
-			if(i_begin == -1):
-				i_begin = i				
-		if(i_begin !=-1 and fourier[i] < threshold):
-			break
-	i_end = i
-	imax = np.argmax(fourier[0:i_end+100])
-	
-	#formula to convert index into sound frequency
-	freq=(imax*sampling_frequency)/(file_length*counter) 
-	
-	return round(freq, 1)
+    # Compute the length of the Hamming window
+    window_length = min(file_length, 13128)
+
+    # Create a Hamming window of the appropriate length
+    window = np.hamming(window_length)
+
+    # Apply the Hamming window to the sound array
+    sound = sound[:window_length] * window
+
+    # Compute the one-dimensional discrete Fourier Transform
+    fourier = np.fft.fft(sound)
+
+    # Compute the magnitude spectrum of the Fourier Transform
+    magnitude_spectrum = np.abs(fourier)
+
+    # Find the index of the maximum value in the magnitude spectrum
+    max_index = np.argmax(magnitude_spectrum[:window_length // 2])
+
+    # Compute the frequency corresponding to the maximum value
+    frequency = max_index * sampling_frequency / window_length
+
+    return round(frequency, 1)
+
 
 def get_closest_note(pitch: float):
     """
