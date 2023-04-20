@@ -16,6 +16,10 @@
             <tr>
                 <td>
                     {% include 'partials/chunk_detail.html' %}
+                    
+                    {% if error %}
+                        {{ error }}
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

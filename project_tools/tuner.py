@@ -4,11 +4,15 @@ import struct
 
 ALL_NOTES = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
 CONCERT_PITCH = 440
-GUITAR_FREQ_RANGE = [40, 400]
+GUITAR_FREQ_RANGE = [27.5, 400]
 PIANO_FREQ_RANGE = [27.5, 4190]
 
 
 def note_range(instrument_type: str = None):
+	""" Decorator for 'find_max_frequency function' 
+        use it to cut specific frequences based on 
+        musical instrument
+    """
 	instrument_range = {
 		'guitar': GUITAR_FREQ_RANGE,
 		'piano': PIANO_FREQ_RANGE

@@ -9,7 +9,7 @@ class SongForm(forms.models.ModelForm):
 
     class Meta:
         model=Song
-        fields = ('name',)
+        fields = ('name', )
         
         widgets = {
             'name': forms.fields.TextInput(attrs={

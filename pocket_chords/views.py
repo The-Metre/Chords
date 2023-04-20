@@ -44,9 +44,8 @@ def song_page(request, song_id):
         if form.is_valid():
             chunk = form.save(commit=False)
             chunk.song = song
-            if not Sketch.objects.filter(song=song, text=request.POST['text']).exists():
-                chunk.save()
-                return redirect('chunk_detail', chunk_id=chunk.id)
+            chunk.save()
+            return redirect('chunk_detail', chunk_id=chunk.id)
         else:
             return render(request, 'partials/chunk_form.html', {
                 'form': form,
@@ -67,7 +66,6 @@ def create_chunk_form(request):
     }
     return render(request, 'partials/chunk_form.html', context)
 
-
 def chunk_detail(request, chunk_id):
     chunk = Sketch.objects.get(pk=chunk_id)
     context = {
@@ -86,9 +84,8 @@ def update_chunk(request, chunk_id):
     
     if request.method == 'POST':
         if form.is_valid():
-            if not Sketch.objects.filter(song=chunk.song, text=request.POST['text']).exists():
-                chunk = form.save()
-                return redirect('chunk_detail', chunk_id=chunk.id)
+            chunk = form.save()
+            return redirect('chunk_detail', chunk_id=chunk.id)
         
     context = {
         'form': form,
