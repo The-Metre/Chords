@@ -3,6 +3,20 @@ import wave
 import struct
 
 ALL_NOTES = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
+INTERVAL_NAME = {'Perfect unison': 0,
+		        'Minor second': 1,
+		        'Major second': 2,
+		        'Minor third': 3,
+		        'Major third': 4,
+                'Perfect fourth': 5,
+                'Tritone': 6,
+                'Perfect fifth': 7,
+                'Minor sixth': 8,
+                'Major sixth': 9,
+                'Minor seventh': 10,
+                'Major seventh': 11,
+                'Perfect octave': 12
+	            }
 CONCERT_PITCH = 440
 GUITAR_FREQ_RANGE = [27.5, 400]
 PIANO_FREQ_RANGE = [27.5, 4190]
