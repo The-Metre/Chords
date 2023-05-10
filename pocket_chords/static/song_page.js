@@ -5,9 +5,9 @@ document.body.addEventListener('htmx:configRequest', (event) => {
 
 const chord_sign = document.querySelector('.song_text')
 const item = 'Em'
-const chunk = new RegExp(item, "g")
+const chunk = new RegExp(`{${item}}`, "g")
 
 function rep() {
     chord_sign.innerHTML
         = chord_sign.innerHTML
-        .replace(chunk, `<span class='chord' value='${item}'>${item} s</span>`)};
+        .replace(chunk, `<span class='chord' value='${item}'>[${item}]</span>`)};

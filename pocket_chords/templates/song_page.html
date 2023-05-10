@@ -8,7 +8,7 @@
             </pre>
         </div>
         
-        <h1>Create chunk for {{ song.name }}</h1>
+        <p>Create chunk for {{ song.name }}</p>
         <button hx-get="{% url 'chunk_form' %}" hx-swap="beforeend" hx-target="#chunkform"> Submit </button>
 
         <table id="id_song_table" class="table">
