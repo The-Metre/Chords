@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 
 {% block fretboard %}
+<div class="practice-instrumentary">
+    <label for="practice-option">Practice options:</label>
 
+    <label for="show-guitar-fretboard">Fretboard: </label>
+    <input type="checkbox" id="show-guitar-fretboard">
+
+    <label for="show-metronome">Metronome: </label>
+    <input type="checkbox" id="show-metronome">
+
+    <label for="show-interval-listener">Interval listener: </label>
+    <input type="checkbox" id="show-interval-listener">
+
+</div>
 
 <div class="fretboard-settings">
     <label for="instrument-selector">Selected instrument:</label>
@@ -49,7 +61,6 @@
     <div class="metronome">
         <div class="bpm-display">
             <span class="tempo">140</span>
-            <div class="test">F A C</div>
             <span class="bpm">BPM</span>
         </div>
         <div class="tempo-text">Medium</div>

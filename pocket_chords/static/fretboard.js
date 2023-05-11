@@ -7,7 +7,14 @@
     const show_all_notes_selector = document.querySelector('#show-all-notes');
     const show_duplicate_notes_selector = document.querySelector('#show-duplicate-notes');
     const note_name_section = document.querySelector('.note-name-section');
-    
+    const show_guitar_fretboard_selector = document.querySelector('#show-guitar-fretboard');
+    const show_metronome_selector = document.querySelector('#show-metronome');
+    const show_interval_listener_selector = document.querySelector('#show-interval-listener');
+    const metronome_container = document.querySelector('.metronome-container');
+    const interval_container = document.querySelector('.intervals-container');
+    const guitar_fretboard_container = document.querySelector('.fretboard-settings')
+    const chord_name_section = document.querySelector('.chord-name-section')
+
     const chord_section = document.querySelectorAll('.chord-notes')
 
     const single_fret_mark_positions = [3, 5, 7, 9, 15, 17, 19, 21];
@@ -210,6 +217,36 @@
                 return;
             }
         },
+        set_show_guitar_fretboard() {
+            show_guitar_fretboard = show_guitar_fretboard_selector.checked
+            if (!show_guitar_fretboard_selector.checked) {
+                guitar_fretboard_container.style.setProperty('display', 'none');
+                fretboard.style.setProperty('display', 'none');
+                note_name_section.style.setProperty('display', 'none');
+                chord_name_section.style.setProperty('display', 'none');
+            } else {
+                guitar_fretboard_container.style.removeProperty('display');
+                fretboard.style.removeProperty('display');
+                note_name_section.style.removeProperty('display');
+                chord_name_section.style.removeProperty('display');
+            }
+        },
+        set_show_metronome(){
+            show_metronome = show_metronome_selector.checked
+            if (!show_metronome_selector.checked) {
+                metronome_container.style.setProperty('display', 'none')
+            } else {
+                metronome_container.style.removeProperty('display')
+            }
+        },
+        set_show_interval_listener(){
+            show_interval_listener = show_interval_listener_selector.checked
+            if (!show_interval_listener_selector.checked) {
+                interval_container.style.setProperty('display', 'none');
+            } else {
+                interval_container.style.removeProperty('display');
+            }
+        },
         setup_event_listeners() {
 
             fretboard.addEventListener('mouseover', this.show_note_dot);
@@ -225,8 +262,11 @@
                 element.addEventListener('mouseover', this.set_notes_to_show);
                 element.addEventListener('mouseout', this.set_notes_to_hide);
             });
-            test.addEventListener('mouseover', this.set_notes_to_show);
-            test.addEventListener('mouseout', this.set_notes_to_hide);
+            show_metronome_selector.addEventListener('change', this.set_show_metronome);
+            show_guitar_fretboard_selector.addEventListener('change', this.set_show_guitar_fretboard);
+            show_interval_listener_selector.addEventListener('change', this.set_show_interval_listener);
+           /*  test.addEventListener('mouseover', this.set_notes_to_show);
+            test.addEventListener('mouseout', this.set_notes_to_hide); */
         },
     }
 
