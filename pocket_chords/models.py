@@ -42,6 +42,9 @@ class ChordNotesRelation(models.Model):
     class Meta:
         ordering = ('chord_name', )
         unique_together = (('chord_name', 'chord_note'), )
+    
+    def __str__(self) -> str:
+        return f'{self.chord_name} containt note: {self.chord_note}'
 
 
 class Song(models.Model):

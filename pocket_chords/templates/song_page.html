@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block table %}
-        <button onclick="rep()">Replace</button>
+       <!--  <button onclick="rep()">Replace</button> 
+            TODO: convert all text chunks that framed in curly brakets 
+            into chords from the chord model in song_text div    
+    -->
         <div class="song_text">
             <pre>
                 {{ song.text }}

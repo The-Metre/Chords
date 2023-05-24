@@ -8,3 +8,4 @@ chromedriver-binary==83.0.4103.39.0
 mingus==0.6.1
 pydub==0.25.1
 channels-redis==4.0.0
+daphne==4.0.0
