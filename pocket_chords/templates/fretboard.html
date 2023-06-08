@@ -56,11 +56,14 @@
 
 
 <div class="chord-selection">
-    <select id="chordbox">
+    <!-- <select id="chordbox">
         {% for key, value in chord_select %}
         <option value="{{key}}">{{key}}</option>
         {% endfor %}
-    </select>
+    </select> -->
+    {{ stuff|json_script:'chord_stuff' }}
+    <input type="text" id="autocomplete-input" placeholder="Type to search...">
+    <div id="checkbox-list"></div>
 </div>
 
   
@@ -109,4 +112,5 @@
     <script src="/static/timer.js"></script>
     <script src="/static/fretboard.js"></script>
     <script src="/static/intervals_websocket.js"></script>
+    <script src="/static/autocomplete_input.js"></script>
 {% endblock %}

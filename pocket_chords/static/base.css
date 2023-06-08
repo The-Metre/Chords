@@ -356,3 +356,26 @@ input[type=range]::-moz-range-track {
     display: flex;
     justify-content: center;
 }
+
+
+/* autocomplete checkbox */
+
+#checkbox-list {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #f1f1f1;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+}
+
+#checbox-list label {
+    display: block;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#checkbox-list label:hover {
+    background-color: #ddd;
+}
