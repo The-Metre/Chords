@@ -42,8 +42,17 @@ autocompleteInput.addEventListener('click', function() {
     checkboxList.style.display = 'block';
 });
 
+autocompleteInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const a = autocompleteInput.value
+        if (a in stuff) {
+            console.log(stuff[a])
+        }
+    }
+})
+
 document.addEventListener('click', function(e) {
-    if (!autocompleteInput.contains(e.target)) {
+    if (!autocompleteInput.contains(e.target) || e.target.value.length === 0) {
         checkboxList.style.display = 'none';
     }
 });
