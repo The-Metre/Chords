@@ -41,19 +41,28 @@
 </div>
 
 
-<div class="chord-name-section">
+<!-- <div class="chord-name-section">
     {% for key, value in chords %}
       {% if forloop.counter0|divisibleby:3 %}
         <div class="chord-group">
       {% endif %}
-     <!--  <div class="chord-name">{{ key }}:</div>
-      <div class="chord-notes">{{ value }}</div> -->
+      <div class="chord-name">{{ key }}:</div>
+      <div class="chord-notes">{{ value }}</div>
       {% if forloop.counter|divisibleby:3 or forloop.last %}
         </div>
       {% endif %}
     {% endfor %}
   </div>
+ -->
 
+ <div class="chord-name-section">
+    <div class="chord-group">
+        <div class="chord-name">Example of an F chord
+        </div>
+        <div class="chord-notes">F A C
+        </div>
+    </div>
+ </div>
 
 <div class="chord-selection">
     <!-- <select id="chordbox">

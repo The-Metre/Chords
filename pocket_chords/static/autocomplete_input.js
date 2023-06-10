@@ -1,6 +1,8 @@
 const checkboxList = document.getElementById('checkbox-list');
 const autocompleteInput = document.getElementById('autocomplete-input');
 const stuff = JSON.parse(document.getElementById('chord_stuff').textContent)
+const searching_chord_name = document.querySelector('.chord-name')
+const searching_chord_tones =  document.querySelector('.chord-notes')
 
 
 const options = [];
@@ -38,15 +40,31 @@ autocompleteInput.addEventListener('input', function() {
     }
 });
 
+
+/* 
+    Check if caseinsensitive key 
+    contain in dictionary object('chord name': 'chord tones')
+*/
+function getParameterCaseInsensitive(object, key) {
+    const asLowercase = key.toLowerCase();
+    return object[Object.keys(object)
+      .find(k => k.toLowerCase() === asLowercase)
+    ];
+  }
+  
+/* On click on the input area, show hints of chords names */
 autocompleteInput.addEventListener('click', function() {
     checkboxList.style.display = 'block';
 });
 
+/* When Enter key pressed show chord tones */
 autocompleteInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
-        const a = autocompleteInput.value
-        if (a in stuff) {
-            console.log(stuff[a])
+        const checked_chord_name = autocompleteInput.value;
+        const checked_chord_notes = getParameterCaseInsensitive(stuff, checked_chord_name);
+        if (checked_chord_notes) {
+            searching_chord_name.innerHTML = checked_chord_name;
+            searching_chord_tones.innerHTML = checked_chord_notes;
         }
     }
 })
@@ -56,3 +74,4 @@ document.addEventListener('click', function(e) {
         checkboxList.style.display = 'none';
     }
 });
+
