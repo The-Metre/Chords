@@ -1,3 +1,4 @@
+
 const checkboxList = document.getElementById('checkbox-list');
 const autocompleteInput = document.getElementById('autocomplete-input');
 const stuff = JSON.parse(document.getElementById('chord_stuff').textContent)

@@ -3,7 +3,7 @@
         const recorder_button = document.querySelector('.chords-notes-selector')
         const Note = document.querySelector('.note')
         const sharp_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#','G', 'G#'];
-        const interval_time_length = 250
+        const interval_time_length = 300;   
         const websocket_url = 'ws://'
                             + window.location.host
                             + '/ws/intervals/'
@@ -83,7 +83,9 @@
                     Note.innerHTML = target_note;
                     socket_paused = false;
                 }, 2000);
-
+                
+                console.log(received.message)
+                Note.innerHTML = received.message
             };
             } catch (err) {
                     console.error(`${err.name}: ${err.message}`);
