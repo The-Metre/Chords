@@ -348,6 +348,32 @@ input[type=range]::-moz-range-track {
 
 /* Intervals */
 
+.intervals-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.intervals {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 150px;
+}
+
+.intervals-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.interval-text {
+    display: flex;
+    text-align: center;
+    font-size: 1.6em;
+    text-transform: uppercase;
+}
+
 .interval-button, .target-note, .chords-notes-selector {
     width: 100%;
     color: #000;

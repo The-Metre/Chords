@@ -101,13 +101,20 @@
 </div>
 
 <div class="intervals-container">
-    <div class="chords-notes-selector">
-        <button class="start-interval-button">Chords</button>
-    </div>
-    <div class="interval-button">
-        <div class="note">Note</div>
-        <div class="sound-direction">Direction</div>
-        <button class="stop-interval-button">Listening</button>
+    <div class="intervals">
+        <div class="intervals-buttons">
+            <div class="chords-notes-selector">
+                <button class="start-interval-button">Chords</button>
+            </div>
+            <div class="interval-button">
+                <button class="stop-interval-button">Listening</button>
+            </div>
+        </div>
+            
+        <div class="interval-text">
+            <div class="note">Note</div>
+            <div class="sound-direction">Direction</div>
+        </div>
     </div>
     {{ user_name|json_script:'user_name' }}
 </div>
