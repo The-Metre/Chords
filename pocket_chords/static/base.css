@@ -352,7 +352,7 @@ input[type=range]::-moz-range-track {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 30vh;
 }
 
 .intervals {
@@ -367,19 +367,23 @@ input[type=range]::-moz-range-track {
     justify-content: center;
 }
 
-.interval-text {
+
+
+.interval-text, .note {
     display: flex;
     text-align: center;
+    justify-content: center;
     font-size: 1.6em;
     text-transform: uppercase;
 }
 
-.interval-button, .target-note, .chords-notes-selector {
+.interval-button, .chords-notes-selector {
     width: 100%;
     color: #000;
     font-weight: 100;
     font-size: 2.5em;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 

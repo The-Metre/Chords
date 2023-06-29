@@ -38,7 +38,7 @@
                 socket.onopen = () => {
                     const stop_button = document.querySelector('.stop-interval-button');
 
-                    Note.innerHTML = target_note;
+                  /*   Note.innerHTML = target_note; */
 
                     const record_and_send = async(stream) => {
                         const recorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
@@ -74,7 +74,7 @@
 
             socket.onmessage = (message) => {
                 const received = JSON.parse(message.data);
-                if (received.message === target_note) {
+                /* if (received.message === target_note) {
                     Note.innerHTML = 'Correct!';
                 }
                 target_note = random_note(sharp_notes);
@@ -83,7 +83,7 @@
                     Note.innerHTML = target_note;
                     socket_paused = false;
                 }, 2000);
-                
+                 */
                 console.log(received.message)
                 Note.innerHTML = received.message
             };
