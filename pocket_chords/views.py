@@ -94,6 +94,9 @@ def update_chunk(request, chunk_id):
 
     return render(request, 'partials/chunk_form.html', context)
 
+def update_song_text(request, song_id):
+    pass
+
 def my_songs(request, user_email):
     owner = User.objects.get(email=user_email)
     return render(request, 'my_songs.html', {'owner': owner})

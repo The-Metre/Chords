@@ -6,9 +6,7 @@
             into chords from the chord model in song_text div    
     -->
         <div class="song_text">
-            <pre>
-                {{ song.text }}
-            </pre>
+            {% include 'partials/song_text_detail.html' %}
         </div>
         
         <p>Create chunk for {{ song.name }}</p>
@@ -19,7 +17,7 @@
             <tr>
                 <td>
                     {% include 'partials/chunk_detail.html' %}
-                    
+
                     {% if error %}
                         {{ error }}
                     {% endif %}

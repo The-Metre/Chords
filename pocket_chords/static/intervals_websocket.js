@@ -60,6 +60,7 @@
                         stop_button.onclick = (e) => {
                             socket.close();
                             recorder.stop();
+                            Note.innerHTML = 'Socket closed';
                         };
                     };
                     
