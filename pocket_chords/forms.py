@@ -26,7 +26,28 @@ class SongForm(forms.models.ModelForm):
             'name': {"required": EMPTY__ITEM_ERROR}
         }
     
-    
+
+class SongTextForm(forms.models.ModelForm):
+
+    class Meta:
+        model=Song
+        fields = {'text',}
+
+        widgets = {
+            'text': forms.fields.TextInput(attrs={
+                'placeholder': 'Enter a song text',
+                'class': 'form-control input-lg',
+            }),
+        }
+        labels = {
+            'text': "",
+            }
+
+        error_messages = {
+            'text': {"required": EMPTY__ITEM_ERROR}
+            }
+
+
 class SketchForm(forms.models.ModelForm):
 
     class Meta:
