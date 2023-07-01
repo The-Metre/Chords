@@ -4,7 +4,7 @@
         {{ song_form.as_p }}
 
         {% if song %}
-        <button hx-post="{% url 'update_song_text' song.id %}"></button>
+        <button hx-post="{% url 'update_song_text' song.id %}">Save changes</button>
         {% else %}
         <button hx-post="."></button>
         {% endif %}

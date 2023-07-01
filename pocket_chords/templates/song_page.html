@@ -9,25 +9,28 @@
             {% include 'partials/song_text_detail.html' %}
         </div>
 
+        <di class="song_list_of_chunks">
+            <p>Create chunk for {{ song.name }}</p>
+            <button hx-get="{% url 'chunk_form' %}" hx-swap="beforeend" hx-target="#chunkform"> + Chunk </button>
+            <table id="id_song_table" class="table">
+                {% for chunk in song_chunks %}
+                <tr>
+                    <td>
+                        {% include 'partials/chunk_detail.html' %}
+    
+                        {% if error %}
+                            {{ error }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+    
+            <div id="chunkform"></div>
+        </div>
+        
 
-        <p>Create chunk for {{ song.name }}</p>
-        <button hx-get="{% url 'chunk_form' %}" hx-swap="beforeend" hx-target="#chunkform"> Submit </button>
-
-        <table id="id_song_table" class="table">
-            {% for chunk in song_chunks %}
-            <tr>
-                <td>
-                    {% include 'partials/chunk_detail.html' %}
-
-                    {% if error %}
-                        {{ error }}
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-
-        <div id="chunkform"></div>
+        
 
 {% endblock %}
 

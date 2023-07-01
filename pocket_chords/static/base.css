@@ -429,3 +429,13 @@ input[type=range]::-moz-range-track {
 #checkbox-list label:hover {
     background-color: #ddd;
 }
+
+
+
+/* my song page */
+.my_song_container {
+    height: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

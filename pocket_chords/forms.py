@@ -34,7 +34,7 @@ class SongTextForm(forms.models.ModelForm):
         fields = {'text',}
 
         widgets = {
-            'text': forms.fields.TextInput(attrs={
+            'text': forms.fields.Textarea(attrs={
                 'placeholder': 'Enter a song text',
                 'class': 'form-control input-lg',
             }),

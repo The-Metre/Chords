@@ -6,10 +6,10 @@
             {{ song.name }}
         </h3>
         <h2>
-            {{ song.text }}
+            {{ song.text|linebreaks }}
         </h2>
         <button hx-get="{% url 'update_song_text' song.id %}">
-            Update
+            Update Song text
         </button>
     </form>
 </div>

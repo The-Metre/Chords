@@ -63,11 +63,7 @@
         </div>
     </div>
     <div class="chord-selection">
-        <!-- <select id="chordbox">
-            {% for key, value in chord_select %}
-            <option value="{{key}}">{{key}}</option>
-            {% endfor %}
-        </select> -->
+
         {{ stuff|json_script:'chord_stuff' }}
         <input type="text" id="autocomplete-input" placeholder="Type chord to search...">
         <div id="checkbox-list"></div>
