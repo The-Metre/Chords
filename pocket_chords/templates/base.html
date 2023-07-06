@@ -34,7 +34,7 @@
                     </form>
                     {% endif %}
                 </div>
-            
+                
                 {% if messages %}
                 <div class="row">
                     <div class="col-md-8">
@@ -50,57 +50,57 @@
             {% endif %}
         </nav>
         </div>
-            
-            
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-md-offset-3 bg-light">
-                    <div class="text-center">
-                        <h1>
-                            {% block header_text %}
-                            {% endblock %}
-                        </h1>
-                        {% block song_form %}
-                            <form method="POST" action="{% block form_action %}{% endblock %}">
-                                {% csrf_token %}
-                                {% block form_content %}
-                                {% endblock %}  
-                                {% if form.errors %}
-                                    <div class="form-group has-error">
-                                        <div class="help-block">{{ form.text.errors }}</div>
-                                    </div>
-                                {% endif %}
-                            </form>
+        <!-- Header text plus add new song form -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-md-offset-3 bg-light">
+                <div class="text-center">
+                    <h1>
+                        {% block header_text %}
                         {% endblock %}
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-md-offset-3">
-                    {% block table %}
+                    </h1>
+                    {% block song_form %}
+                        <form method="POST" action="{% block form_action %}{% endblock %}">
+                            {% csrf_token %}
+                            {% block form_content %}
+                            {% endblock %}  
+                            {% if form.errors %}
+                                <div class="form-group has-error">
+                                    <div class="help-block">{{ form.text.errors }}</div>
+                                </div>
+                            {% endif %}
+                        </form>
                     {% endblock %}
                 </div>
             </div>
-
-            <div class="row d-flex justify-content-center">
-                {% block extra_content %}
+        </div>
+        <!-- Table for users saved songs -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-md-offset-3">
+                {% block table %}
                 {% endblock %}
             </div>
         </div>
-        {% block fretboard %}
-        {% endblock %}
-
-        {% block fretboard_scripts %}
-        {% endblock %}
-        <div>
-            <script src="/static/jquery-3.6.3.js"></script>
-            <script src="/static/song.js"></script>
-            <script>$(document).ready(function () {
-                window.Songlists.initialize()
-            })
-            </script>
-            {% block page_scripts %}
+        <!-- Table for chunks of each song -->
+        <div class="row d-flex justify-content-center">
+            {% block extra_content %}
             {% endblock %}
         </div>
+    </div>
+    {% block fretboard %}
+    {% endblock %}
+
+    {% block fretboard_scripts %}
+    {% endblock %}
+    <div>
+        <script src="/static/jquery-3.6.3.js"></script>
+        <script src="/static/song.js"></script>
+        <script>$(document).ready(function () {
+            window.Songlists.initialize()
+        })
+        </script>
+        {% block page_scripts %}
+        {% endblock %}
+    </div>
     </body>
 </html>
       

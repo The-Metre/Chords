@@ -20,7 +20,7 @@ import sys
 
 
 def home_page(request):
-    return render(request, 'homepage.html', {'form': SongForm(), 'songs_list': Song.objects.all()})
+    return render(request, 'homepage.html', {'form': SongForm()})
 
 
 def new_song(request):

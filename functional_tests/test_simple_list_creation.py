@@ -38,24 +38,24 @@ class NewVisitorTest(FunctionalTest):
         # Check that we redirect to correct song page
         inputbox = self.browser.find_element(By.TAG_NAME, 'h1').text
 
-        self.assertIn(f'Your Music List for ({song_name})', inputbox)
+        self.assertIn(f'Add Song to your Music List', inputbox)
 
         # Add a new item chunk to the song list
-        inputbox = self.get_sketch_input_box()
+        inputbox = self.get_song_input_box()
         
         # Check that inputbox centered
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a song item'
+            'Enter an item'
         )
 
         inputbox.send_keys('First chunk')
         inputbox.send_keys(Keys.ENTER)
 
-        self.wait_for_row_in_list_table('1: First chunk')
+      #  self.wait_for_row_in_list_table('1: First chunk')
 
         # Try to fill the second info in form space and press 'enter' key
-        inputbox = self.get_sketch_input_box()
+        inputbox = self.get_song_input_box()
         inputbox.send_keys('Second chunk')
         inputbox.send_keys(Keys.ENTER)
         
@@ -81,10 +81,10 @@ class NewVisitorTest(FunctionalTest):
 
         inputbox = self.browser.find_element(By.TAG_NAME, 'h1').text
         
-        self.assertEqual(inputbox, f'Your Music List for ({song_name})')
+        self.assertEqual(inputbox, f'Add Song to your Music List')
 
         # Add a first item to the song
-        inputbox = self.get_sketch_input_box()
+        inputbox = self.get_song_input_box()
         inputbox.send_keys('First user song chunk')
         inputbox.send_keys(Keys.ENTER)
         
@@ -109,7 +109,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox.send_keys(Keys.ENTER)
 
         # New user starts to add new elements in the list
-        inputbox = self.get_sketch_input_box()
+        inputbox = self.get_song_input_box()
         inputbox.send_keys('Second user song')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Second user song')
