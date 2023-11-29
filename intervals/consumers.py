@@ -20,15 +20,15 @@ class IntervalConsumer(AsyncWebsocketConsumer):
     
     async def disconnect(self, close_code):
         if os.path.exists(TEMPORAL_AUDIO_FILE):
+                print('yes it exist')
                 os.remove(TEMPORAL_AUDIO_FILE)
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data=None, bytes_data=None):
-
+        
         audio_file = AudioSegment.from_file(BytesIO(bytes_data))
         temp_wav = TEMPORAL_AUDIO_FILE
         audio_file.export(temp_wav, format='wav')
-
         try:
             with wave.open(temp_wav, 'rb') as file:
                 freq = find_max_frequency(file)

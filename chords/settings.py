@@ -156,11 +156,14 @@ EMAIL_USE_TLS = True
 
 # Daphne
 ASGI_APPLICATION = 'chords.asgi.application'
+
+# Use "redis" instead of "127.0.0.1" in docker container
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("redis", 6379)],
         },
     },
 }

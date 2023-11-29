@@ -28,7 +28,6 @@ class LoginTest(FunctionalTest):
 
         # User check his mailbox
         email = mail.outbox[0]
-
         email_username, _ = TEST_EMAIL.split('@')
 
         self.assertIn(TEST_EMAIL, email.to)
@@ -45,7 +44,6 @@ class LoginTest(FunctionalTest):
         # User click on the link
         self.browser.get(url)
 
-        print('FUUUUUUUUUUU', url)
         # User is registered in the system
         self.wait_to_be_logged_in(email=email_username)
         self.browser.find_element(By.LINK_TEXT, 'Log out').click()

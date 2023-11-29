@@ -9,3 +9,5 @@ mingus==0.6.1
 pydub==0.25.1
 channels-redis==4.0.0
 daphne==4.0.0
+numpy==1.26.0
+ffprobe-python==1.0.3

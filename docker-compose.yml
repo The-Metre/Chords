@@ -2,18 +2,24 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/django
     ports:
       - 8000:8000
     image: sreda:django_s
     container_name: django_test_cont
-    links:
-      - selenium
-    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
+      - redis
+    
+    command: sh -c "python manage.py migrate && python manage.py fill_sql_table_with_chords && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS_HOST=redis
+
   db:
     image: postgres
     volumes: 
@@ -28,3 +34,7 @@ services:
     image: selenium/standalone-chrome
     ports:
       - 4444:4444
+  
+  redis:
+    image: redis
+    container_name: redis_db  

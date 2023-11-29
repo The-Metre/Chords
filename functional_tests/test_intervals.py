@@ -10,7 +10,7 @@ class IntervalPageTest(FunctionalTest):
 
         # Find a redirection link on the page
         # and click on it
-        self.browser.find_element(By.LINK_TEXT, "Intervals").click()
+        self.browser.find_element(By.LINK_TEXT, "Practice").click()
 
         # Make sure that we redirected on correct url
         self.wait_for(

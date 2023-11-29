@@ -16,6 +16,5 @@ class CreateNewSongTest(FunctionalTest):
         self.browser.get(url)
 
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
-        print(header_text)
         
         self.wait_to_be_logged_in(email='edit')
