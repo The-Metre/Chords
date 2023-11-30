@@ -16,7 +16,7 @@
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">Pocket Chords</a>
                     {% if user.email %}
-                    <a class="navbar-brand" href="{% url 'user_practice' user.username %}">Practice </a>
+                    <a class="navbar-brand" href="{% url 'user_practice' user.username %}" id="practice-page-button">Practice </a>
                     <ul class="nav navbar-nav navbar-left">
                         <a class="navbar-brand" href="{% url 'my_songs' user.email %}">My songs </a>
                     </ul>

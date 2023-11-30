@@ -58,7 +58,7 @@ class MySongsTest(FunctionalTest):
 
         # Find the second song in a list
         self.wait_for(
-            lambda: self.browser.find_element(By.LINK_TEST, 'second song')
+            lambda: self.browser.find_element(By.LINK_TEXT, 'second song')
         )
         self.browser.find_element(By.LINK_TEXT, 'second song').click()
 
