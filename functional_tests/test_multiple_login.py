@@ -49,7 +49,7 @@ class LoginTest(FunctionalTest):
     def test_can_relogin_with_different_user(self):
         """ Test that we can login under the different username """
         # Logout as first user
-        self.browser.find_element(By.ID, 'logout-button').send_keys(Keys.ENTER)
+        self.browser.find_element(By.ID, 'logout-button').click()
         try:
             # Check that after we logout, navbar will be hidden
             loged_first_user_name_text = self.browser.find_element(By.CLASS_NAME, 'navbar-text').text
