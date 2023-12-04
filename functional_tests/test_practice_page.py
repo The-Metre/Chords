@@ -20,6 +20,9 @@ TEST_SECOND_CHORD_NAME = 'f major'
 TEST_FIRST_CHORD_NOTES = 'A C E'
 TEST_SECOND_CHORD_NOTES = 'F A C'
 EMAIL_USERNAME, _ = TEST_EMAIL.split('@')
+DEFAULT_METRONOME_TEMPO = 140
+PLUS_TEMPO = 3
+MINUS_TEMPO = 11
 
 class LoginTest(FunctionalTest):
     """ Test multiple loggin
@@ -47,6 +50,17 @@ class LoginTest(FunctionalTest):
     def tearDown(self) -> None:
         self.browser.quit()
 
+
+    def to_practice_page(fn):
+        """
+        Decorator to redirect to the practice page
+        """
+        def modified_fn(self, *args, **kwargs):
+            # open a practice page
+            self.wait_for(self.browser.find_element(By.LINK_TEXT, 'Practice').click)
+            return fn(self, *args, **kwargs)
+        return modified_fn
+    
 
     def _fill_the_chord_with_notes(self, key_note):
         """ 
@@ -76,16 +90,15 @@ class LoginTest(FunctionalTest):
         # check if we redirect to a page
         self.assertNotEqual(main_page_url, self.browser.current_url)
 
-    
+    @to_practice_page
     def test_render_current_user_practice_page(self):
         """
         check that link redirect to the current user practice page 
         """
-        link_button = self.browser.find_element(By.LINK_TEXT, 'Practice')
-        self.wait_for(link_button.click)
         # check that redirect on the current user practice page
         self.assertRegex(self.browser.current_url, f'/practice/{EMAIL_USERNAME}.+')
-
+    
+    @to_practice_page
     def test_not_render_current_user_practice_page(self):
         """
         check that link don't redirect to the current user practice page 
@@ -95,12 +108,11 @@ class LoginTest(FunctionalTest):
         # check that not redirect on the current user practice page
         self.assertNotRegexpMatches(self.browser.current_url, f'/pracice/{EMAIL_USERNAME}.+')
 
+    @to_practice_page
     def test_fretboard_appearance(self):
         """ 
         test visibility of a fretboard when click on checkbox
         """
-        # open a practice page
-        self.wait_for(self.browser.find_element(By.LINK_TEXT, 'Practice').click)
         checkbox = self.browser.find_element(By.ID, 'show-guitar-fretboard')
         fretboard = self.browser.find_element(By.CLASS_NAME, 'fretboard')
         # checkbox attribute 'checked' by default should be true
@@ -113,6 +125,44 @@ class LoginTest(FunctionalTest):
         self.assertFalse(checkbox.get_attribute('checked'))
         self.assertFalse(fretboard.is_displayed())
     
+    @to_practice_page
+    def test_metronome_appearance(self):
+        """ 
+        test visibility of a metronome on a practice page
+        """
+        metronome_checkbox = self.browser.find_element(By.ID, 'show-metronome')
+        metronome = self.browser.find_element(By.CLASS_NAME, 'metronome')
+        # by default metronome is disabled on the page
+        self.assertFalse(metronome.is_displayed())
+        # click on the checkbox
+        self.wait_for(metronome_checkbox.click)
+        # check a visibility of the metronome
+        self.assertTrue(metronome.is_displayed())
+    
+    @to_practice_page
+    def test_metronome_tempo_changes(self):
+        """ 
+        test tempo changes by using adjust tempo buttons
+        """
+        self.wait_for(self.browser.find_element(By.ID, 'show-metronome').click)
+        increase_tempo_button = self.browser.find_element(By.CLASS_NAME, 'increase-tempo')
+        decrease_tempo_buttom = self.browser.find_element(By.CLASS_NAME, 'decrease-tempo')
+        # check default value
+        self.assertEqual(DEFAULT_METRONOME_TEMPO, int(self.browser.find_element(By.CLASS_NAME, 'tempo').text))
+        # increase tempo
+        for _ in range(PLUS_TEMPO):
+            self.wait_for(increase_tempo_button.click)
+        # check that the value of a tempo is changed
+        self.assertEqual(DEFAULT_METRONOME_TEMPO + PLUS_TEMPO, int(self.browser.find_element(By.CLASS_NAME, 'tempo').text))
+        # decrease tempo
+        for _ in range(MINUS_TEMPO):
+            self.wait_for(decrease_tempo_buttom.click)
+        # check that the value of a tempo is changed
+        self.assertEqual(DEFAULT_METRONOME_TEMPO + PLUS_TEMPO - MINUS_TEMPO, int(self.browser.find_element(By.CLASS_NAME, 'tempo').text))
+
+
+
+    """ TODo """
     def test_autocomplete_input(self):
         """ 
         test autocomplete input functionality of the practice page
