@@ -20,9 +20,14 @@ TEST_SECOND_CHORD_NAME = 'f major'
 TEST_FIRST_CHORD_NOTES = 'A C E'
 TEST_SECOND_CHORD_NOTES = 'F A C'
 EMAIL_USERNAME, _ = TEST_EMAIL.split('@')
+# Values to test metronome tempo changes
 DEFAULT_METRONOME_TEMPO = 140
 PLUS_TEMPO = 3
 MINUS_TEMPO = 11
+# Values to test metronome measure
+DEFAULT_METRONOME_MEASURE_COUNT_VALUE = 4
+ADD_MEASURE = 2
+SUBTRACT_MEASURE = 3
 
 class LoginTest(FunctionalTest):
     """ Test multiple loggin
@@ -160,7 +165,25 @@ class LoginTest(FunctionalTest):
         # check that the value of a tempo is changed
         self.assertEqual(DEFAULT_METRONOME_TEMPO + PLUS_TEMPO - MINUS_TEMPO, int(self.browser.find_element(By.CLASS_NAME, 'tempo').text))
 
-
+    @to_practice_page
+    def test_measure_count_changes(self):
+        """ 
+        test changing measures count on the practice page
+        """
+        self.wait_for(self.browser.find_element(By.ID, 'show-metronome').click)
+        add_measure_button = self.browser.find_element(By.CLASS_NAME, 'add-beats')
+        subtract_measure_button = self.browser.find_element(By.CLASS_NAME, 'subtract-beats')
+        # check default value
+        self.assertEqual(DEFAULT_METRONOME_MEASURE_COUNT_VALUE, int(self.browser.find_element(By.CLASS_NAME, 'measure-count').text))
+        # add measures of tempo
+        for _ in range(ADD_MEASURE):
+            self.wait_for(add_measure_button.click)
+        # check that measures changed
+        self.assertEqual(DEFAULT_METRONOME_MEASURE_COUNT_VALUE + ADD_MEASURE, int(self.browser.find_element(By.CLASS_NAME, 'measure-count').text))
+        # subreact measures of tempo
+        for _ in range(SUBTRACT_MEASURE):
+            self.wait_for(subtract_measure_button.click)
+        self.assertEqual(DEFAULT_METRONOME_MEASURE_COUNT_VALUE + ADD_MEASURE - SUBTRACT_MEASURE, int(self.browser.find_element(By.CLASS_NAME, 'measure-count').text))
 
     """ TODo """
     def test_autocomplete_input(self):
