@@ -210,6 +210,10 @@ class LoginTest(FunctionalTest):
         input_box.send_keys(Keys.ENTER)
         # check correct output
         self.assertEqual(div_with_chord_notes.text, TEST_FIRST_CHORD_NOTES)
-
+        # type a different chord name in the input field
+        input_box.clear()
+        input_box.send_keys(TEST_SECOND_CHORD_NAME)
+        input_box.send_keys(Keys.ENTER)
+        self.assertEqual(div_with_chord_notes.text, TEST_SECOND_CHORD_NOTES)
 
 
